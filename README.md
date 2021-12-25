@@ -1,52 +1,52 @@
-# Welcome to Remix!
+# Discord Recap
 
-- [Remix Docs](https://remix.run/docs)
+## Stats
 
-## Netlify Setup
+- global
+  - number of messages (per day/hour)
+  - number of characters (per day/hour - check what an average novel has)
+  - first message
+  - top 20 favorite words
+  - top 20 favorite emotes
+  - number of reactions
+  - number of edits
+  - number of replies (if that exists)
+  - money spent (and on what? just rough categories like gifts, boosts etc)
+  - number of friends and blocks
+  - number of servers joined
+  - number of servers muted
+  - number of servers owned
+  - number of users you have notes on
+  - number of hours spent playing games tracked by Discord (need to find out what the time unit is for the applications)
+  - top 20 games/applications through Discord's rich presence (if there's a way to translate IDs to names)
+  - number of external integrations (and maybe show them?)
+  - dark theme/light theme
+  - number of notifications clicked
+  - number of times you opened Discord (needs investigation which event that relates to)
+- DMs
+  - number of unique users you talked to
+  - number of messages in DMs
+  - number of characters in DMs
+  - top 20 DMs
+  - first DM
+- channels/threads
+  - number of unique channels/threads you talked in (divided by servers you joined)
+  - number of messages in channels/threads
+  - number of characters in channels/threads
+  - top 20 channels
+  - first channel/thread message
+- calls
+  - number of voice channels joined (length if possible)
+  - number of DM calls accepted (length if possible)
+  - first call
+- times
+  - categorize plots by DMs and channels/threads
+  - messages per time of day
+  - messages per weekday
+  - messages/year since first message
+- applications/bots - maybe too niche
 
-1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
+## Investigation
 
-```sh
-npm i -g netlify-cli
-```
-
-If you have previously installed the Netlify CLI, you should update it to the latest version:
-
-```sh
-npm i -g netlify-cli@latest
-```
-
-2. Sign up and log in to Netlify:
-
-```sh
-netlify login
-```
-
-3. Create a new site:
-
-```sh
-netlify init
-```
-
-## Development
-
-The Netlify CLI starts your app in development mode, rebuilding assets on file changes.
-
-```sh
-npm run dev
-```
-
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
-
-## Deployment
-
-There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
-
-```sh
-$ npm run build
-# preview deployment
-$ netlify deploy
-
-# production deployment
-$ netlify deploy --prod
-```
+- go through each of the activity files (primarily: identify list of unique event types - maybe that adds additional stats)
+- is there a way to see how many messages were deleted?

@@ -4,11 +4,33 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
+  useCatch,
 } from "remix";
 
+import styles from './styles/shared.css';
+
+// include global styles
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+}
+
 export function meta() {
-  return { title: "New Remix App" };
+  return { title: "Discord Recap" };
+}
+
+export function CatchBoundary() {
+  let caught = useCatch();
+
+  return (
+    <div title={`${caught.status} ${caught.statusText}`}>
+      <div className="error-container">
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
