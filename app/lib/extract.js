@@ -1,4 +1,5 @@
 import { Unzip, AsyncUnzipInflate, DecodeUTF8 } from 'fflate';
+import { requiredFiles } from './constants';
 
 export const extractPackage = async (file) => {
     const uz = new Unzip();
@@ -21,14 +22,24 @@ export const extractPackage = async (file) => {
         }
     }
 
-    /* const user = await readFile(files, 'account/user.json');
-    console.log(user); */
+    // check for required files
+    let requiredFileMissing = false;
+    for (const requiredFile of requiredFiles) {
+        if (!files.some((file) => file.name === requiredFile)) {
+            requiredFileMissing = true;
+        }
+    }
+
+    if (requiredFileMissing) {
+        throw new Error('Package is missing required files.');
+    }
+
     return files;
-}
+};
 
 const getFile = (files, name) => files.find((file) => file.name === name);
 
-const readFile = (files, name) => {
+export const readFile = (files, name) => {
     return new Promise((resolve) => {
         const file = getFile(files, name);
         if (!file) return resolve(null);
