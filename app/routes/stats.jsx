@@ -1,10 +1,12 @@
-import { Outlet } from "remix";
+import React from 'react';
+
+import { Outlet } from 'remix';
 
 export default function Statsasdas() {
   return (
-    <div >
+    <div>
       <h1>hello</h1>
-      <Outlet/>
+      <Outlet />
     </div>
   );
 }

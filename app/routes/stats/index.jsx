@@ -1,21 +1,20 @@
-import {useEffect, useState} from 'react';
-import {getStats} from '../../lib/store';
+import React, { useEffect, useState } from 'react';
+
+import { getStats } from '../../lib/store';
 
 export default function Stats() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const stats = getStats();
-    setStats(stats);
+    const globalStats = getStats('stats');
+    setStats(globalStats);
   }, []);
 
   return (
-    <div >
+    <div>
       <h1>Stats</h1>
       {
-        stats
-          ? JSON.stringify(stats)
-          : <></>
+        stats && JSON.stringify(stats)
       }
     </div>
   );

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Links,
   LiveReload,
@@ -6,27 +7,29 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-} from "remix";
+} from 'remix';
 
 import styles from './styles/shared.css';
 
 // include global styles
 export function links() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [{ rel: 'stylesheet', href: styles }];
 }
 
 export function meta() {
-  return { title: "Discord Recap" };
+  return { title: 'Discord Recap' };
 }
 
 export function CatchBoundary() {
-  let caught = useCatch();
+  const caught = useCatch();
 
   return (
     <div title={`${caught.status} ${caught.statusText}`}>
       <div className="error-container">
         <h1>
-          {caught.status} {caught.statusText}
+          {caught.status}
+          {' '}
+          {caught.statusText}
         </h1>
       </div>
     </div>
@@ -46,7 +49,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
   );
