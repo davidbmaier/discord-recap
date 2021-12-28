@@ -3,7 +3,7 @@ import { parse as parseCSV } from 'papaparse';
 import { readFile } from '../extract';
 import { channelTypes } from '../constants';
 
-export const collectAllMessages = async (files) => {
+export const collectMessages = async (files) => {
   const messageIndex = JSON.parse(await readFile(files, 'messages/index.json'));
   const dmChannels = [];
   const guildChannels = [];
@@ -54,4 +54,4 @@ export const collectAllMessages = async (files) => {
     guildChannels,
   };
 };
-export default collectAllMessages;
+export default collectMessages;

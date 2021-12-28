@@ -1,23 +1,24 @@
 import { readFile } from '../extract';
-import { collectAllMessages } from './messages';
+import { collectMessages } from './messages';
+import { collectAnalytics } from './analytics';
 import { storeStats } from '../store';
 import {
-  getBaseHours, getBaseDays, getBaseYears, channelTypes,
+  getBaseHours, getBaseDays, getBaseYears, channelTypes, promotionEventTypes, technicalEventTypes,
 } from '../constants';
 
 const emoteRegex = /(<a?)?:(\w+):((\d{18})>)?/g;
 const mentionRegex = /<(?:@[!&]?|#)\d+>/g;
 
 export const collectStats = async (files) => {
-  const messages = await collectAllMessages(files);
-  // const analytics = await collectAllAnalytics(files);
+  const messages = await collectMessages(files);
+  const analytics = await collectAnalytics(files);
 
-  await collectGlobalStats(files, messages);
+  await collectGlobalStats(files, messages, analytics);
 };
 export default collectStats;
 
 // global information about the account (to be shown on the main stats page)
-const collectGlobalStats = async (files, { dmChannels, guildChannels }) => {
+const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytics) => {
   const userData = JSON.parse(await readFile(files, 'account/user.json'));
   const serverData = JSON.parse(await readFile(files, 'servers/index.json'));
 
@@ -33,6 +34,23 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }) => {
     return connections;
   };
 
+  const getPayments = () => {
+    const payments = [];
+    userData.payments.forEach((payment) => {
+      const paymentObject = ({
+        amount: payment.amount,
+        description: payment.description,
+        date: new Date(payment.created_at),
+      });
+      payments.push(paymentObject);
+    });
+
+    return {
+      totalAmount: payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0),
+      history: payments,
+    };
+  };
+
   let stats = {
     // account stats
     id: userData.id,
@@ -40,18 +58,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }) => {
     darkMode: userData.settings.settings.appearance.theme === 'DARK',
     connections: getConnections(),
     serverCount: Object.entries(serverData).length,
-    // activity stats
-    reactionCount: null,
-    editCount: null,
-    replyCount: null, // might not exist
-    deleteCount: null,
-    slashCommandCount: null,
-    notificationClickCount: null,
-    openDiscordCount: null,
-    voiceChannelsJoinedCount: null,
-    directVoiceCallsCount: null,
-    firstVoiceCall: null,
-
+    payments: getPayments(),
   };
 
   const messageStats = {
@@ -168,7 +175,24 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }) => {
   messageStats.topEmotes = sortMatches(topEmotes).slice(0, 25);
   messageStats.topWords = sortMatches(topWords).slice(0, 25);
 
-  stats = { ...messageStats, ...stats };
+  const eventStats = { ...analytics, promotionShown: 0, errorDetected: 0 };
+  // fix reaction count
+  eventStats.reactionAdded -= eventStats.reactionRemoved;
+  delete eventStats.reactionRemoved;
+  // summarize promotion and technical events
+  const eventCountEntries = Object.entries(eventStats);
+  eventCountEntries.forEach(([eventKey, eventCount]) => {
+    if (promotionEventTypes[eventKey]) {
+      eventStats.promotionShown += eventCount;
+      delete eventStats[eventKey];
+    }
+    if (technicalEventTypes[eventKey]) {
+      eventStats.errorDetected += eventCount;
+      delete eventStats[eventKey];
+    }
+  });
+
+  stats = { messageStats, eventStats, ...stats };
 
   storeStats('stats', stats);
 };
