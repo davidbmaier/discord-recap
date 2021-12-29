@@ -15,6 +15,11 @@ export const channelTypes = {
   privateThread: 12,
 };
 
+export const relationshipTypes = {
+  friend: 1,
+  blocked: 2,
+};
+
 export const getBaseHours = () => {
   const baseHours = {};
   for (let i = 0; i < 24; i += 1) {
