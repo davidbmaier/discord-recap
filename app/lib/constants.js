@@ -45,6 +45,18 @@ export const getBaseYears = () => {
   return baseYears;
 };
 
+export const getBaseStats = () => ({
+  messageCount: 0,
+  wordCount: 0,
+  characterCount: 0,
+  firstMessage: null,
+  topWords: {},
+  topEmotes: {},
+  messageCountPerHour: getBaseHours(),
+  messageCountPerDay: getBaseDays(),
+  messageCountPerYear: getBaseYears(),
+});
+
 export const reactionEventTypes = {
   reactionAdded: 'add_reaction',
   reactionRemoved: 'remove_reaction',

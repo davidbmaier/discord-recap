@@ -1,9 +1,12 @@
 import { readFile } from '../extract';
 import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
+import {
+  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstMessage,
+} from './utils';
 import { storeStats } from '../store';
 import {
-  getBaseHours, getBaseDays, getBaseYears, channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes,
+  channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes, getBaseStats,
 } from '../constants';
 
 const emoteRegex = /(<a?)?:(\w+):((\d{18})>)?/g;
@@ -63,45 +66,21 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   const messageStats = {
     mentionCount: 0,
     emoteCount: 0,
-    messageCount: 0,
-    wordCount: 0,
-    characterCount: 0,
-    firstMessage: null,
-    topWords: {},
-    topEmotes: {},
-    messageCountPerHour: getBaseHours(),
-    messageCountPerDay: getBaseDays(),
-    messageCountPerYear: getBaseYears(),
+    ...getBaseStats(),
     directMessages: {
       count: dmChannels.length,
       userCount: 0,
       friendCount: 0,
       blockedCount: 0,
       noteCount: 0,
-      messageCount: 0,
-      wordCount: 0,
-      characterCount: 0,
-      firstMessage: null,
-      topWords: {},
-      topEmotes: {},
-      messageCountPerHour: getBaseHours(),
-      messageCountPerDay: getBaseDays(),
-      messageCountPerYear: getBaseYears(),
+      ...getBaseStats(),
       channels: [], // array of dm stats objects
     },
     serverMessages: {
       count: Object.entries(serverData).length,
       mutedCount: 0,
       channelCount: guildChannels.length,
-      messageCount: 0,
-      wordCount: 0,
-      characterCount: 0,
-      firstMessage: null,
-      topWords: {},
-      topEmotes: {},
-      messageCountPerHour: getBaseHours(),
-      messageCountPerDay: getBaseDays(),
-      messageCountPerYear: getBaseYears(),
+      ...getBaseStats(),
       servers: [], // array of guild stats objects
     },
   };
@@ -118,10 +97,10 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
   const getMessageStats = (channelData, message) => {
     const isDM = channelData.type === channelTypes.DM || channelData.type === channelTypes.groupDM;
-
-    const words = message.content.split(/\s/g);
     const messageTimestamp = new Date(message.timestamp);
+    const words = message.content.split(/\s/g);
 
+    // initialize all levels of stats objects
     const dmStats = messageStats.directMessages;
     let dmChannelStats;
     const allServerStats = messageStats.serverMessages;
@@ -134,15 +113,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         dmChannelStats = {
           id: channelData.id,
           name: channelData.name,
-          messageCount: 0,
-          wordCount: 0,
-          characterCount: 0,
-          firstMessage: null,
-          topWords: {},
-          topEmotes: {},
-          messageCountPerHour: getBaseHours(),
-          messageCountPerDay: getBaseDays(),
-          messageCountPerYear: getBaseYears(),
+          ...getBaseStats(),
         };
         if (channelData.type === channelTypes.DM) {
           dmChannelStats.userID = channelData.recipientIDs.find((recipient) => recipient.id !== stats.userID);
@@ -160,15 +131,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           id: channelData.guild?.id,
           name: channelData.guild?.name,
           channelCount: 0,
-          messageCount: 0,
-          wordCount: 0,
-          characterCount: 0,
-          firstMessage: null,
-          topWords: {},
-          topEmotes: {},
-          messageCountPerHour: getBaseHours(),
-          messageCountPerDay: getBaseDays(),
-          messageCountPerYear: getBaseYears(),
+          ...getBaseStats(),
           channels: [], // array of channel stats objects
         };
         allServerStats.servers.push(serverStats);
@@ -180,15 +143,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           name: channelData.name,
           serverID: channelData.guild?.id,
           serverName: channelData.guild?.name,
-          messageCount: 0,
-          wordCount: 0,
-          characterCount: 0,
-          firstMessage: null,
-          topWords: {},
-          topEmotes: {},
-          messageCountPerHour: getBaseHours(),
-          messageCountPerDay: getBaseDays(),
-          messageCountPerYear: getBaseYears(),
+          ...getBaseStats(),
         };
         serverStats.channels.push(serverChannelStats);
         serverStats.channelCount += 1; // count channels for the server
@@ -196,99 +151,42 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     }
 
     // increase message counts
-    messageStats.messageCount += 1;
-    messageStats.wordCount += words.length;
-    messageStats.characterCount += message.content.length;
-
+    incrementTextStats(messageStats, words.length, message.content.length, messageTimestamp);
     if (isDM) {
-      dmStats.messageCount += 1;
-      dmStats.wordCount += words.length;
-      dmStats.characterCount += message.content.length;
-      dmChannelStats.messageCount += 1;
-      dmChannelStats.wordCount += words.length;
-      dmChannelStats.characterCount += message.content.length;
+      incrementTextStats(dmStats, words.length, message.content.length, messageTimestamp);
+      incrementTextStats(dmChannelStats, words.length, message.content.length, messageTimestamp);
     } else {
-      allServerStats.messageCount += 1;
-      allServerStats.wordCount += words.length;
-      allServerStats.characterCount += message.content.length;
-      serverStats.messageCount += 1;
-      serverStats.wordCount += words.length;
-      serverStats.characterCount += message.content.length;
-      serverChannelStats.messageCount += 1;
-      serverChannelStats.wordCount += words.length;
-      serverChannelStats.characterCount += message.content.length;
+      incrementTextStats(allServerStats, words.length, message.content.length, messageTimestamp);
+      incrementTextStats(serverStats, words.length, message.content.length, messageTimestamp);
+      incrementTextStats(serverChannelStats, words.length, message.content.length, messageTimestamp);
     }
 
+    // collect mentions (only global)
     const mentionMatches = message.content.match(mentionRegex);
     mentionMatches?.forEach(() => {
       messageStats.mentionCount += 1;
     });
 
+    // process emote statistics
     const emoteMatches = message.content.matchAll(emoteRegex);
     // eslint-disable-next-line no-restricted-syntax -- matchAll returns an iterator
     for (const emoteMatch of emoteMatches) {
       messageStats.emoteCount += 1;
       const emoteName = emoteMatch[2];
       const emoteID = emoteMatch[4];
-      // update global emote stats
-      if (messageStats.topEmotes[emoteName]) {
-        messageStats.topEmotes[emoteName].count += 1;
-      } else {
-        messageStats.topEmotes[emoteName] = {
-          id: emoteID,
-          count: 1,
-        };
-      }
+
+      incrementEmoteMatches(messageStats, emoteName, emoteID);
       if (isDM) {
-        // update global DM emote stats
-        if (dmStats.topEmotes[emoteName]) {
-          dmStats.topEmotes[emoteName].count += 1;
-        } else {
-          dmStats.topEmotes[emoteName] = {
-            id: emoteID,
-            count: 1,
-          };
-        }
-        // update DM channel emote stats
-        if (dmChannelStats.topEmotes[emoteName]) {
-          dmChannelStats.topEmotes[emoteName].count += 1;
-        } else {
-          dmChannelStats.topEmotes[emoteName] = {
-            id: emoteID,
-            count: 1,
-          };
-        }
+        incrementEmoteMatches(dmStats, emoteName, emoteID);
+        incrementEmoteMatches(dmChannelStats, emoteName, emoteID);
       } else {
-        // update global server emote stats
-        if (allServerStats.topEmotes[emoteName]) {
-          allServerStats.topEmotes[emoteName].count += 1;
-        } else {
-          allServerStats.topEmotes[emoteName] = {
-            id: emoteID,
-            count: 1,
-          };
-        }
-        // update server emote stats
-        if (serverStats.topEmotes[emoteName]) {
-          serverStats.topEmotes[emoteName].count += 1;
-        } else {
-          serverStats.topEmotes[emoteName] = {
-            id: emoteID,
-            count: 1,
-          };
-        }
-        // update server channel emote stats
-        if (serverChannelStats.topEmotes[emoteName]) {
-          serverChannelStats.topEmotes[emoteName].count += 1;
-        } else {
-          serverChannelStats.topEmotes[emoteName] = {
-            id: emoteID,
-            count: 1,
-          };
-        }
+        incrementEmoteMatches(allServerStats, emoteName, emoteID);
+        incrementEmoteMatches(serverStats, emoteName, emoteID);
+        incrementEmoteMatches(serverChannelStats, emoteName, emoteID);
       }
     }
 
+    // process word statistics
     words.forEach((word) => {
       if (
         !word.startsWith('<')
@@ -297,128 +195,27 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           && word !== ''
           && word !== '-'
       ) {
-        // update global word stats
-        if (messageStats.topWords[word]) {
-          messageStats.topWords[word].count += 1;
-        } else {
-          messageStats.topWords[word] = {
-            count: 1,
-          };
-        }
+        incrementWordMatches(messageStats, word);
         if (isDM) {
-          // update global DM word stats
-          if (dmStats.topWords[word]) {
-            dmStats.topWords[word].count += 1;
-          } else {
-            dmStats.topWords[word] = {
-              count: 1,
-            };
-          }
-          // update DM channel word stats
-          if (dmChannelStats.topWords[word]) {
-            dmChannelStats.topWords[word].count += 1;
-          } else {
-            dmChannelStats.topWords[word] = {
-              count: 1,
-            };
-          }
+          incrementWordMatches(dmStats, word);
+          incrementWordMatches(dmChannelStats, word);
         } else {
-          // update global server word stats
-          if (allServerStats.topWords[word]) {
-            allServerStats.topWords[word].count += 1;
-          } else {
-            allServerStats.topWords[word] = {
-              count: 1,
-            };
-          }
-          // update server word stats
-          if (serverStats.topWords[word]) {
-            serverStats.topWords[word].count += 1;
-          } else {
-            serverStats.topWords[word] = {
-              count: 1,
-            };
-          }
-          // update server channel word stats
-          if (serverChannelStats.topWords[word]) {
-            serverChannelStats.topWords[word].count += 1;
-          } else {
-            serverChannelStats.topWords[word] = {
-              count: 1,
-            };
-          }
+          incrementWordMatches(allServerStats, word);
+          incrementWordMatches(serverStats, word);
+          incrementWordMatches(serverChannelStats, word);
         }
       }
     });
 
-    if (!messageStats.firstMessage || messageTimestamp < messageStats.firstMessage.date) {
-      messageStats.firstMessage = {
-        date: messageTimestamp,
-        message: message.content,
-        channel: { ...channelData, messages: null },
-      };
-    }
-
+    // find first messages
+    updateFirstMessage(messageStats, message, channelData, messageTimestamp);
     if (isDM) {
-      if (!dmStats.firstMessage || messageTimestamp < dmStats.firstMessage.date) {
-        dmStats.firstMessage = {
-          date: messageTimestamp,
-          message: message.content,
-          channel: { ...channelData, messages: null },
-        };
-      }
-      if (!dmChannelStats.firstMessage || messageTimestamp < dmChannelStats.firstMessage.date) {
-        dmChannelStats.firstMessage = {
-          date: messageTimestamp,
-          message: message.content,
-          channel: { ...channelData, messages: null },
-        };
-      }
+      updateFirstMessage(dmStats, message, channelData, messageTimestamp);
+      updateFirstMessage(dmChannelStats, message, channelData, messageTimestamp);
     } else {
-      if (!allServerStats.firstMessage || messageTimestamp < allServerStats.firstMessage.date) {
-        allServerStats.firstMessage = {
-          date: messageTimestamp,
-          message: message.content,
-          channel: { ...channelData, messages: null },
-        };
-      }
-      if (!serverStats.firstMessage || messageTimestamp < serverStats.firstMessage.date) {
-        serverStats.firstMessage = {
-          date: messageTimestamp,
-          message: message.content,
-          channel: { ...channelData, messages: null },
-        };
-      }
-      if (!serverChannelStats.firstMessage || messageTimestamp < serverChannelStats.firstMessage.date) {
-        serverChannelStats.firstMessage = {
-          date: messageTimestamp,
-          message: message.content,
-          channel: { ...channelData, messages: null },
-        };
-      }
-    }
-
-    messageStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-    messageStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-    messageStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
-
-    if (isDM) {
-      dmStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-      dmStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-      dmStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
-      dmChannelStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-      dmChannelStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-      dmChannelStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
-    } else {
-      allServerStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-      allServerStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-      allServerStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
-      serverStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-      serverStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-      serverStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
-      serverChannelStats.messageCountPerHour[messageTimestamp.getHours()] += 1;
-      serverChannelStats.messageCountPerDay[messageTimestamp.getDay()] += 1;
-      serverChannelStats.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
+      updateFirstMessage(allServerStats, message, channelData, messageTimestamp);
+      updateFirstMessage(serverStats, message, channelData, messageTimestamp);
+      updateFirstMessage(serverChannelStats, message, channelData, messageTimestamp);
     }
   };
 
@@ -472,9 +269,9 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     });
   });
 
+  // clean up event statistics
   const eventStats = { ...analytics, promotionShown: 0, errorDetected: 0 };
-
-  // fix reaction count
+  // correct reaction count
   eventStats.reactionAdded -= eventStats.reactionRemoved;
   delete eventStats.reactionRemoved;
   // summarize promotion and technical events
