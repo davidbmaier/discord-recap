@@ -14,7 +14,7 @@ const handlePackage = async (file) => {
   }
 };
 
-export default function Index() {
+export default function Home() {
   return (
     <div>
       <h1>Discord Recap</h1>

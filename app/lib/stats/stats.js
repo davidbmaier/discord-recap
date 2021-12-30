@@ -289,5 +289,5 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
   stats = { messageStats, eventStats, ...stats };
 
-  storeStats('stats', stats);
+  storeStats(stats);
 };

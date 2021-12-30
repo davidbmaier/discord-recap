@@ -6,7 +6,10 @@ export default function Stats() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = getStats('stats');
+    const globalStats = JSON.parse(getStats());
+    // remove message details since they're not needed
+    delete globalStats.messageStats.directMessages;
+    delete globalStats.messageStats.serverMessages;
     setStats(globalStats);
   }, []);
 

@@ -1,5 +1,7 @@
-export const storeStats = (identifier, stats) => {
-  localStorage.setItem(identifier, JSON.stringify(stats));
+const statsID = 'stats';
+
+export const storeStats = (stats) => {
+  localStorage.setItem(statsID, JSON.stringify(stats));
 };
 
-export const getStats = (identifier) => localStorage.getItem(identifier);
+export const getStats = () => localStorage.getItem(statsID);
