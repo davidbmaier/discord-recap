@@ -37,7 +37,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     return connections;
   };
 
-  const getPayments = () => {
+  const getPaymentsTotal = () => {
     const payments = [];
     userData.payments.forEach((payment) => {
       const paymentObject = ({
@@ -48,19 +48,16 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       payments.push(paymentObject);
     });
 
-    return {
-      totalAmount: payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0),
-      history: payments,
-    };
+    return payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0);
   };
 
   let stats = {
     // account stats
     userID: userData.id,
-    tag: `${userData.username}#${userData.discriminator}`,
+    userTag: `${userData.username}#${userData.discriminator}`,
     darkMode: userData.settings.settings.appearance.theme === 'DARK',
     connections: getConnections(),
-    payments: getPayments(),
+    totalPaymentAmount: getPaymentsTotal(),
   };
 
   const messageStats = {
@@ -244,28 +241,28 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     return cleanMatches;
   };
 
-  // sort top emotes and words (and cut off the top 25)
-  messageStats.topEmotes = sortMatches(messageStats.topEmotes).slice(0, 25);
-  messageStats.topWords = sortMatches(messageStats.topWords).slice(0, 25);
-  messageStats.directMessages.topEmotes = sortMatches(messageStats.directMessages.topEmotes).slice(0, 25);
-  messageStats.directMessages.topWords = sortMatches(messageStats.directMessages.topWords).slice(0, 25);
-  messageStats.serverMessages.topEmotes = sortMatches(messageStats.serverMessages.topEmotes).slice(0, 25);
-  messageStats.serverMessages.topWords = sortMatches(messageStats.serverMessages.topWords).slice(0, 25);
+  // sort top emotes and words (and cut off the top 20)
+  messageStats.topEmotes = sortMatches(messageStats.topEmotes).slice(0, 20);
+  messageStats.topWords = sortMatches(messageStats.topWords).slice(0, 20);
+  messageStats.directMessages.topEmotes = sortMatches(messageStats.directMessages.topEmotes).slice(0, 20);
+  messageStats.directMessages.topWords = sortMatches(messageStats.directMessages.topWords).slice(0, 20);
+  messageStats.serverMessages.topEmotes = sortMatches(messageStats.serverMessages.topEmotes).slice(0, 20);
+  messageStats.serverMessages.topWords = sortMatches(messageStats.serverMessages.topWords).slice(0, 20);
 
   messageStats.directMessages.channels.forEach((channel) => {
     const updatedChannel = channel;
-    updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 25);
-    updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 25);
+    updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 20);
+    updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 20);
   });
 
   messageStats.serverMessages.servers.forEach((server) => {
     const updatedServer = server;
-    updatedServer.topEmotes = sortMatches(server.topEmotes).slice(0, 25);
-    updatedServer.topWords = sortMatches(server.topWords).slice(0, 25);
+    updatedServer.topEmotes = sortMatches(server.topEmotes).slice(0, 20);
+    updatedServer.topWords = sortMatches(server.topWords).slice(0, 20);
     updatedServer.channels.forEach((channel) => {
       const updatedChannel = channel;
-      updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 25);
-      updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 25);
+      updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 20);
+      updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 20);
     });
   });
 

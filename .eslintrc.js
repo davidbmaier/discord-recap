@@ -22,5 +22,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-console': 'off',
     'max-len': ['error', { code: 120 }],
+    'react/function-component-definition': 'off',
+    'react/require-default-props': 'off',
   },
 };

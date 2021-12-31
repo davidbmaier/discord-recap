@@ -124,3 +124,19 @@ export const eventTypes = {
   ...promotionEventTypes,
   ...technicalEventTypes,
 };
+
+export const chartTypes = {
+  day: 'day',
+  hour: 'hour',
+  year: 'year',
+};
+
+export const dayLabels = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];

@@ -6,7 +6,9 @@ export default function StatsWrapper() {
   return (
     <div>
       <h1>global header</h1>
-      <Outlet />
+      <div className="dr-content-wrapper">
+        <Outlet />
+      </div>
     </div>
   );
 }

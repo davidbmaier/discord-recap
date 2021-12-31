@@ -4,7 +4,12 @@ export const incrementTextStats = (category, wordLength, characterLength, messag
   updatedCategory.wordCount += wordLength;
   updatedCategory.characterCount += characterLength;
   updatedCategory.messageCountPerHour[messageTimestamp.getHours()] += 1;
-  updatedCategory.messageCountPerDay[messageTimestamp.getDay()] += 1;
+  // move sundays to the back
+  let day = messageTimestamp.getDay() - 1;
+  if (day === -1) {
+    day = 6;
+  }
+  updatedCategory.messageCountPerDay[day] += 1;
   updatedCategory.messageCountPerYear[messageTimestamp.getFullYear()] += 1;
 };
 
@@ -36,7 +41,7 @@ export const updateFirstMessage = (category, message, channelData, messageTimest
   if (!updatedCategory.firstMessage || messageTimestamp < updatedCategory.firstMessage.date) {
     updatedCategory.firstMessage = {
       date: messageTimestamp,
-      message: message.content,
+      content: message.content,
       channel: { ...channelData, messages: null },
     };
   }
