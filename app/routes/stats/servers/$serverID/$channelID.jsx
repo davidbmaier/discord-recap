@@ -34,28 +34,28 @@ export default function ServerChannel() {
             <Row>
               <Tile flex={3}>
                 <MessageCount
-                  messageCount={stats.messageCount}
-                  wordCount={stats.wordCount}
-                  characterCount={stats.characterCount}
-                  firstMessage={stats.firstMessage}
+                  messageCount={stats.channels[0].messageCount}
+                  wordCount={stats.channels[0].wordCount}
+                  characterCount={stats.channels[0].characterCount}
+                  firstMessage={stats.channels[0].firstMessage}
                 />
               </Tile>
               <Tile flex={2}>
                 <FirstMessage
-                  message={stats.firstMessage}
+                  message={stats.channels[0].firstMessage}
                 />
               </Tile>
             </Row>
             <Row>
               <Tile flex={4}>
                 <MessageCharts
-                  messageCountPerDay={cleanChartData(stats.messageCountPerDay)}
-                  messageCountPerHour={cleanChartData(stats.messageCountPerHour)}
-                  messageCountPerYear={cleanChartData(stats.messageCountPerYear)}
+                  messageCountPerDay={cleanChartData(stats.channels[0].messageCountPerDay)}
+                  messageCountPerHour={cleanChartData(stats.channels[0].messageCountPerHour)}
+                  messageCountPerYear={cleanChartData(stats.channels[0].messageCountPerYear)}
                 />
               </Tile>
             </Row>
-            <TopWordsAndEmotes topWords={stats.topWords} topEmotes={stats.topEmotes} />
+            <TopWordsAndEmotes topWords={stats.channels[0].topWords} topEmotes={stats.channels[0].topEmotes} />
           </>
         )
       }
