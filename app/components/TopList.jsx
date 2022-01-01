@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'remix';
 
 import Accordion from './Accordion';
 
@@ -30,7 +31,7 @@ const TopList = (props) => {
                   {
                     item.link && (
                       <div className="dr-toplist-item-link">
-                        {item.link}
+                        <Link to={item.link}>Link</Link>
                       </div>
                     )
                   }
@@ -54,7 +55,7 @@ TopList.propTypes = {
     link: PropTypes.string,
   })).isRequired,
   title: PropTypes.string.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  onToggle: PropTypes.func,
   open: PropTypes.bool,
 };
 

@@ -18,7 +18,10 @@ const TopWordsAndEmotes = (props) => {
   );
 
   const getTopEmotes = () => topEmotes.map(
-    ({ name, count, id }) => ({ name, value: `${count}`, id }),
+    ({ name, count, id }) => ({
+      // default emoji don't have an id - but "id" maps to the key attribute
+      name, value: `${count}`, id: name, emoteID: id,
+    }),
   );
 
   return (
@@ -57,7 +60,7 @@ TopWordsAndEmotes.propTypes = {
   topEmotes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
   })).isRequired,
 };
 

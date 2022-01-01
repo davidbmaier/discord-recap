@@ -9,34 +9,28 @@ import MessageCount from '../../../../components/MessageCount';
 import FirstMessage from '../../../../components/FirstMessage';
 import MessageCharts from '../../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../../components/TopWordsAndEmotes';
-import TopList from '../../../../components/TopList';
 
-export const loader = async ({ params }) => params.serverID;
+export const loader = async ({ params }) => ({ serverID: params.serverID, channelID: params.channelID });
 
-export default function Server() {
-  const serverID = useLoaderData();
+export default function ServerChannel() {
+  const { serverID, channelID } = useLoaderData();
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const globalStats = JSON.parse(getStats());
     const serverStats = globalStats.messageStats.serverMessages.servers.find((server) => server.id === serverID);
-    serverStats.channels = serverStats.channels.map((channel) => ({
-      name: `${channel.name}`,
-      id: channel.id,
-      value: `${channel.messageCount} messages`,
-      count: channel.messageCount,
-      link: `/stats/servers/${serverID}/${channel.id}`,
-    })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
+    serverStats.channels = [serverStats.channels.find((channel) => channel.id === channelID)];
     setStats(serverStats);
   }, []);
 
   return (
     <div>
+
       {
         stats && (
           <>
-            <h1>{stats.name}</h1>
-            <Link to="/stats/servers">Back to servers</Link>
+            <h1>{`#${stats.channels[0].name} (${stats.name})`}</h1>
+            <Link to={`/stats/servers/${serverID}`}>Back to server</Link>
             <Row>
               <Tile flex={3}>
                 <MessageCount
@@ -62,15 +56,6 @@ export default function Server() {
               </Tile>
             </Row>
             <TopWordsAndEmotes topWords={stats.topWords} topEmotes={stats.topEmotes} />
-            <Row>
-              <Tile flex={1}>
-                <TopList
-                  title="Top Servers"
-                  items={stats.channels}
-                  open
-                />
-              </Tile>
-            </Row>
           </>
         )
       }

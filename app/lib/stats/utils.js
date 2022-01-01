@@ -46,3 +46,5 @@ export const updateFirstMessage = (category, message, channelData, messageTimest
     };
   }
 };
+
+export const cleanChartData = (data) => Object.entries(data).map(([category, count]) => ({ category, count }));

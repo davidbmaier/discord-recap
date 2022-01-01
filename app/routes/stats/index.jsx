@@ -1,7 +1,9 @@
 /* eslint-disable max-len -- message fields just need extra length */
 import React, { useEffect, useState } from 'react';
+import { Link } from 'remix';
 
 import { getStats } from '../../lib/store';
+import { cleanChartData } from '../../lib/stats/utils';
 import Row from '../../components/Row';
 import Tile from '../../components/Tile';
 import DataField from '../../components/DataField';
@@ -52,9 +54,9 @@ export default function Stats() {
         />
         {messages.map((message) => {
           if (Array.isArray(message)) {
-            return <DataField valueText={message[0]} subtitle={message[1]} />;
+            return <DataField valueText={message[0]} subtitle={message[1]} key={message[0]} />;
           }
-          return <DataField valueText={message} />;
+          return <DataField valueText={message} key={message} />;
         })}
       </>
     );
@@ -88,19 +90,20 @@ export default function Stats() {
       <>
         {messages.map((message) => {
           if (Array.isArray(message)) {
-            return <DataField valueText={message[0]} subtitle={message[1]} />;
+            return <DataField valueText={message[0]} subtitle={message[1]} key={message[0]} />;
           }
-          return <DataField valueText={message} />;
+          return <DataField valueText={message} key={message} />;
         })}
       </>
     );
   };
 
-  const cleanChartData = (data) => Object.entries(data).map(([category, count]) => ({ category, count }));
-
   return (
     <div>
       <h1>Stats</h1>
+      <Link to="/stats/servers">Servers</Link>
+      <Link to="/stats/dms">DMs</Link>
+      <Link to="/stats/channels">All channels</Link>
       {
         stats && (
           <div>

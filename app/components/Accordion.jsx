@@ -18,12 +18,16 @@ const Connections = (props) => {
           </div>
         )
       }
-      <button
-        type="button"
-        onClick={() => onToggle()}
-      >
-        {open ? 'Hide' : 'Show all'}
-      </button>
+      {
+        onToggle && (
+          <button
+            type="button"
+            onClick={() => onToggle()}
+          >
+            {open ? 'Hide' : 'Show all'}
+          </button>
+        )
+      }
     </div>
   );
 };
@@ -31,7 +35,7 @@ const Connections = (props) => {
 Connections.propTypes = {
   header: PropTypes.node.isRequired,
   content: PropTypes.node.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  onToggle: PropTypes.func,
   open: PropTypes.bool,
 };
 

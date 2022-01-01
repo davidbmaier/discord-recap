@@ -43,7 +43,7 @@ export const collectMessages = async (files) => {
       dmChannels.push(channelData);
     } else {
       // guild channels and unknowns
-      channelData.name = channelMetadata.name;
+      channelData.name = channelMetadata.name || 'Unknown channel';
       channelData.guild = channelMetadata.guild;
       guildChannels.push(channelData);
     }

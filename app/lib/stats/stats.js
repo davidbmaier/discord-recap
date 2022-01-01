@@ -168,18 +168,21 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     const emoteMatches = message.content.matchAll(emoteRegex);
     // eslint-disable-next-line no-restricted-syntax -- matchAll returns an iterator
     for (const emoteMatch of emoteMatches) {
-      messageStats.emoteCount += 1;
-      const emoteName = emoteMatch[2];
-      const emoteID = emoteMatch[4];
+      // ignore spotify matches since playalongs can confuse the regex
+      if (!emoteMatch.input.startsWith('spotify')) {
+        messageStats.emoteCount += 1;
+        const emoteName = emoteMatch[2];
+        const emoteID = emoteMatch[4];
 
-      incrementEmoteMatches(messageStats, emoteName, emoteID);
-      if (isDM) {
-        incrementEmoteMatches(dmStats, emoteName, emoteID);
-        incrementEmoteMatches(dmChannelStats, emoteName, emoteID);
-      } else {
-        incrementEmoteMatches(allServerStats, emoteName, emoteID);
-        incrementEmoteMatches(serverStats, emoteName, emoteID);
-        incrementEmoteMatches(serverChannelStats, emoteName, emoteID);
+        incrementEmoteMatches(messageStats, emoteName, emoteID);
+        if (isDM) {
+          incrementEmoteMatches(dmStats, emoteName, emoteID);
+          incrementEmoteMatches(dmChannelStats, emoteName, emoteID);
+        } else {
+          incrementEmoteMatches(allServerStats, emoteName, emoteID);
+          incrementEmoteMatches(serverStats, emoteName, emoteID);
+          incrementEmoteMatches(serverChannelStats, emoteName, emoteID);
+        }
       }
     }
 
@@ -264,6 +267,16 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 20);
       updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 20);
     });
+  });
+
+  // go through servers without IDs and pull them together
+  const unknownServerID = 1;
+  messageStats.serverMessages.servers.forEach((server) => {
+    if (!server.id) {
+      const updatedServer = server;
+      updatedServer.name = `Unknown/Deleted Server ${unknownServerID}`;
+      updatedServer.id = `unknown${unknownServerID}`;
+    }
   });
 
   // clean up event statistics

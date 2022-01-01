@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'remix';
 
+import TopList from '../../../components/TopList';
+import Row from '../../../components/Row';
+import Tile from '../../../components/Tile';
 import { getStats } from '../../../lib/store';
 
 export default function Channels() {
@@ -9,23 +13,32 @@ export default function Channels() {
     const globalStats = JSON.parse(getStats());
     const channelData = globalStats.messageStats.serverMessages.servers.map((server) => {
       const channels = server.channels.map((channel) => ({
-        name: channel.name,
+        name: `${channel.name} (${server.name})`,
         id: channel.id,
-        messageCount: channel.messageCount,
-        serverID: server.id,
-        serverName: server.name,
+        value: `${channel.messageCount} messages`,
+        count: channel.messageCount,
+        link: `/stats/servers/${server.id}/${channel.id}`,
       }));
       return channels;
-    }).flat();
+    }).flat().sort(({ count: value1 }, { count: value2 }) => value2 - value1);
     setStats(channelData);
   }, []);
 
   return (
     <div>
       <h1>list of channels</h1>
-      {
-        stats && JSON.stringify(stats)
-      }
+      <Link to="/stats">Back to Stats</Link>
+      { stats && (
+        <Row>
+          <Tile flex={1}>
+            <TopList
+              title="Top Channels"
+              items={stats}
+              open
+            />
+          </Tile>
+        </Row>
+      )}
     </div>
   );
 }
