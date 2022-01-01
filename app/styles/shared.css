@@ -73,7 +73,16 @@ p {
   align-items: center;
   margin-bottom: 15px;
 }
-.dr-header button {
+
+.dr-footer{
+  height: 50px;
+  background-color: var(--header);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+.dr-footer button {
   margin: 5px;
   height: 30px;
   min-width: 70px;
@@ -83,7 +92,7 @@ p {
   border: none;
   text-align: center;
 }
-.dr-header button:active {
+.dr-footer button:active {
   background-color: var(--blurple);
 }
 

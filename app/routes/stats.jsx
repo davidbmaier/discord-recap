@@ -17,7 +17,7 @@ export default function StatsWrapper() {
       <div className="dr-content-wrapper">
         <Outlet />
       </div>
-      <div className="dr-header">
+      <div className="dr-footer">
         <button type="button" onClick={() => resetData()}>Reset data</button>
       </div>
     </div>
