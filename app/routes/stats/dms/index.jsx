@@ -30,7 +30,7 @@ export default function DMs() {
 
   return (
     <div>
-      <h1>list of DMs</h1>
+      <h1>Your DMs</h1>
       <Link to="/stats">Back to Stats</Link>
       {
         stats && (
@@ -52,11 +52,14 @@ export default function DMs() {
                   wordCount={stats.wordCount}
                   characterCount={stats.characterCount}
                   firstMessage={stats.firstMessage}
+                  lastMessage={stats.lastMessage}
+                  context="across all your DMs"
                 />
               </Tile>
               <Tile flex={2}>
                 <FirstMessage
                   message={stats.firstMessage}
+                  context="across all your DMs"
                 />
               </Tile>
             </Row>

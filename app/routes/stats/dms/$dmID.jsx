@@ -36,11 +36,14 @@ export default function DM() {
                   wordCount={stats.wordCount}
                   characterCount={stats.characterCount}
                   firstMessage={stats.firstMessage}
+                  lastMessage={stats.lastMessage}
+                  context="in this DM"
                 />
               </Tile>
               <Tile flex={2}>
                 <FirstMessage
                   message={stats.firstMessage}
+                  context="in this DM"
                 />
               </Tile>
             </Row>

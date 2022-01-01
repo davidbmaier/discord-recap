@@ -38,11 +38,14 @@ export default function ServerChannel() {
                   wordCount={stats.channels[0].wordCount}
                   characterCount={stats.channels[0].characterCount}
                   firstMessage={stats.channels[0].firstMessage}
+                  lastMessage={stats.lastMessage}
+                  context="in this channel"
                 />
               </Tile>
               <Tile flex={2}>
                 <FirstMessage
                   message={stats.channels[0].firstMessage}
+                  context="in this channel"
                 />
               </Tile>
             </Row>

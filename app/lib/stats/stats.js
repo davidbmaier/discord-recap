@@ -2,15 +2,12 @@ import { readFile } from '../extract';
 import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
 import {
-  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstMessage,
+  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage,
 } from './utils';
 import { storeStats } from '../store';
 import {
-  channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes, getBaseStats,
+  channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes, getBaseStats, emoteRegex, mentionRegex,
 } from '../constants';
-
-const emoteRegex = /(<a?)?:(\w+):((\d{18})>)?/g;
-const mentionRegex = /<(?:@[!&]?|#)\d+>/g;
 
 export const collectStats = async (files) => {
   const messages = await collectMessages(files);
@@ -208,14 +205,14 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     });
 
     // find first messages
-    updateFirstMessage(messageStats, message, channelData, messageTimestamp);
+    updateFirstAndLastMessage(messageStats, message, channelData, messageTimestamp);
     if (isDM) {
-      updateFirstMessage(dmStats, message, channelData, messageTimestamp);
-      updateFirstMessage(dmChannelStats, message, channelData, messageTimestamp);
+      updateFirstAndLastMessage(dmStats, message, channelData, messageTimestamp);
+      updateFirstAndLastMessage(dmChannelStats, message, channelData, messageTimestamp);
     } else {
-      updateFirstMessage(allServerStats, message, channelData, messageTimestamp);
-      updateFirstMessage(serverStats, message, channelData, messageTimestamp);
-      updateFirstMessage(serverChannelStats, message, channelData, messageTimestamp);
+      updateFirstAndLastMessage(allServerStats, message, channelData, messageTimestamp);
+      updateFirstAndLastMessage(serverStats, message, channelData, messageTimestamp);
+      updateFirstAndLastMessage(serverChannelStats, message, channelData, messageTimestamp);
     }
   };
 

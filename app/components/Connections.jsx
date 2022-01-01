@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 const Connections = (props) => {
   const { connections } = props;
 
+  const capitalizeFirstLetter = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
   return (
     <div className="dr-connections">
       {
         connections.map((connection) => (
           <div key={connection.type}>
             <div>
-              {`${connection.type}: ${connection.name}` }
+              {`${capitalizeFirstLetter(connection.type)}: ${connection.name}` }
             </div>
           </div>
         ))

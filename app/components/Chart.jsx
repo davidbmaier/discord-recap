@@ -31,9 +31,18 @@ const Chart = (props) => {
       >
         <XAxis dataKey="category" tickFormatter={formatLabel} />
         <YAxis />
-        <Tooltip formatter={formatTooltipValue} labelFormatter={formatLabel} separator="" />
+        <Tooltip
+          formatter={formatTooltipValue}
+          labelFormatter={formatLabel}
+          separator=""
+          contentStyle={{
+            backgroundColor: '#2c2f33', color: 'white', border: '0', borderRadius: '5px',
+          }}
+          cursor={{ stroke: '#3b3d42', fill: '#3b3d42', strokeWidth: 2 }}
+          labelStyle={{ backgroundColor: '#2c2f33', color: 'white' }}
+        />
         <Legend />
-        <Bar dataKey="count" name="Message Count" fill="#8884d8" />
+        <Bar dataKey="count" name="Message Count" fill="#5865F2" legendType="circle" background={false} />
       </BarChart>
     </ResponsiveContainer>
   );

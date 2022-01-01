@@ -5,7 +5,9 @@ import { Outlet } from 'remix';
 export default function StatsWrapper() {
   return (
     <div>
-      <h1>global header</h1>
+      <div className="dr-header">
+        <h2>Discord Recap</h2>
+      </div>
       <div className="dr-content-wrapper">
         <Outlet />
       </div>

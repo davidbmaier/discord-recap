@@ -1,6 +1,77 @@
+@font-face {
+  font-family: 'Whitney';
+  src: url('/Whitney.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Whitney';
+  src: url('/Whitney-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --header: #3b3d42;
+  --background: #2c2f33;
+  --dark-background: #23272a;
+  --blurple: #5865F2;
+  --white: #ffffff;
+  --quote: #4f545c;
+}
+
+body, html {
+  height: 100%;
+}
+
 body {
-    background-color: gray;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background);
+  font-family: 'Whitney', 'Segoe UI', sans-serif;
+  margin: 0;
+  color: var(--white);
+}
+
+button {
+  font-family: 'Whitney', 'Segoe UI', sans-serif;
+  font-size: 1em;
+}
+button:hover {
+  cursor: pointer;
+}
+
+a {
+  color: var(--blurple);
+  text-decoration: none;
+}
+
+b {
+  color: var(--blurple);
+}
+
+h2 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: normal;
+}
+
+h3 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: normal;
+}
+
+p {
+  margin: 0
+}
+
+.dr-header{
+  height: 50px;
+  background-color: var(--header);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .dr-content-wrapper {
@@ -10,17 +81,17 @@ body {
 
 .dr-row {
   width: 100%;
-  background-color: rgb(153, 119, 119);
-  border-bottom: 3px solid green;
+  border-bottom: 3px solid var(--dark-background);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 .dr-tile {
-  background-color: yellow;
-  margin: 5px;
-  border: 2px solid white;
+  background-color: var(--dark-background);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
 }
 
 .dr-flex-1 {
@@ -38,13 +109,124 @@ body {
 
 .dr-datafield {
   margin-bottom: 10px;
+  ;
+}
+
+.dr-firstmessage-content {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--quote);
+  padding-left: 10px;
+}
+
+.dr-toplist-item {
+  padding: 5px;
+  border-bottom: 1px solid var(--quote);
   font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.dr-toplist-name-wrapper {
+  display: flex;
+  flex: 5;
+}
+.dr-toplist-number {
+  flex: 0 0 40px;
 }
 
-.dr-datafield-value {
-  font-size: 1em;
+.dr-messagecharts-controls {
+  display: flex;
+  justify-content: center;
 }
-.dr-datafield-subtitle {
-  font-size: 0.75em;
+.dr-messagecharts-button {
+  margin: 5px;
+  height: 30px;
+  min-width: 70px;
+  border-radius: 5px;
+  background-color: var(--header);
+  color: var(--white);
+  border: none;
+  text-align: center;
+}
+.dr-messagecharts-button:active {
+  background-color: var(--blurple);
+}
+.dr-messagecharts-button-active {
+  background-color: var(--blurple);
 }
 
+.dr-accordion-content {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+.dr-accordion-content-closed {
+  max-height: 0;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+.dr-accordion-toggle {
+  margin: 5px;
+  height: 30px;
+  min-width: 70px;
+  border-radius: 5px;
+  background-color: var(--header);
+  color: var(--white);
+  border: none;
+  text-align: center;
+}
+.dr-accordion-toggle:active {
+  background-color: var(--blurple);
+}
+.dr-accordion-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.dr-emote {
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.dr-usertile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.dr-sectionlink {
+  text-align: center;
+}
+
+.dr-landing-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.dr-landing-tile {
+  background-color: var(--dark-background);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.dr-landing-button {
+  margin: 5px;
+  height: 30px;
+  min-width: 70px;
+  border-radius: 5px;
+  background-color: var(--header);
+  color: var(--white);
+  border: none;
+  text-align: center;
+}
+.dr-landing-button:active {
+  background-color: var(--blurple);
+}

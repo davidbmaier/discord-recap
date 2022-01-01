@@ -14,13 +14,15 @@ const TopWordsAndEmotes = (props) => {
   const [wordsOpen, setWordsOpen] = useState(false);
 
   const getTopWords = () => topWords.map(
-    ({ name, count }) => ({ name, value: `${count}`, id: name }),
+    ({ name, count }, index) => ({
+      name, value: `${count}`, id: name, index: index + 1,
+    }),
   );
 
   const getTopEmotes = () => topEmotes.map(
-    ({ name, count, id }) => ({
+    ({ name, count, id }, index) => ({
       // default emoji don't have an id - but "id" maps to the key attribute
-      name, value: `${count}`, id: name, emoteID: id,
+      name, value: `${count}`, id: name, emoteID: id, icon: true, index: index + 1,
     }),
   );
 
@@ -28,8 +30,13 @@ const TopWordsAndEmotes = (props) => {
     <Row>
       <Tile flex={3}>
         <TopList
-          items={getTopWords()}
-          title="Top 20 Words"
+          items={getTopWords().slice(0, 3)}
+          title={`Top ${topWords.length} Words (excluding emotes)`}
+          open
+        />
+        <TopList
+          items={getTopWords().slice(3)}
+          title=""
           open={wordsOpen}
           onToggle={() => {
             setWordsOpen(!wordsOpen);
@@ -39,8 +46,13 @@ const TopWordsAndEmotes = (props) => {
       </Tile>
       <Tile flex={3}>
         <TopList
-          items={getTopEmotes()}
-          title="Top 20 Emotes"
+          items={getTopEmotes().slice(0, 3)}
+          title={`Top ${topEmotes.length} Emotes`}
+          open
+        />
+        <TopList
+          items={getTopEmotes().slice(3)}
+          title=""
           open={emotesOpen}
           onToggle={() => {
             setEmotesOpen(!emotesOpen);

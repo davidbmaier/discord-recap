@@ -21,7 +21,7 @@ module.exports = {
     'no-promise-executor-return': 'off',
     'no-use-before-define': 'off',
     'no-console': 'off',
-    'max-len': ['error', { code: 120 }],
+    'max-len': 'off',
     'react/function-component-definition': 'off',
     'react/require-default-props': 'off',
   },

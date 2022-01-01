@@ -36,10 +36,17 @@ export const incrementWordMatches = (category, word) => {
   }
 };
 
-export const updateFirstMessage = (category, message, channelData, messageTimestamp) => {
+export const updateFirstAndLastMessage = (category, message, channelData, messageTimestamp) => {
   const updatedCategory = category;
   if (!updatedCategory.firstMessage || messageTimestamp < updatedCategory.firstMessage.date) {
     updatedCategory.firstMessage = {
+      date: messageTimestamp,
+      content: message.content,
+      channel: { ...channelData, messages: null },
+    };
+  }
+  if (!updatedCategory.lastMessage || messageTimestamp > updatedCategory.lastMessage.date) {
+    updatedCategory.lastMessage = {
       date: messageTimestamp,
       content: message.content,
       channel: { ...channelData, messages: null },

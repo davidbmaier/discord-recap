@@ -6,19 +6,21 @@ import DataField from './DataField';
 
 const MessageCount = (props) => {
   const {
-    messageCount, wordCount, characterCount, firstMessage,
+    messageCount, wordCount, characterCount, firstMessage, lastMessage, context,
   } = props;
 
   const getAverageMessageCountPerDay = () => {
     const daysSinceFirstMessage = (Date.now() - new Date(firstMessage.date).getTime()) / (1000 * 60 * 60 * 24);
-    return Math.floor((messageCount / daysSinceFirstMessage) * 100) / 100;
+    const daysSinceLastMessage = (Date.now() - new Date(lastMessage.date).getTime()) / (1000 * 60 * 60 * 24);
+    const daysBetweenMessages = daysSinceFirstMessage - daysSinceLastMessage;
+    return Math.floor((messageCount / daysBetweenMessages) * 100) / 100;
   };
 
   return (
     <div className="dr-messagecount">
       <DataField
-        valueText={`You have sent <b>${messageCount}</b> messages.`}
-        subtitle={`That's about <b>${getAverageMessageCountPerDay()} messages per day</b> since your first one.`}
+        valueText={`You have sent <b>${messageCount}</b> messages${context ? ` ${context}` : ''}.`}
+        subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b> messages per day between your first and your latest one.`}
       />
       <DataField
         valueText={`You wrote <b>${wordCount}</b> words.`}
@@ -37,6 +39,10 @@ MessageCount.propTypes = {
   firstMessage: PropTypes.shape({
     date: PropTypes.string.isRequired,
   }).isRequired,
+  lastMessage: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+  }).isRequired,
+  context: PropTypes.string.isRequired,
 };
 
 export default MessageCount;

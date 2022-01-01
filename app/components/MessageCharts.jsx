@@ -19,27 +19,39 @@ const MessageCharts = (props) => {
     }
     return [];
   };
+
+  const getButtonClassNames = (type) => {
+    let classNames = 'dr-messagecharts-button';
+    if (type === chartType) {
+      classNames += ' dr-messagecharts-button-active';
+    }
+    return classNames;
+  };
+
   return (
     <div className="dr-messagecharts">
       <Chart data={getChartData()} type={chartType} />
       <div className="dr-messagecharts-controls">
         <button
+          className={getButtonClassNames(chartTypes.hour)}
           type="button"
           onClick={() => setChartType(chartTypes.hour)}
         >
-          Per hour
+          Hourly
         </button>
         <button
+          className={getButtonClassNames(chartTypes.day)}
           type="button"
           onClick={() => setChartType(chartTypes.day)}
         >
-          Per day
+          Daily
         </button>
         <button
+          className={getButtonClassNames(chartTypes.year)}
           type="button"
           onClick={() => setChartType(chartTypes.year)}
         >
-          Per year
+          Yearly
         </button>
       </div>
     </div>

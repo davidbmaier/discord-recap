@@ -44,11 +44,14 @@ export default function Server() {
                   wordCount={stats.wordCount}
                   characterCount={stats.characterCount}
                   firstMessage={stats.firstMessage}
+                  lastMessage={stats.lastMessage}
+                  context="in this server"
                 />
               </Tile>
               <Tile flex={2}>
                 <FirstMessage
                   message={stats.firstMessage}
+                  context="in this server"
                 />
               </Tile>
             </Row>
@@ -65,7 +68,7 @@ export default function Server() {
             <Row>
               <Tile flex={1}>
                 <TopList
-                  title="Top Servers"
+                  title="Top Channels"
                   items={stats.channels}
                   open
                 />

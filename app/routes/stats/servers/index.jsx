@@ -30,7 +30,7 @@ export default function Servers() {
 
   return (
     <div>
-      <h1>list of servers</h1>
+      <h1>Your servers</h1>
       <Link to="/stats">Back to Stats</Link>
       { stats && (
         <>
@@ -50,11 +50,14 @@ export default function Servers() {
                 wordCount={stats.wordCount}
                 characterCount={stats.characterCount}
                 firstMessage={stats.firstMessage}
+                lastMessage={stats.lastMessage}
+                context="across all your servers"
               />
             </Tile>
             <Tile flex={3}>
               <FirstMessage
                 message={stats.firstMessage}
+                context="across all your servers"
               />
             </Tile>
           </Row>

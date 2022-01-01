@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'remix';
 
 import Accordion from './Accordion';
+import Emote from './Emote';
 
 const TopList = (props) => {
   const {
@@ -12,29 +13,39 @@ const TopList = (props) => {
   return (
     <div className="dr-toplist">
       <Accordion
+        headerKey={title}
         header={(
-          <div className="dr-toplist-header">
+          <h2 className="dr-toplist-header">
             {title}
-          </div>
+          </h2>
         )}
         content={(
           <div className="dr-toplist-content">
             {
-              items.map((item) => (
+              items.map((item, index) => (
                 <div className="dr-toplist-item" key={item.id}>
-                  <div className="dr-toplist-item-name">
-                    {item.name}
-                  </div>
-                  <div className="dr-toplist-item-value">
+                  <span className="dr-toplist-name-wrapper">
+                    <span className="dr-toplist-number">
+                      {item.index || index + 1}
+                    </span>
+                    {
+                      item.icon && (
+                        <Emote id={item.emoteID} name={item.name} size={24} />
+                      )
+                    }
+                    {
+                      item.link
+                        ? <Link className="dr-toplist-item-name" to={item.link}>{item.name}</Link>
+                        : (
+                          <span className="dr-toplist-item-name">
+                            {item.name}
+                          </span>
+                        )
+                    }
+                  </span>
+                  <span className="dr-toplist-item-value">
                     {item.value}
-                  </div>
-                  {
-                    item.link && (
-                      <div className="dr-toplist-item-link">
-                        <Link to={item.link}>Link</Link>
-                      </div>
-                    )
-                  }
+                  </span>
                 </div>
               ))
             }

@@ -26,7 +26,7 @@ export default function Channels() {
 
   return (
     <div>
-      <h1>list of channels</h1>
+      <h1>Your channels</h1>
       <Link to="/stats">Back to Stats</Link>
       { stats && (
         <Row>

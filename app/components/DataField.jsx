@@ -7,16 +7,23 @@ const DataField = (props) => {
 
   // TODO: add icon prop
   return (
-    <div className="dr-datafield">
-      <div className="dr-datafield-value">
-        <span dangerouslySetInnerHTML={{ __html: valueText }} />
-      </div>
-      { subtitle && (
-        <div className="dr-datafield-subtitle">
-          <span dangerouslySetInnerHTML={{ __html: subtitle }} />
-        </div>
-      )}
+    <div>
+      {
+        !valueText.includes('undefined') && !valueText.includes('null') && (
+          <div className="dr-datafield">
+            <div className="dr-datafield-value">
+              <h2 dangerouslySetInnerHTML={{ __html: valueText }} />
+            </div>
+            { subtitle && (
+            <div className="dr-datafield-subtitle">
+              <h3 dangerouslySetInnerHTML={{ __html: subtitle }} />
+            </div>
+            )}
+          </div>
+        )
+      }
     </div>
+
   );
 };
 

@@ -1,6 +1,5 @@
 /* eslint-disable max-len -- message fields just need extra length */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'remix';
 
 import { getStats } from '../../lib/store';
 import { cleanChartData } from '../../lib/stats/utils';
@@ -13,6 +12,7 @@ import FirstMessage from '../../components/FirstMessage';
 import Connections from '../../components/Connections';
 import TopWordsAndEmotes from '../../components/TopWordsAndEmotes';
 import MessageCharts from '../../components/MessageCharts';
+import SectionLink from '../../components/SectionLink';
 
 export default function Stats() {
   const [stats, setStats] = useState(null);
@@ -51,6 +51,8 @@ export default function Stats() {
           wordCount={stats.messageStats.wordCount}
           characterCount={stats.messageStats.characterCount}
           firstMessage={stats.messageStats.firstMessage}
+          lastMessage={stats.messageStats.lastMessage}
+          context="across all of Discord"
         />
         {messages.map((message) => {
           if (Array.isArray(message)) {
@@ -100,10 +102,6 @@ export default function Stats() {
 
   return (
     <div>
-      <h1>Stats</h1>
-      <Link to="/stats/servers">Servers</Link>
-      <Link to="/stats/dms">DMs</Link>
-      <Link to="/stats/channels">All channels</Link>
       {
         stats && (
           <div>
@@ -117,6 +115,7 @@ export default function Stats() {
               <Tile flex={3}>
                 <FirstMessage
                   message={stats.messageStats.firstMessage}
+                  context="across all of Discord"
                 />
               </Tile>
               <Tile flex={2}>
@@ -131,6 +130,17 @@ export default function Stats() {
               </Tile>
               <Tile flex={3}>
                 {getMetaDataFields()}
+              </Tile>
+            </Row>
+            <Row>
+              <Tile flex={1}>
+                <SectionLink title="Explore your DMs!" link="/stats/dms" />
+              </Tile>
+              <Tile flex={1}>
+                <SectionLink title="Dig through your servers!" link="/stats/servers" />
+              </Tile>
+              <Tile flex={1}>
+                <SectionLink title="Check your top channels!" link="/stats/channels" />
               </Tile>
             </Row>
             <Row>
