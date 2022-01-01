@@ -73,6 +73,19 @@ p {
   align-items: center;
   margin-bottom: 15px;
 }
+.dr-header button {
+  margin: 5px;
+  height: 30px;
+  min-width: 70px;
+  border-radius: 5px;
+  background-color: var(--background);
+  color: var(--white);
+  border: none;
+  text-align: center;
+}
+.dr-header button:active {
+  background-color: var(--blurple);
+}
 
 .dr-content-wrapper {
   margin: auto;

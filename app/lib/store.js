@@ -5,3 +5,5 @@ export const storeStats = (stats) => {
 };
 
 export const getStats = () => localStorage.getItem(statsID);
+
+export const clearStats = () => localStorage.removeItem(statsID);
