@@ -99,6 +99,7 @@ p {
 .dr-content-wrapper {
   margin: auto;
   width: 90%;
+  min-height: 90vh;
 }
 
 .dr-row {
@@ -247,11 +248,11 @@ p {
   height: 100%;
 }
 .dr-landing-tile {
-  background-color: var(--dark-background);
+  background-color: var(--background);
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  width: 30%;
+  width: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -269,4 +270,33 @@ p {
 }
 .dr-landing-button:active {
   background-color: var(--blurple);
+}
+.dr-landing-text {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.dr-landing-instruction {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.dr-landing-loading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dr-landing-footer {
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  background: var(--dark-background);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dr-landing-paragraph {
+  text-align: center;
 }
