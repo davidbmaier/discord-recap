@@ -118,7 +118,9 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           dmChannelStats.userID = channelData.recipientIDs.find((recipient) => recipient.id !== stats.userID);
           // TODO: resolve user details by ID through some API
         } else {
-          dmChannelStats.userIDs = channelData.recipientIDs?.filter((recipient) => recipient.id !== stats.userID);
+          dmChannelStats.userIDs = channelData.recipientIDs
+            ? channelData.recipientIDs.filter((recipient) => recipient.id !== stats.userID)
+            : [];
         }
 
         messageStats.directMessages.channels.push(dmChannelStats);

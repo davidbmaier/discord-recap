@@ -39,9 +39,11 @@ export default function Servers() {
               <DataField
                 valueText={`You're a member of <b>${stats.count}</b> servers.`}
                 subtitle={`Seems like you've muted <b>${stats.mutedCount}</b> servers - that includes ones you're not in anymore.`}
+                value={stats.count}
               />
               <DataField
                 valueText={`In total, you've spoken in <b>${stats.channelCount}</b> channels.`}
+                value={stats.channelCount}
               />
             </Tile>
             <Tile flex={3}>

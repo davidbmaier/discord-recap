@@ -21,12 +21,15 @@ const MessageCount = (props) => {
       <DataField
         valueText={`You have sent <b>${messageCount}</b> messages${context ? ` ${context}` : ''}.`}
         subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b> messages per day between your first and your latest one.`}
+        value={messageCount}
       />
       <DataField
         valueText={`You wrote <b>${wordCount}</b> words.`}
+        value={wordCount}
       />
       <DataField
         valueText={`That's a total of <b>${characterCount}</b> characters.`}
+        value={characterCount}
       />
     </div>
   );

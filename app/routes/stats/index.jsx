@@ -27,21 +27,51 @@ export default function Stats() {
 
   const getMessageDataFields = () => {
     const messages = [
-      `Overall, you pinged <b>${stats.messageStats.mentionCount}</b> people, roles and channels.`,
-      `Message wasn't perfect? You edited your messages <b>${stats.eventStats.messageEdited}</b> times.`,
-      `Oops, looks like you deleted <b>${stats.eventStats.messageDeleted}</b> of your messages.`,
-      `A fan of emotes? You used a total of <b>${stats.messageStats.emoteCount}</b> in your messages.`,
-      `Reactions are a different story - you used <b>${stats.eventStats.reactionAdded}</b> of those.`,
-      `You opened <b>${stats.eventStats.inviteOpened}</b> invites, and sent out <b>${stats.eventStats.inviteSent}</b> of your own.`,
-      [
-        `Sometimes everyone runs out of space: You ran into the message length limit <b>${stats.eventStats.messageLengthLimitReached}</b> times.`,
-        `Reactions are no different - <b>${stats.eventStats.reactionLimitReached}</b> is how often you reached that limit.`,
-      ],
-      [
-        `Threads are still fairly new - you joined <b>${stats.eventStats.threadJoined}</b> of those.`,
-        `And you used <b>${stats.eventStats.slashCommandUsed}</b> slash commands.`,
-      ],
-      `See something you like? You saved <b>${stats.eventStats.imageSaved}</b> images in Discord.`,
+      {
+        text: `Overall, you pinged <b>${stats.messageStats.mentionCount}</b> people, roles and channels.`,
+        value: stats.messageStats.mentionCount,
+      },
+      {
+        text: `Message wasn't perfect? You edited your messages <b>${stats.eventStats.messageEdited}</b> times.`,
+        value: stats.eventStats.messageEdited,
+      },
+      {
+        text: `Oops, looks like you deleted <b>${stats.eventStats.messageDeleted}</b> of your messages.`,
+        value: stats.eventStats.messageDeleted,
+      },
+      {
+        text: `A fan of emotes? You used a total of <b>${stats.messageStats.emoteCount}</b> in your messages.`,
+        value: stats.messageStats.emoteCount,
+      },
+      {
+        text: `Reactions are a different story - you used <b>${stats.eventStats.reactionAdded}</b> of those.`,
+        value: stats.eventStats.reactionAdded,
+      },
+      {
+        text: `You opened <b>${stats.eventStats.inviteOpened}</b> invites, and sent out <b>${stats.eventStats.inviteSent}</b> of your own.`,
+        value: [
+          stats.eventStats.inviteOpened, stats.eventStats.inviteSent,
+        ],
+      },
+      {
+        text: [
+          `Sometimes everyone runs out of space: You ran into the message length limit <b>${stats.eventStats.messageLengthLimitReached}</b> times.`,
+          `There's also a limit for reactions - you reached that one <b>${stats.eventStats.reactionLimitReached}</b> times.`,
+        ],
+        value: stats.eventStats.messageLengthLimitReached,
+      },
+      {
+        text: [
+          `Threads are still fairly new - you joined <b>${stats.eventStats.threadJoined}</b> of those.`,
+          `And you used <b>${stats.eventStats.slashCommandUsed}</b> slash commands.`,
+        ],
+        value: stats.eventStats.threadJoined,
+      },
+      {
+        text: `See something you like? You saved <b>${stats.eventStats.imageSaved}</b> images in Discord.`,
+        value: stats.eventStats.imageSaved,
+      },
+
     ];
 
     return (
@@ -55,10 +85,10 @@ export default function Stats() {
           context="across all of Discord"
         />
         {messages.map((message) => {
-          if (Array.isArray(message)) {
-            return <DataField valueText={message[0]} subtitle={message[1]} key={message[0]} />;
+          if (Array.isArray(message.text)) {
+            return <DataField valueText={message.text[0]} subtitle={message.text[1]} key={message.text[0]} value={message.value} />;
           }
-          return <DataField valueText={message} key={message} />;
+          return <DataField valueText={message.text} key={message.text} value={message.value} />;
         })}
       </>
     );
@@ -66,35 +96,76 @@ export default function Stats() {
 
   const getMetaDataFields = () => {
     const messages = [
-      `You joined a voice channel <b>${stats.eventStats.voiceChannelJoined}</b> times.`,
-      `Overall, you started talking <b>${stats.eventStats.startedSpeaking}</b> times.`,
-      stats.darkMode
-        ? 'A <b>dark mode</b> connoisseur - unofficial stats say you\'re in the vast majority!'
-        : 'A <b>light mode</b> user - that\'s pretty rare!',
-      `In total, you spent <b>$${stats.totalPaymentAmount / 100}</b> on Discord.`,
-      `You opened Discord <b>${stats.eventStats.appOpened}</b> times and clicked <b>${stats.eventStats.notificationClicked}</b> notifications.`,
-      `Looking for something? You started <b>${stats.eventStats.searchStarted}</b> searches.`,
-      `Seems like you know your way around! You used <b>${stats.eventStats.keyboardShortcutUsed}</b> keyboard shortcuts.`,
-      `Thanks for keeping an eye out and reporting <b>${stats.eventStats.messageReported}</b> messages and <b>${stats.eventStats.userReported}</b> users.`,
-      [
-        `Any chance you're a famous streamer? You toggled streamer mode <b>${stats.eventStats.streamerModeToggled}</b> times.`,
-        `Or maybe you're a pro gamer? Discord detected <b>${stats.eventStats.gameLaunched}</b> game launches.`,
-      ],
-      [
-        `Gotta stay up to date: You switched avatars <b>${stats.eventStats.avatarUpdated}</b> times.`,
-        `Same thing goes for your status: <b>${stats.eventStats.statusUpdated}</b> updates.`,
-      ],
-      `Uh-oh! Looks like Discord ran into <b>${stats.eventStats.errorDetected}</b> errors or crashes for you.`,
-      `And overall, Discord tried to sell you something <b>${stats.eventStats.promotionShown}</b> times.`,
+      {
+        text: `You joined a voice channel <b>${stats.eventStats.voiceChannelJoined}</b> times.`,
+        value: stats.eventStats.voiceChannelJoined,
+      },
+      {
+        text: `Overall, you started talking <b>${stats.eventStats.startedSpeaking}</b> times.`,
+        value: stats.eventStats.startedSpeaking,
+      },
+      {
+        text: stats.darkMode
+          ? 'A <b>dark mode</b> connoisseur - unofficial stats say you\'re in the vast majority!'
+          : 'A <b>light mode</b> user - that\'s pretty rare!',
+        value: 'true', // no value check needed
+      },
+      {
+        text: `In total, you spent <b>$${stats.totalPaymentAmount / 100}</b> on Discord.`,
+        value: 'true', // no value check needed, 0 is worth showing
+      },
+      {
+        text: `You opened Discord <b>${stats.eventStats.appOpened}</b> times.`,
+        value: stats.eventStats.appOpened,
+      },
+      {
+        text: `Who rang? You clicked <b>${stats.eventStats.notificationClicked}</b> notifications.`,
+        value: stats.eventStats.notificationClicked,
+      },
+      {
+        text: `Looking for something? You started <b>${stats.eventStats.searchStarted}</b> searches.`,
+        value: stats.eventStats.searchStarted,
+      },
+      {
+        text: `Seems like you know your way around! You used <b>${stats.eventStats.keyboardShortcutUsed}</b> keyboard shortcuts.`,
+        value: stats.eventStats.keyboardShortcutUsed,
+      },
+      {
+        text: `Thanks for keeping an eye out and reporting <b>${stats.eventStats.messageReported}</b> messages and <b>${stats.eventStats.userReported}</b> users.`,
+        value: stats.eventStats.messageReported,
+      },
+      {
+        text: `Any chance you're a famous streamer? You toggled streamer mode <b>${stats.eventStats.streamerModeToggled}</b> times.`,
+        value: stats.eventStats.streamerModeToggled,
+      },
+      {
+        text: `A gamer, eh? Discord detected <b>${stats.eventStats.gameLaunched}</b> game launches.`,
+        value: stats.eventStats.gameLaunched,
+      },
+      {
+        text: [
+          `Gotta stay up to date: You switched avatars <b>${stats.eventStats.avatarUpdated}</b> times.`,
+          `Same thing goes for your status: <b>${stats.eventStats.statusUpdated}</b> updates.`,
+        ],
+        value: stats.eventStats.avatarUpdated,
+      },
+      {
+        text: `Uh-oh! Looks like Discord ran into <b>${stats.eventStats.errorDetected}</b> errors or crashes for you.`,
+        value: stats.eventStats.errorDetected,
+      },
+      {
+        text: `And overall, Discord tried to sell you something <b>${stats.eventStats.promotionShown}</b> times.`,
+        value: stats.eventStats.promotionShown,
+      },
     ];
 
     return (
       <>
         {messages.map((message) => {
-          if (Array.isArray(message)) {
-            return <DataField valueText={message[0]} subtitle={message[1]} key={message[0]} />;
+          if (Array.isArray(message.text)) {
+            return <DataField valueText={message.text[0]} subtitle={message.text[1]} key={message.text[0]} value={message.value} />;
           }
-          return <DataField valueText={message} key={message} />;
+          return <DataField valueText={message.text} key={message.text} value={message.value} />;
         })}
       </>
     );
@@ -140,7 +211,7 @@ export default function Stats() {
                 <SectionLink title="Dig through your servers!" link="/stats/servers" />
               </Tile>
               <Tile flex={1}>
-                <SectionLink title="Check your top channels!" link="/stats/channels" />
+                <SectionLink title="Check out your top channels!" link="/stats/channels" />
               </Tile>
             </Row>
             <Row>

@@ -40,10 +40,15 @@ export default function DMs() {
                 <DataField
                   valueText={`You've talked in <b>${stats.count}</b> different DMs.`}
                   subtitle={`<b>${stats.userCount}</b> of those were individual users.`}
+                  value={stats.count}
                 />
                 <DataField
                   valueText={`In total, you made <b>${stats.friendCount}</b> friends.`}
-                  subtitle={`But you also blocked <b>${stats.blockedCount}</b> people.`}
+                  value={stats.friendCount}
+                />
+                <DataField
+                  valueText={`But you also blocked <b>${stats.blockedCount}</b> people.`}
+                  value={stats.blockedCount}
                 />
               </Tile>
               <Tile flex={3}>

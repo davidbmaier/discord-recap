@@ -3,13 +3,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DataField = (props) => {
-  const { valueText, subtitle } = props;
+  const { valueText, subtitle, value } = props;
+
+  const isValid = () => {
+    let invalid = false;
+    if (Array.isArray(value)) {
+      invalid = value.some((v) => v === '' || v === 0 || v === null || v === undefined || Number.isNaN(v));
+    } else {
+      invalid = value === '' || value === 0 || value === null || value === undefined || Number.isNaN(value);
+    }
+    return !invalid;
+  };
 
   // TODO: add icon prop
   return (
     <div>
       {
-        !valueText.includes('undefined') && !valueText.includes('null') && (
+        isValid() && (
           <div className="dr-datafield">
             <div className="dr-datafield-value">
               <h2 dangerouslySetInnerHTML={{ __html: valueText }} />
@@ -30,6 +40,14 @@ const DataField = (props) => {
 DataField.propTypes = {
   valueText: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
+  value: PropTypes.oneOfType(
+    [
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.number),
+    ],
+  ),
 };
 
 export default DataField;
