@@ -74,6 +74,11 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta property="og:site_name" content="Discord Recap" />
+        <meta property="og:url" content="https://discord-recap.com" />
+        <meta property="og:title" content="Discord Recap" />
+        <meta property="og:description" content="Visualize your Discord data package and get to know all your stats!" />
+        <meta property="og:type" content="website" />
         <Meta />
         <Links />
       </head>
