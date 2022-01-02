@@ -2,6 +2,8 @@
 
 A tool to explore your Discord data package.
 
+Going live: soon 👀
+
 ## What can this do?
 
 The web app scans through your Discord data package and extrapolates a ton of information about:
