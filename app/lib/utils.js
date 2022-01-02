@@ -55,3 +55,10 @@ export const updateFirstAndLastMessage = (category, message, channelData, messag
 };
 
 export const cleanChartData = (data) => Object.entries(data).map(([category, count]) => ({ category, count }));
+
+export const usePlural = (word, value, plural) => {
+  if (value === 1) {
+    return word;
+  }
+  return `${plural || `${word}s`}`;
+};

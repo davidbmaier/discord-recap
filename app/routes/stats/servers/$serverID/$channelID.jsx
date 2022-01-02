@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLoaderData, Link } from 'remix';
 
 import { getStats } from '../../../../lib/store';
-import { cleanChartData } from '../../../../lib/stats/utils';
+import { cleanChartData } from '../../../../lib/utils';
 import Row from '../../../../components/Row';
 import Tile from '../../../../components/Tile';
 import MessageCount from '../../../../components/MessageCount';

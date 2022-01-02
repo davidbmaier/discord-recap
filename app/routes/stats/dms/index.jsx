@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'remix';
 
 import { getStats } from '../../../lib/store';
-import { cleanChartData } from '../../../lib/stats/utils';
+import { cleanChartData, usePlural } from '../../../lib/utils';
 import TopList from '../../../components/TopList';
 import Row from '../../../components/Row';
 import Tile from '../../../components/Tile';
@@ -38,16 +38,16 @@ export default function DMs() {
             <Row>
               <Tile flex={3}>
                 <DataField
-                  valueText={`You've talked in <b>${stats.count}</b> different DMs.`}
+                  valueText={`You've talked in <b>${stats.count}</b> ${usePlural('DM', stats.count, 'different DMs')}.`}
                   subtitle={`<b>${stats.userCount}</b> of those were individual users.`}
                   value={stats.count}
                 />
                 <DataField
-                  valueText={`In total, you made <b>${stats.friendCount}</b> friends.`}
+                  valueText={`In total, you made <b>${stats.friendCount}</b> ${usePlural('friend', stats.friendCount)}.`}
                   value={stats.friendCount}
                 />
                 <DataField
-                  valueText={`But you also blocked <b>${stats.blockedCount}</b> people.`}
+                  valueText={`But you also blocked <b>${stats.blockedCount}</b> ${usePlural('person', stats.friendCount, 'people')}.`}
                   value={stats.blockedCount}
                 />
               </Tile>

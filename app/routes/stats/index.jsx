@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { getStats } from '../../lib/store';
-import { cleanChartData } from '../../lib/stats/utils';
+import { cleanChartData, usePlural } from '../../lib/utils';
 import Row from '../../components/Row';
 import Tile from '../../components/Tile';
 import DataField from '../../components/DataField';
@@ -28,11 +28,12 @@ export default function Stats() {
   const getMessageDataFields = () => {
     const messages = [
       {
-        text: `Overall, you pinged <b>${stats.messageStats.mentionCount}</b> people, roles and channels.`,
+        text: `Overall, you pinged <b>${stats.messageStats.mentionCount}</b>
+          ${usePlural('person, role or channel', stats.messageStats.mentionCount, 'people, roles and channels')}.`,
         value: stats.messageStats.mentionCount,
       },
       {
-        text: `Message wasn't perfect? You edited your messages <b>${stats.eventStats.messageEdited}</b> times.`,
+        text: `Message wasn't perfect? You edited your messages <b>${stats.eventStats.messageEdited}</b> ${usePlural('time', stats.eventStats.messageEdited)}.`,
         value: stats.eventStats.messageEdited,
       },
       {
@@ -48,27 +49,30 @@ export default function Stats() {
         value: stats.eventStats.reactionAdded,
       },
       {
-        text: `You opened <b>${stats.eventStats.inviteOpened}</b> invites, and sent out <b>${stats.eventStats.inviteSent}</b> of your own.`,
+        text: `You opened <b>${stats.eventStats.inviteOpened}</b>
+          ${usePlural('invite', stats.eventStats.inviteOpened)}, and sent out <b>${stats.eventStats.inviteSent}</b> of your own.`,
         value: [
           stats.eventStats.inviteOpened, stats.eventStats.inviteSent,
         ],
       },
       {
         text: [
-          `Sometimes everyone runs out of space: You ran into the message length limit <b>${stats.eventStats.messageLengthLimitReached}</b> times.`,
-          `There's also a limit for reactions - you reached that one <b>${stats.eventStats.reactionLimitReached}</b> times.`,
+          `Sometimes everyone runs out of space: You ran into the message length limit <b>${stats.eventStats.messageLengthLimitReached}</b>
+            ${usePlural('time', stats.eventStats.messageLengthLimitReached)}.`,
+          `There's also a limit for reactions - you reached that one <b>${stats.eventStats.reactionLimitReached}</b>
+            ${usePlural('time', stats.eventStats.reactionLimitReached)}.`,
         ],
         value: stats.eventStats.messageLengthLimitReached,
       },
       {
         text: [
           `Threads are still fairly new - you joined <b>${stats.eventStats.threadJoined}</b> of those.`,
-          `And you used <b>${stats.eventStats.slashCommandUsed}</b> slash commands.`,
+          `And you used <b>${stats.eventStats.slashCommandUsed}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
         ],
         value: stats.eventStats.threadJoined,
       },
       {
-        text: `See something you like? You saved <b>${stats.eventStats.imageSaved}</b> images in Discord.`,
+        text: `See something you like? You saved <b>${stats.eventStats.imageSaved}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
         value: stats.eventStats.imageSaved,
       },
 
@@ -97,11 +101,11 @@ export default function Stats() {
   const getMetaDataFields = () => {
     const messages = [
       {
-        text: `You joined a voice channel <b>${stats.eventStats.voiceChannelJoined}</b> times.`,
+        text: `You joined a voice channel <b>${stats.eventStats.voiceChannelJoined}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
         value: stats.eventStats.voiceChannelJoined,
       },
       {
-        text: `Overall, you started talking <b>${stats.eventStats.startedSpeaking}</b> times.`,
+        text: `Overall, you started talking <b>${stats.eventStats.startedSpeaking}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
         value: stats.eventStats.startedSpeaking,
       },
       {
@@ -115,46 +119,51 @@ export default function Stats() {
         value: 'true', // no value check needed, 0 is worth showing
       },
       {
-        text: `You opened Discord <b>${stats.eventStats.appOpened}</b> times.`,
+        text: `You opened Discord <b>${stats.eventStats.appOpened}</b> ${usePlural('time', stats.eventStats.appOpened)}.`,
         value: stats.eventStats.appOpened,
       },
       {
-        text: `Who rang? You clicked <b>${stats.eventStats.notificationClicked}</b> notifications.`,
+        text: `Who rang? You clicked <b>${stats.eventStats.notificationClicked}</b> ${usePlural('notification', stats.eventStats.notificationClicked)}.`,
         value: stats.eventStats.notificationClicked,
       },
       {
-        text: `Looking for something? You started <b>${stats.eventStats.searchStarted}</b> searches.`,
+        text: `Looking for something? You started <b>${stats.eventStats.searchStarted}</b> ${usePlural('search', stats.eventStats.searchStarted, 'searches')}.`,
         value: stats.eventStats.searchStarted,
       },
       {
-        text: `Seems like you know your way around! You used <b>${stats.eventStats.keyboardShortcutUsed}</b> keyboard shortcuts.`,
+        text: `Seems like you know your way around! You used <b>${stats.eventStats.keyboardShortcutUsed}</b> keyboard
+          ${usePlural('shortcut', stats.eventStats.keyboardShortcutUsed)}.`,
         value: stats.eventStats.keyboardShortcutUsed,
       },
       {
-        text: `Thanks for keeping an eye out and reporting <b>${stats.eventStats.messageReported}</b> messages and <b>${stats.eventStats.userReported}</b> users.`,
+        text: `Thanks for keeping an eye out and reporting <b>${stats.eventStats.messageReported}</b>
+          ${usePlural('message', stats.eventStats.messageReported)} and <b>${stats.eventStats.userReported}</b>
+          ${usePlural('user', stats.eventStats.userReported)}.`,
         value: stats.eventStats.messageReported,
       },
       {
-        text: `Any chance you're a famous streamer? You toggled streamer mode <b>${stats.eventStats.streamerModeToggled}</b> times.`,
+        text: `Any chance you're a famous streamer? You toggled streamer mode <b>${stats.eventStats.streamerModeToggled}</b>
+          ${usePlural('time', stats.eventStats.streamerModeToggled)}.`,
         value: stats.eventStats.streamerModeToggled,
       },
       {
-        text: `A gamer, eh? Discord detected <b>${stats.eventStats.gameLaunched}</b> game launches.`,
+        text: `A gamer, eh? Discord detected <b>${stats.eventStats.gameLaunched}</b> game ${usePlural('launch', stats.eventStats.gameLaunched, 'launches')}.`,
         value: stats.eventStats.gameLaunched,
       },
       {
         text: [
-          `Gotta stay up to date: You switched avatars <b>${stats.eventStats.avatarUpdated}</b> times.`,
-          `Same thing goes for your status: <b>${stats.eventStats.statusUpdated}</b> updates.`,
+          `Gotta stay up to date: You switched avatars <b>${stats.eventStats.avatarUpdated}</b> ${usePlural('time', stats.eventStats.avatarUpdated)}.`,
+          `Same thing goes for your status: <b>${stats.eventStats.statusUpdated}</b> ${usePlural('update', stats.eventStats.statusUpdated)}.`,
         ],
         value: stats.eventStats.avatarUpdated,
       },
       {
-        text: `Uh-oh! Looks like Discord ran into <b>${stats.eventStats.errorDetected}</b> errors or crashes for you.`,
+        text: `Uh-oh! Looks like Discord ran into <b>${stats.eventStats.errorDetected}</b>
+          ${usePlural('error or crash', stats.eventStats.errorDetected, 'errors or crashes')} for you.`,
         value: stats.eventStats.errorDetected,
       },
       {
-        text: `And overall, Discord tried to sell you something <b>${stats.eventStats.promotionShown}</b> times.`,
+        text: `And overall, Discord tried to sell you something <b>${stats.eventStats.promotionShown}</b> ${usePlural('time', stats.eventStats.promotionShown)}.`,
         value: stats.eventStats.promotionShown,
       },
     ];

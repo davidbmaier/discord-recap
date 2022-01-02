@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import DataField from './DataField';
+import { usePlural } from '../lib/utils';
 
 const MessageCount = (props) => {
   const {
@@ -19,16 +20,18 @@ const MessageCount = (props) => {
   return (
     <div className="dr-messagecount">
       <DataField
-        valueText={`You have sent <b>${messageCount}</b> messages${context ? ` ${context}` : ''}.`}
-        subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b> messages per day between your first and your latest one.`}
+        valueText={`You have sent <b>${messageCount}</b>
+          ${usePlural('message', messageCount)}${context ? ` ${context}` : ''}.`}
+        subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b>
+          ${usePlural('message', getAverageMessageCountPerDay())} per day between your first and your latest one.`}
         value={messageCount}
       />
       <DataField
-        valueText={`You wrote <b>${wordCount}</b> words.`}
+        valueText={`You wrote <b>${wordCount}</b> ${usePlural('word', wordCount)}.`}
         value={wordCount}
       />
       <DataField
-        valueText={`That's a total of <b>${characterCount}</b> characters.`}
+        valueText={`That's a total of <b>${characterCount}</b> ${usePlural('character', characterCount)}.`}
         value={characterCount}
       />
     </div>

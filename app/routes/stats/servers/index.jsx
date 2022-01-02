@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'remix';
 
 import { getStats } from '../../../lib/store';
-import { cleanChartData } from '../../../lib/stats/utils';
+import { cleanChartData, usePlural } from '../../../lib/utils';
 import TopList from '../../../components/TopList';
 import Row from '../../../components/Row';
 import Tile from '../../../components/Tile';
@@ -37,12 +37,12 @@ export default function Servers() {
           <Row>
             <Tile flex={3}>
               <DataField
-                valueText={`You're a member of <b>${stats.count}</b> servers.`}
-                subtitle={`Seems like you've muted <b>${stats.mutedCount}</b> servers - that includes ones you're not in anymore.`}
+                valueText={`You're a member of <b>${stats.count}</b> ${usePlural('server', stats.count)}.`}
+                subtitle={`Seems like you've muted <b>${stats.mutedCount}</b> ${usePlural('server', stats.mutedCount)} - that includes ones you're not in anymore.`}
                 value={stats.count}
               />
               <DataField
-                valueText={`In total, you've spoken in <b>${stats.channelCount}</b> channels.`}
+                valueText={`In total, you've spoken in <b>${stats.channelCount}</b> ${usePlural('channel', stats.channelCount)}.`}
                 value={stats.channelCount}
               />
             </Tile>

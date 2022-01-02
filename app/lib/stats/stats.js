@@ -3,7 +3,7 @@ import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
 import {
   incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage,
-} from './utils';
+} from '../utils';
 import { storeStats } from '../store';
 import {
   channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes, getBaseStats, emoteRegex, mentionRegex,
