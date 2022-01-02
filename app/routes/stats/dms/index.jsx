@@ -6,7 +6,7 @@ import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { MdOutlineBlock } from 'react-icons/md';
 
 import { getStats } from '../../../lib/store';
-import { cleanChartData, usePlural } from '../../../lib/utils';
+import { cleanChartData, usePlural, formatNumber } from '../../../lib/utils';
 import TopList from '../../../components/TopList';
 import Row from '../../../components/Row';
 import Tile from '../../../components/Tile';
@@ -42,18 +42,18 @@ export default function DMs() {
             <Row>
               <Tile flex={3}>
                 <DataField
-                  valueText={`You've talked in <b>${stats.count}</b> ${usePlural('DM', stats.count, 'different DMs')}.`}
-                  subtitle={`<b>${stats.userCount}</b> of those were individual users.`}
+                  valueText={`You've talked in <b>${formatNumber(stats.count)}</b> ${usePlural('DM', stats.count, 'different DMs')}.`}
+                  subtitle={`<b>${formatNumber(stats.userCount)}</b> of those were individual users.`}
                   value={stats.count}
                   icon={<BsPerson />}
                 />
                 <DataField
-                  valueText={`In total, you made <b>${stats.friendCount}</b> ${usePlural('friend', stats.friendCount)}.`}
+                  valueText={`In total, you made <b>${formatNumber(stats.friendCount)}</b> ${usePlural('friend', stats.friendCount)}.`}
                   value={stats.friendCount}
                   icon={<AiOutlineUsergroupAdd />}
                 />
                 <DataField
-                  valueText={`But you also blocked <b>${stats.blockedCount}</b> ${usePlural('person', stats.friendCount, 'people')}.`}
+                  valueText={`But you also blocked <b>${formatNumber(stats.blockedCount)}</b> ${usePlural('person', stats.friendCount, 'people')}.`}
                   value={stats.blockedCount}
                   icon={<MdOutlineBlock />}
                 />

@@ -17,7 +17,7 @@ import { VscReport, VscError } from 'react-icons/vsc';
 import { FiMonitor } from 'react-icons/fi';
 
 import { getStats } from '../../lib/store';
-import { cleanChartData, usePlural } from '../../lib/utils';
+import { cleanChartData, usePlural, formatNumber } from '../../lib/utils';
 import Row from '../../components/Row';
 import Tile from '../../components/Tile';
 import DataField from '../../components/DataField';
@@ -43,34 +43,37 @@ export default function Stats() {
   const getMessageDataFields = () => {
     const messages = [
       {
-        text: `Overall, you pinged <b>${stats.messageStats.mentionCount}</b>
+        text: `Overall, you pinged <b>${formatNumber(stats.messageStats.mentionCount)}</b>
           ${usePlural('person, role or channel', stats.messageStats.mentionCount, 'people, roles and channels')}.`,
         value: stats.messageStats.mentionCount,
         icon: <GoMention />,
       },
       {
-        text: `Message wasn't perfect? You edited your messages <b>${stats.eventStats.messageEdited}</b> ${usePlural('time', stats.eventStats.messageEdited)}.`,
+        text: `Message wasn't perfect? You edited your messages <b>${formatNumber(stats.eventStats.messageEdited)}</b> ${usePlural('time', stats.eventStats.messageEdited)}.`,
         value: stats.eventStats.messageEdited,
         icon: <AiOutlineEdit />,
       },
       {
-        text: `Oops, looks like you deleted <b>${stats.eventStats.messageDeleted}</b> of your messages.`,
+        text: `Oops, looks like you deleted <b>${formatNumber(stats.eventStats.messageDeleted)}</b> of your messages.`,
         value: stats.eventStats.messageDeleted,
         icon: <AiOutlineDelete />,
       },
       {
-        text: `A fan of emotes? You used a total of <b>${stats.messageStats.emoteCount}</b> in your messages.`,
+        text: [
+          `A fan of emotes? You used a total of <b>${formatNumber(stats.messageStats.emoteCount)}</b> in your messages.`,
+          `That's one every <b>${Math.floor((stats.messageStats.messageCount / stats.messageStats.emoteCount) * 100) / 100}</b> messages.`,
+        ],
         value: stats.messageStats.emoteCount,
         icon: <BsEmojiSmile />,
       },
       {
-        text: `Reactions are a different story - you used <b>${stats.eventStats.reactionAdded}</b> of those.`,
+        text: `Reactions are a different story - you used <b>${formatNumber(stats.eventStats.reactionAdded)}</b> of those.`,
         value: stats.eventStats.reactionAdded,
         icon: <MdPlusOne />,
       },
       {
-        text: `You opened <b>${stats.eventStats.inviteOpened}</b>
-          ${usePlural('invite', stats.eventStats.inviteOpened)}, and sent out <b>${stats.eventStats.inviteSent}</b> of your own.`,
+        text: `You opened <b>${formatNumber(stats.eventStats.inviteOpened)}</b>
+          ${usePlural('invite', stats.eventStats.inviteOpened)}, and sent out <b>${formatNumber(stats.eventStats.inviteSent)}</b> of your own.`,
         value: [
           stats.eventStats.inviteOpened, stats.eventStats.inviteSent,
         ],
@@ -78,9 +81,9 @@ export default function Stats() {
       },
       {
         text: [
-          `Sometimes everyone runs out of space: You ran into the message length limit <b>${stats.eventStats.messageLengthLimitReached}</b>
+          `Sometimes everyone runs out of space: You ran into the message length limit <b>${formatNumber(stats.eventStats.messageLengthLimitReached)}</b>
             ${usePlural('time', stats.eventStats.messageLengthLimitReached)}.`,
-          `There's also a limit for reactions - you reached that one <b>${stats.eventStats.reactionLimitReached}</b>
+          `There's also a limit for reactions - you reached that one <b>${formatNumber(stats.eventStats.reactionLimitReached)}</b>
             ${usePlural('time', stats.eventStats.reactionLimitReached)}.`,
         ],
         value: stats.eventStats.messageLengthLimitReached,
@@ -88,18 +91,17 @@ export default function Stats() {
       },
       {
         text: [
-          `Threads are still fairly new - you joined <b>${stats.eventStats.threadJoined}</b> of those.`,
-          `And you used <b>${stats.eventStats.slashCommandUsed}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
+          `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
+          `And you used <b>${formatNumber(stats.eventStats.slashCommandUsed)}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
         ],
         value: stats.eventStats.threadJoined,
         icon: <AiOutlineExport />,
       },
       {
-        text: `See something you like? You saved <b>${stats.eventStats.imageSaved}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
+        text: `See something you like? You saved <b>${formatNumber(stats.eventStats.imageSaved)}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
         value: stats.eventStats.imageSaved,
         icon: <MdSaveAlt />,
       },
-
     ];
 
     return (
@@ -125,12 +127,12 @@ export default function Stats() {
   const getMetaDataFields = () => {
     const messages = [
       {
-        text: `You joined a voice channel <b>${stats.eventStats.voiceChannelJoined}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
+        text: `You joined a voice channel <b>${formatNumber(stats.eventStats.voiceChannelJoined)}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
         value: stats.eventStats.voiceChannelJoined,
         icon: <HiOutlinePhone />,
       },
       {
-        text: `Overall, you started talking <b>${stats.eventStats.startedSpeaking}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
+        text: `Overall, you started talking <b>${formatNumber(stats.eventStats.startedSpeaking)}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
         value: stats.eventStats.startedSpeaking,
         icon: <BiUserVoice />,
       },
@@ -142,65 +144,68 @@ export default function Stats() {
         icon: <MdOutlineDarkMode />,
       },
       {
-        text: `In total, you spent <b>$${stats.totalPaymentAmount / 100}</b> on Discord.`,
+        text: `In total, you spent <b>$${formatNumber(stats.totalPaymentAmount / 100)}</b> on Discord.`,
         value: 'true', // no value check needed, 0 is worth showing
         icon: <FaDollarSign />,
       },
       {
-        text: `You opened Discord <b>${stats.eventStats.appOpened}</b> ${usePlural('time', stats.eventStats.appOpened)}.`,
+        text: `You opened Discord <b>${formatNumber(stats.eventStats.appOpened)}</b> ${usePlural('time', stats.eventStats.appOpened)}.`,
         value: stats.eventStats.appOpened,
         icon: <BsWindow />,
       },
       {
-        text: `Who rang? You clicked <b>${stats.eventStats.notificationClicked}</b> ${usePlural('notification', stats.eventStats.notificationClicked)}.`,
+        text: `Who rang? You clicked <b>${formatNumber(stats.eventStats.notificationClicked)}</b> ${usePlural('notification', stats.eventStats.notificationClicked)}.`,
         value: stats.eventStats.notificationClicked,
         icon: <IoNotificationsOutline />,
       },
       {
-        text: `Looking for something? You started <b>${stats.eventStats.searchStarted}</b> ${usePlural('search', stats.eventStats.searchStarted, 'searches')}.`,
+        text: `Looking for something? You started <b>${formatNumber(stats.eventStats.searchStarted)}</b> ${usePlural('search', stats.eventStats.searchStarted, 'searches')}.`,
         value: stats.eventStats.searchStarted,
         icon: <BsSearch />,
       },
       {
-        text: `Seems like you know your way around! You used <b>${stats.eventStats.keyboardShortcutUsed}</b> keyboard
+        text: `Seems like you know your way around! You used <b>${formatNumber(stats.eventStats.keyboardShortcutUsed)}</b> keyboard
           ${usePlural('shortcut', stats.eventStats.keyboardShortcutUsed)}.`,
         value: stats.eventStats.keyboardShortcutUsed,
         icon: <MdOutlineKeyboard />,
       },
       {
-        text: `Thanks for keeping an eye out and reporting <b>${stats.eventStats.messageReported}</b>
-          ${usePlural('message', stats.eventStats.messageReported)} and <b>${stats.eventStats.userReported}</b>
+        text: `Thanks for keeping an eye out and reporting <b>${formatNumber(stats.eventStats.messageReported)}</b>
+          ${usePlural('message', stats.eventStats.messageReported)} and <b>${formatNumber(stats.eventStats.userReported)}</b>
           ${usePlural('user', stats.eventStats.userReported)}.`,
         value: stats.eventStats.messageReported,
         icon: <VscReport />,
       },
       {
-        text: `Any chance you're a famous streamer? You toggled streamer mode <b>${stats.eventStats.streamerModeToggled}</b>
+        text: `Any chance you're a famous streamer? You toggled streamer mode <b>${formatNumber(stats.eventStats.streamerModeToggled)}</b>
           ${usePlural('time', stats.eventStats.streamerModeToggled)}.`,
         value: stats.eventStats.streamerModeToggled,
         icon: <FiMonitor />,
       },
       {
-        text: `A gamer, eh? Discord detected <b>${stats.eventStats.gameLaunched}</b> game ${usePlural('launch', stats.eventStats.gameLaunched, 'launches')}.`,
+        text: `A gamer, eh? Discord detected <b>${formatNumber(stats.eventStats.gameLaunched)}</b> game
+          ${usePlural('launch', stats.eventStats.gameLaunched, 'launches')}.`,
         value: stats.eventStats.gameLaunched,
         icon: <IoGameControllerOutline />,
       },
       {
         text: [
-          `Gotta stay up to date: You switched avatars <b>${stats.eventStats.avatarUpdated}</b> ${usePlural('time', stats.eventStats.avatarUpdated)}.`,
-          `Same thing goes for your status: <b>${stats.eventStats.statusUpdated}</b> ${usePlural('update', stats.eventStats.statusUpdated)}.`,
+          `Gotta stay up to date: You switched avatars <b>${formatNumber(stats.eventStats.avatarUpdated)}</b>
+            ${usePlural('time', stats.eventStats.avatarUpdated)}.`,
+          `Same thing goes for your status: <b>${formatNumber(stats.eventStats.statusUpdated)}</b> ${usePlural('update', stats.eventStats.statusUpdated)}.`,
         ],
         value: stats.eventStats.avatarUpdated,
         icon: <MdOutlineUpdate />,
       },
       {
-        text: `Uh-oh! Looks like Discord ran into <b>${stats.eventStats.errorDetected}</b>
+        text: `Uh-oh! Looks like Discord ran into <b>${formatNumber(stats.eventStats.errorDetected)}</b>
           ${usePlural('error or crash', stats.eventStats.errorDetected, 'errors or crashes')} for you.`,
         value: stats.eventStats.errorDetected,
         icon: <VscError />,
       },
       {
-        text: `And overall, Discord tried to sell you something <b>${stats.eventStats.promotionShown}</b> ${usePlural('time', stats.eventStats.promotionShown)}.`,
+        text: `And overall, Discord tried to sell you something <b>${formatNumber(stats.eventStats.promotionShown)}</b>
+          ${usePlural('time', stats.eventStats.promotionShown)}.`,
         value: stats.eventStats.promotionShown,
         icon: <BsMegaphone />,
       },

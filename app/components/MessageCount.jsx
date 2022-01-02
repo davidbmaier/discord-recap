@@ -7,7 +7,7 @@ import { BiBook } from 'react-icons/bi';
 import { BsFileText } from 'react-icons/bs';
 
 import DataField from './DataField';
-import { usePlural } from '../lib/utils';
+import { usePlural, formatNumber } from '../lib/utils';
 
 const MessageCount = (props) => {
   const {
@@ -24,7 +24,7 @@ const MessageCount = (props) => {
   return (
     <div className="dr-messagecount">
       <DataField
-        valueText={`You have sent <b>${messageCount}</b>
+        valueText={`You have sent <b>${formatNumber(messageCount)}</b>
           ${usePlural('message', messageCount)}${context ? ` ${context}` : ''}.`}
         subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b>
           ${usePlural('message', getAverageMessageCountPerDay())} per day between your first and your latest one.`}
@@ -32,12 +32,12 @@ const MessageCount = (props) => {
         icon={<TiMessages />}
       />
       <DataField
-        valueText={`You wrote <b>${wordCount}</b> ${usePlural('word', wordCount)}.`}
+        valueText={`You wrote <b>${formatNumber(wordCount)}</b> ${usePlural('word', wordCount)}.`}
         value={wordCount}
         icon={<BiBook />}
       />
       <DataField
-        valueText={`That's a total of <b>${characterCount}</b> ${usePlural('character', characterCount)}.`}
+        valueText={`That's a total of <b>${formatNumber(characterCount)}</b> ${usePlural('character', characterCount)}.`}
         value={characterCount}
         icon={<BsFileText />}
       />
