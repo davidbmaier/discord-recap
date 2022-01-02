@@ -1,54 +1,27 @@
 # Discord Recap
 
-## Investigation
+A tool to explore your Discord data package.
 
-- go through each of the activity files and see if there's any interesting event types
-- maybe go through attachments (for a "amount of MB uploaded" stat)
+## What can this do?
 
+The web app scans through your Discord data package and extrapolates a ton of information about:
 
-## Data fields
+- your account
+- your servers
+- your channels
+- your DMs
+- your messages
+- your activity
 
-- Accordions
-  - events (pick three to highlight)
-    - exclude:
-      - reactionAdded
-      - messageEdited
-      - messageDeleted
-      - voiceChannelJoined
-      - voiceDMJoined
+and a bunch more!
 
-  - topWords (highlight top 3)
-  - topEmotes (highlight top 3)
-  - payments (highlight total and number of items)
-- Data Fields (numbers)
-  - messageCount
-  - wordCount
-  - characterCount
+Everything happens in the browser, and no external requests are made (apart from fetching some Discord emoji).
 
-  - mentionCount
-  - emoteCount
-  - reactionAdded
-  - messageEdited
-  - messageDeleted
+### Feature requests
 
-  - voiceChannelJoined
-  - voiceDMJoined
+The web app tries to capture as many stats as possible - if you have any ideas for new features, please open an issue.
 
-  - sub-values
-    - serverCount
-    - channelCount
-    - mutedCount
+## Setup
 
-    - userCount
-    - blockedCount
-    - friendCount
-- Metadata
-  - userID
-  - userTag
-  - darkMode
-  - connections (not sure how to display this yet)
-  - firstMessage
-- graphs
-  - messageCountPerHour
-  - messageCountPerDay
-  - messageCountPerYear
+The web app uses [Remix](https://remix.run) and [React](https://reactjs.org).
+To get started, simply install the dependencies (`npm i`) and run the server (`npm run dev`).
