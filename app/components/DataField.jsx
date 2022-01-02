@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DataField = (props) => {
-  const { valueText, subtitle, value } = props;
+  const {
+    valueText, subtitle, value, icon,
+  } = props;
 
   const isValid = () => {
     let invalid = false;
@@ -15,20 +17,23 @@ const DataField = (props) => {
     return !invalid;
   };
 
-  // TODO: add icon prop
   return (
     <div>
       {
         isValid() && (
           <div className="dr-datafield">
-            <div className="dr-datafield-value">
-              <h2 dangerouslySetInnerHTML={{ __html: valueText }} />
-            </div>
-            { subtitle && (
-            <div className="dr-datafield-subtitle">
-              <h3 dangerouslySetInnerHTML={{ __html: subtitle }} />
-            </div>
-            )}
+            <span className="dr-datafield-icon">{icon}</span>
+            <span>
+              <div className="dr-datafield-value">
+                <h2 dangerouslySetInnerHTML={{ __html: valueText }} />
+              </div>
+              { subtitle && (
+              <div className="dr-datafield-subtitle">
+                <h3 dangerouslySetInnerHTML={{ __html: subtitle }} />
+              </div>
+              )}
+            </span>
+
           </div>
         )
       }
@@ -48,6 +53,7 @@ DataField.propTypes = {
       PropTypes.arrayOf(PropTypes.number),
     ],
   ),
+  icon: PropTypes.node,
 };
 
 export default DataField;

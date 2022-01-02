@@ -2,6 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TiMessages } from 'react-icons/ti';
+import { BiBook } from 'react-icons/bi';
+import { BsFileText } from 'react-icons/bs';
+
 import DataField from './DataField';
 import { usePlural } from '../lib/utils';
 
@@ -25,14 +29,17 @@ const MessageCount = (props) => {
         subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b>
           ${usePlural('message', getAverageMessageCountPerDay())} per day between your first and your latest one.`}
         value={messageCount}
+        icon={<TiMessages />}
       />
       <DataField
         valueText={`You wrote <b>${wordCount}</b> ${usePlural('word', wordCount)}.`}
         value={wordCount}
+        icon={<BiBook />}
       />
       <DataField
         valueText={`That's a total of <b>${characterCount}</b> ${usePlural('character', characterCount)}.`}
         value={characterCount}
+        icon={<BsFileText />}
       />
     </div>
   );

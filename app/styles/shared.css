@@ -130,8 +130,16 @@ p {
 }
 
 .dr-datafield {
-  margin-bottom: 10px;
-  ;
+  margin-bottom: 15px;
+  display: flex;
+}
+.dr-datafield-icon {
+  flex: 0 0 24px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
 }
 
 .dr-firstmessage-content {
@@ -219,7 +227,17 @@ p {
 }
 
 .dr-sectionlink {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dr-sectionlink-icon {
+  font-size: 30px;
+  flex: 0 0 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
 }
 
 .dr-landing-wrapper {

@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'remix';
 
 const DataField = (props) => {
-  const { title, link } = props;
+  const { title, link, icon } = props;
 
   return (
     <h2 className="dr-sectionlink">
+      <span className="dr-sectionlink-icon">
+        {icon}
+      </span>
       <Link to={link}>
         {title}
       </Link>
@@ -19,6 +22,7 @@ const DataField = (props) => {
 DataField.propTypes = {
   title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
+  icon: PropTypes.node.isRequired,
 };
 
 export default DataField;

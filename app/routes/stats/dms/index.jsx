@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'remix';
 
+import { BsPerson } from 'react-icons/bs';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { MdOutlineBlock } from 'react-icons/md';
+
 import { getStats } from '../../../lib/store';
 import { cleanChartData, usePlural } from '../../../lib/utils';
 import TopList from '../../../components/TopList';
@@ -41,14 +45,17 @@ export default function DMs() {
                   valueText={`You've talked in <b>${stats.count}</b> ${usePlural('DM', stats.count, 'different DMs')}.`}
                   subtitle={`<b>${stats.userCount}</b> of those were individual users.`}
                   value={stats.count}
+                  icon={<BsPerson />}
                 />
                 <DataField
                   valueText={`In total, you made <b>${stats.friendCount}</b> ${usePlural('friend', stats.friendCount)}.`}
                   value={stats.friendCount}
+                  icon={<AiOutlineUsergroupAdd />}
                 />
                 <DataField
                   valueText={`But you also blocked <b>${stats.blockedCount}</b> ${usePlural('person', stats.friendCount, 'people')}.`}
                   value={stats.blockedCount}
+                  icon={<MdOutlineBlock />}
                 />
               </Tile>
               <Tile flex={3}>

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'remix';
 
+import { MdGroups } from 'react-icons/md';
+import { BiFoodMenu } from 'react-icons/bi';
+
 import { getStats } from '../../../lib/store';
 import { cleanChartData, usePlural } from '../../../lib/utils';
 import TopList from '../../../components/TopList';
@@ -40,10 +43,12 @@ export default function Servers() {
                 valueText={`You're a member of <b>${stats.count}</b> ${usePlural('server', stats.count)}.`}
                 subtitle={`Seems like you've muted <b>${stats.mutedCount}</b> ${usePlural('server', stats.mutedCount)} - that includes ones you're not in anymore.`}
                 value={stats.count}
+                icon={<MdGroups />}
               />
               <DataField
                 valueText={`In total, you've spoken in <b>${stats.channelCount}</b> ${usePlural('channel', stats.channelCount)}.`}
                 value={stats.channelCount}
+                icon={<BiFoodMenu />}
               />
             </Tile>
             <Tile flex={3}>
