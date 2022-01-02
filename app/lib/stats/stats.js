@@ -81,13 +81,18 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
   // get global message stats
   messageStats.directMessages.userCount = dmChannels
-    .filter((channel) => channel.type === channelTypes.DM).length;
+    ? dmChannels.filter((channel) => channel.type === channelTypes.DM).length
+    : 0;
   messageStats.directMessages.friendCount = userData.relationships
-    .filter((relationship) => relationship.type === relationshipTypes.friend).length;
+    ? userData.relationships.filter((relationship) => relationship.type === relationshipTypes.friend).length
+    : 0;
   messageStats.directMessages.blockedCount = userData.relationships
-    .filter((relationship) => relationship.type === relationshipTypes.blocked).length;
+    ? userData.relationships.filter((relationship) => relationship.type === relationshipTypes.blocked).length
+    : 0;
   messageStats.directMessages.noteCount = Object.keys(userData.notes).length;
-  messageStats.serverMessages.mutedCount = userData.guild_settings.filter((setting) => setting.muted).length;
+  messageStats.serverMessages.mutedCount = userData.guild_settings
+    ? userData.guild_settings.filter((setting) => setting.muted).length
+    : 0;
 
   const getMessageStats = (channelData, message) => {
     const isDM = channelData.type === channelTypes.DM || channelData.type === channelTypes.groupDM;
@@ -113,7 +118,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           dmChannelStats.userID = channelData.recipientIDs.find((recipient) => recipient.id !== stats.userID);
           // TODO: resolve user details by ID through some API
         } else {
-          dmChannelStats.userIDs = channelData.recipientIDs.filter((recipient) => recipient.id !== stats.userID);
+          dmChannelStats.userIDs = channelData.recipientIDs?.filter((recipient) => recipient.id !== stats.userID);
         }
 
         messageStats.directMessages.channels.push(dmChannelStats);
