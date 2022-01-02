@@ -20,6 +20,38 @@ export function meta() {
   return { title: 'Discord Recap' };
 }
 
+// eslint-disable-next-line react/prop-types -- ErrorBoundary always gets an error
+export function ErrorBoundary({ error }) {
+  console.error(error);
+  return (
+    <html lang="en">
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="dr-landing-wrapper">
+          <div className="dr-landing-tile">
+            <h1>Uh-oh, looks like something went wrong.</h1>
+            <div className="dr-landing-text">
+              Please report this to
+              {' '}
+              <b>@tooInfinite</b>
+              {' '}
+              or open an issue on the Github repository.
+            </div>
+            <div className="dr-landing-text">
+              You can find the error in the browser console (F12 - Console).
+            </div>
+          </div>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
 export function CatchBoundary() {
   const caught = useCatch();
 

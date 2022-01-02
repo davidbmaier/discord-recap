@@ -36,7 +36,6 @@ export default function Home() {
             : <button type="button" className="dr-landing-button" onClick={fileUpload}>Upload your package!</button>
         }
       </div>
-
     </div>
   );
 }
