@@ -70,7 +70,7 @@ export default function Home() {
                 {
                 loading
                   ? <div className="dr-landing-loading">Preparing your recap...</div>
-                  : <button type="button" className="dr-landing-button" onClick={fileUpload}>Upload your package!</button>
+                  : <button type="button" className="dr-landing-button" onClick={fileUpload}>Get your package analyzed!</button>
               }
               </div>
             </Tile>
