@@ -39,11 +39,17 @@ export const collectMessages = async (files) => {
     ) {
       // dms
       channelData.name = channelMetadata.name || description || 'Unknown conversation';
+      if (channelData.name === 'Unknown conversation') {
+        channelData.unknown = true;
+      }
       channelData.recipientIDs = channelMetadata.recipients;
       dmChannels.push(channelData);
     } else {
       // guild channels and unknowns
       channelData.name = channelMetadata.name || 'Unknown channel';
+      if (channelData.name === 'Unknown channel') {
+        channelData.unknown = true;
+      }
       channelData.guild = channelMetadata.guild;
       guildChannels.push(channelData);
     }

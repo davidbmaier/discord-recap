@@ -112,6 +112,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         dmChannelStats = {
           id: channelData.id,
           name: channelData.name,
+          unknown: channelData.unknown,
           ...getBaseStats(),
         };
         if (channelData.type === channelTypes.DM) {
@@ -142,6 +143,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         serverChannelStats = {
           id: channelData.id,
           name: channelData.name,
+          unknown: channelData.unknown,
           serverID: channelData.guild?.id,
           serverName: channelData.guild?.name,
           ...getBaseStats(),
@@ -279,6 +281,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     if (!server.id) {
       const updatedServer = server;
       updatedServer.name = `Unknown/Deleted Server ${unknownServerID}`;
+      updatedServer.unknown = true;
       updatedServer.id = `unknown${unknownServerID}`;
     }
   });

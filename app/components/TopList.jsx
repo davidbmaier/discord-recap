@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'remix';
 
+import { GrCircleQuestion } from 'react-icons/gr';
+
 import Accordion from './Accordion';
 import Emote from './Emote';
+import Tooltip from './Tooltip';
 
 const TopList = (props) => {
   const {
@@ -42,6 +45,11 @@ const TopList = (props) => {
                           </span>
                         )
                     }
+                    {
+                      item.unknown && (
+                        <Tooltip icon={<GrCircleQuestion />} text="Either you left, or it got deleted." />
+                      )
+                    }
                   </span>
                   <span className="dr-toplist-item-value">
                     {item.value}
@@ -64,6 +72,7 @@ TopList.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     link: PropTypes.string,
+    unknown: PropTypes.bool,
   })).isRequired,
   title: PropTypes.string.isRequired,
   onToggle: PropTypes.func,

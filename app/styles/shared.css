@@ -312,3 +312,37 @@ p {
 .dr-breadcrumb {
   margin-left: 20px;
 }
+
+.dr-tooltip {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.dr-tooltip svg path {
+  stroke: var(--white);
+}
+.dr-tooltip .dr-tooltip-text {
+  visibility: hidden;
+  width: 250px;
+  font-size: 15px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 5px;
+
+  position: absolute;
+  z-index: 1;
+}
+.dr-tooltip:hover .dr-tooltip-text {
+  visibility: visible;
+}
+.dr-tooltip .dr-tooltip-right {
+  left: 105%;
+}
+.dr-tooltip .dr-tooltip-left {
+  right: 105%;
+}

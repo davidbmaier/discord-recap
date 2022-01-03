@@ -18,6 +18,7 @@ export default function Channels() {
         value: `${channel.messageCount} messages`,
         count: channel.messageCount,
         link: `/stats/servers/${server.id}/${channel.id}`,
+        unknown: channel.unknown,
       }));
       return channels;
     }).flat().sort(({ count: value1 }, { count: value2 }) => value2 - value1);

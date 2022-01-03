@@ -26,6 +26,7 @@ export default function Server() {
       value: `${channel.messageCount} messages`,
       count: channel.messageCount,
       link: `/stats/servers/${serverID}/${channel.id}`,
+      unknown: channel.unknown,
     })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
     setStats(serverStats);
   }, []);
