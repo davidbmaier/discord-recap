@@ -30,7 +30,7 @@ export default function ServerChannel() {
         stats && (
           <>
             <h1>{`#${stats.channels[0].name} (${stats.name})`}</h1>
-            <Link to={`/stats/servers/${serverID}`}>Back to server</Link>
+            <Link className="dr-breadcrumb" to={`/stats/servers/${serverID}`}>Back to server</Link>
             <Row>
               <Tile flex={3}>
                 <MessageCount

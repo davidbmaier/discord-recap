@@ -248,14 +248,6 @@ export default function Stats() {
               </Tile>
             </Row>
             <Row>
-              <Tile flex={3}>
-                {getMessageDataFields()}
-              </Tile>
-              <Tile flex={3}>
-                {getMetaDataFields()}
-              </Tile>
-            </Row>
-            <Row>
               <Tile flex={1}>
                 <SectionLink title="Explore your DMs!" link="/stats/dms" icon={<BsPerson />} />
               </Tile>
@@ -264,6 +256,14 @@ export default function Stats() {
               </Tile>
               <Tile flex={1}>
                 <SectionLink title="Check out your top channels!" link="/stats/channels" icon={<BiFoodMenu />} />
+              </Tile>
+            </Row>
+            <Row>
+              <Tile flex={3}>
+                {getMessageDataFields()}
+              </Tile>
+              <Tile flex={3}>
+                {getMetaDataFields()}
               </Tile>
             </Row>
             <Row>

@@ -27,7 +27,7 @@ export default function Channels() {
   return (
     <div>
       <h1>Your channels</h1>
-      <Link to="/stats">Back to Stats</Link>
+      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
       { stats && (
         <Row>
           <Tile flex={1}>

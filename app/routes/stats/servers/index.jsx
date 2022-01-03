@@ -34,7 +34,7 @@ export default function Servers() {
   return (
     <div>
       <h1>Your servers</h1>
-      <Link to="/stats">Back to Stats</Link>
+      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
       { stats && (
         <>
           <Row>

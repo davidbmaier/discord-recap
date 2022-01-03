@@ -36,7 +36,7 @@ export default function Server() {
         stats && (
           <>
             <h1>{stats.name}</h1>
-            <Link to="/stats/servers">Back to servers</Link>
+            <Link className="dr-breadcrumb" to="/stats/servers">Back to servers</Link>
             <Row>
               <Tile flex={3}>
                 <MessageCount

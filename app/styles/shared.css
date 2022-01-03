@@ -39,6 +39,10 @@ button {
 button:hover {
   cursor: pointer;
 }
+button:focus {
+  outline: none;
+  border: 0;
+}
 
 a {
   color: var(--blurple);
@@ -228,6 +232,7 @@ p {
 }
 
 .dr-sectionlink {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -299,4 +304,8 @@ p {
 }
 .dr-landing-paragraph {
   text-align: center;
+}
+
+.dr-breadcrumb {
+  margin-left: 20px;
 }

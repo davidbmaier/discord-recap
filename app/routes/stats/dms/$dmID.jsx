@@ -28,7 +28,7 @@ export default function DM() {
         stats && (
           <>
             <h1>{stats.name}</h1>
-            <Link to="/stats/dms">Back to DMs</Link>
+            <Link className="dr-breadcrumb" to="/stats/dms">Back to DMs</Link>
             <Row>
               <Tile flex={3}>
                 <MessageCount

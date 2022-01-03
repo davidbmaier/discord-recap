@@ -35,7 +35,7 @@ export default function DMs() {
   return (
     <div>
       <h1>Your DMs</h1>
-      <Link to="/stats">Back to Stats</Link>
+      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
       {
         stats && (
           <>
