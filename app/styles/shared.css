@@ -19,6 +19,8 @@
   --blurple: #5865F2;
   --white: #ffffff;
   --quote: #4f545c;
+
+  height: 100%;
 }
 
 body, html {
@@ -103,7 +105,7 @@ p {
 .dr-content-wrapper {
   margin: auto;
   width: 90%;
-  min-height: 90vh;
+  min-height: calc(100% - 140px);
 }
 
 .dr-row {
@@ -249,13 +251,15 @@ p {
 .dr-landing-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  align-items: flex-start;
+  height: calc(100% - 55px);
+  overflow-y: auto;
 }
 .dr-landing-tile {
   background-color: var(--background);
   padding: 10px;
   margin: 10px;
+  margin-top: 70px;
   border-radius: 10px;
   width: 70%;
   display: flex;
@@ -265,7 +269,6 @@ p {
 }
 .dr-landing-button {
   margin: 5px;
-  height: 30px;
   min-width: 70px;
   border-radius: 5px;
   background-color: var(--header);
@@ -293,8 +296,7 @@ p {
   align-items: center;
 }
 .dr-landing-footer {
-  position: absolute;
-  bottom: 0;
+  margin-top: 15px;
   height: 40px;
   background: var(--dark-background);
   width: 100%;

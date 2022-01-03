@@ -10,7 +10,7 @@ export default function StatsWrapper() {
   };
 
   return (
-    <div>
+    <>
       <div className="dr-header">
         <h2>Discord Recap</h2>
       </div>
@@ -20,6 +20,6 @@ export default function StatsWrapper() {
       <div className="dr-footer">
         <button type="button" onClick={() => resetData()}>Reset data</button>
       </div>
-    </div>
+    </>
   );
 }
