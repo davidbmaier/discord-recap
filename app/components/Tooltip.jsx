@@ -15,10 +15,10 @@ const Tooltip = (props) => {
   };
 
   return (
-    <div className="dr-tooltip">
+    <span className="dr-tooltip">
       {icon}
       <span className={getClassNames()}>{text}</span>
-    </div>
+    </span>
   );
 };
 

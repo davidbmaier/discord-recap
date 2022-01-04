@@ -276,13 +276,12 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   });
 
   // go through servers without IDs and pull them together
-  const unknownServerID = 1;
   messageStats.serverMessages.servers.forEach((server) => {
     if (!server.id) {
       const updatedServer = server;
-      updatedServer.name = `Unknown/Deleted Server ${unknownServerID}`;
+      updatedServer.name = 'Unknown/Deleted Servers';
       updatedServer.unknown = true;
-      updatedServer.id = `unknown${unknownServerID}`;
+      updatedServer.id = 'unknown';
     }
   });
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLoaderData, Link } from 'remix';
 
+import { GrCircleQuestion } from 'react-icons/gr';
+
 import { getStats } from '../../../../lib/store';
 import { cleanChartData } from '../../../../lib/utils';
 import Row from '../../../../components/Row';
@@ -10,6 +12,7 @@ import FirstMessage from '../../../../components/FirstMessage';
 import MessageCharts from '../../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../../components/TopWordsAndEmotes';
 import TopList from '../../../../components/TopList';
+import Tooltip from '../../../../components/Tooltip';
 
 export const loader = async ({ params }) => params.serverID;
 
@@ -36,7 +39,12 @@ export default function Server() {
       {
         stats && (
           <>
-            <h1>{stats.name}</h1>
+            <h1>
+              {stats.name}
+              { stats.unknown && (
+                <Tooltip icon={<GrCircleQuestion />} text="All unknown channels are grouped in this category - Discord's data doesn't allow for more details." />
+              )}
+            </h1>
             <Link className="dr-breadcrumb" to="/stats/servers">Back to servers</Link>
             <Row>
               <Tile flex={3}>
@@ -53,6 +61,7 @@ export default function Server() {
                 <FirstMessage
                   message={stats.firstMessage}
                   context="in this server"
+                  showChannel
                 />
               </Tile>
             </Row>

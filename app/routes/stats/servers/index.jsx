@@ -67,6 +67,8 @@ export default function Servers() {
               <FirstMessage
                 message={stats.firstMessage}
                 context="across all your servers"
+                showChannel
+                showServer
               />
             </Tile>
           </Row>

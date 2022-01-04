@@ -73,6 +73,7 @@ export default function DMs() {
                 <FirstMessage
                   message={stats.firstMessage}
                   context="across all your DMs"
+                  showChannel
                 />
               </Tile>
             </Row>

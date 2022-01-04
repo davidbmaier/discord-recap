@@ -36,7 +36,20 @@ const getPrivacyPolicy = () => {
   ));
 };
 
-export default function StatsWrapper() {
+const getAboutTheData = () => {
+  const paragraphs = [
+    'If you encounter any problems, feel free to open an issue ',
+    <b><a href="https://github.com/davidbmaier/discord-recap/issues">here</a></b>,
+    '.',
+    <br />,
+    'In the end, this project is just presenting the data as it finds it in your data package - there are no guarantees the data is accurate.',
+  ];
+  return paragraphs.map((paragraph) => (
+    <span key={paragraph}>{paragraph}</span>
+  ));
+};
+
+export default function About() {
   return (
     <>
       <div className="dr-landing-wrapper">
@@ -60,6 +73,13 @@ export default function StatsWrapper() {
             <Tile flex={1}>
               <div className="dr-landing-paragraph">
                 {getPrivacyPolicy()}
+              </div>
+            </Tile>
+          </Row>
+          <Row>
+            <Tile flex={1}>
+              <div className="dr-landing-paragraph">
+                {getAboutTheData()}
               </div>
             </Tile>
           </Row>

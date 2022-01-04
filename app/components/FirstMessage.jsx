@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { emoteRegex } from '../lib/constants';
+import { Link } from 'remix';
+import { channelTypes, emoteRegex } from '../lib/constants';
 import Emote from './Emote';
 
 const FirstMessage = (props) => {
-  const { message, context } = props;
+  const {
+    message, context, showChannel, showServer,
+  } = props;
 
   const formatDate = (date) => {
     const dateObject = new Date(date);
@@ -55,6 +58,27 @@ const FirstMessage = (props) => {
     return formattedMessageFragmentsWithLineBreaks;
   };
 
+  const getReference = () => {
+    const referenceParts = [
+      `Sent on ${formatDate(message.date)}`,
+    ];
+
+    if (showChannel) {
+      const isDM = message.channel.type === channelTypes.DM || message.channel.type === channelTypes.groupDM;
+
+      const channelLink = isDM ? `/stats/dms/${message.channel.id}` : `/stats/servers/${message.channel?.guild?.id}/${message.channel.id}`;
+      referenceParts.push(' in ');
+      referenceParts.push(<Link to={channelLink}>{`${!isDM && !message.channel.unknown ? '#' : ''}${message.channel.name}`}</Link>);
+    }
+    if (showServer && message.channel.guild) {
+      referenceParts.push(` (${message.channel.guild.name})`);
+    }
+
+    return referenceParts.map((paragraph) => (
+      <span key={paragraph}>{paragraph}</span>
+    ));
+  };
+
   return (
     <div className="dr-firstmessage">
       <h2>
@@ -64,7 +88,7 @@ const FirstMessage = (props) => {
         {formatMessage(message.content).map((messageFragment) => messageFragment)}
       </div>
       <div>
-        {`Sent on ${formatDate(message.date)}`}
+        {getReference()}
       </div>
     </div>
   );
@@ -78,9 +102,16 @@ FirstMessage.propTypes = {
       name: PropTypes.string.isRequired,
       type: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
+      unknown: PropTypes.bool,
+      guild: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      }),
     }).isRequired,
   }).isRequired,
   context: PropTypes.string.isRequired,
+  showChannel: PropTypes.bool,
+  showServer: PropTypes.bool,
 };
 
 export default FirstMessage;

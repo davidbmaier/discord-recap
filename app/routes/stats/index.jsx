@@ -239,6 +239,8 @@ export default function Stats() {
                 <FirstMessage
                   message={stats.messageStats.firstMessage}
                   context="across all of Discord"
+                  showChannel
+                  showServer
                 />
               </Tile>
               <Tile flex={2}>

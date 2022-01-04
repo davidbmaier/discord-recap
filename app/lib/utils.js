@@ -1,3 +1,5 @@
+import { channelTypes } from './constants';
+
 export const incrementTextStats = (category, wordLength, characterLength, messageTimestamp) => {
   const updatedCategory = category;
   updatedCategory.messageCount += 1;
@@ -37,19 +39,30 @@ export const incrementWordMatches = (category, word) => {
 };
 
 export const updateFirstAndLastMessage = (category, message, channelData, messageTimestamp) => {
+  const unknownData = {};
+  if (
+    (channelData.type !== channelTypes.DM && channelData.type !== channelTypes.groupDM)
+    && !channelData.guild
+  ) {
+    unknownData.guild = {
+      id: 'unknown',
+      name: 'Unknown/Deleted Servers',
+    };
+  }
+
   const updatedCategory = category;
   if (!updatedCategory.firstMessage || messageTimestamp < updatedCategory.firstMessage.date) {
     updatedCategory.firstMessage = {
       date: messageTimestamp,
       content: message.content,
-      channel: { ...channelData, messages: null },
+      channel: { ...channelData, messages: null, ...unknownData },
     };
   }
   if (!updatedCategory.lastMessage || messageTimestamp > updatedCategory.lastMessage.date) {
     updatedCategory.lastMessage = {
       date: messageTimestamp,
       content: message.content,
-      channel: { ...channelData, messages: null },
+      channel: { ...channelData, messages: null, ...unknownData },
     };
   }
 };
