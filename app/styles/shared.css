@@ -87,10 +87,10 @@ p {
 .dr-footer{
   height: 50px;
   background-color: var(--header);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 .dr-footer button {
   margin: 5px;

@@ -18,7 +18,13 @@ export default function StatsWrapper() {
         <Outlet />
       </div>
       <div className="dr-footer">
-        <button type="button" onClick={() => resetData()}>Reset data</button>
+        <span>
+          {'Made with ❤️ by '}
+          <b><a href="https://github.com/davidbmaier">David B. Maier</a></b>
+        </span>
+        <span>
+          <button type="button" onClick={() => resetData()}>Reset data</button>
+        </span>
       </div>
     </>
   );
