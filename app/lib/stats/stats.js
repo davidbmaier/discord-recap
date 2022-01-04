@@ -196,10 +196,11 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     words.forEach((word) => {
       if (
         !word.startsWith('<')
-          && !word.startsWith('https://')
-          && !word.startsWith('http://')
-          && word !== ''
-          && word !== '-'
+        && !word.startsWith('https://')
+        && !word.startsWith('http://')
+        && word !== ''
+        && word !== '-'
+        && word.length > 5
       ) {
         incrementWordMatches(messageStats, word);
         if (isDM) {

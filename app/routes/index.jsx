@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'remix';
 
+import { AiOutlineLoading } from 'react-icons/ai';
+
 import { extractPackage } from '../lib/extract';
 import { collectStats } from '../lib/stats/stats';
 import Row from '../components/Row';
@@ -8,16 +10,19 @@ import Tile from '../components/Tile';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handlePackage = async (file) => {
     try {
       setLoading(true);
+      setError();
       const extractedPackage = await extractPackage(file);
       await collectStats(extractedPackage);
       window.location.href = '/stats';
-    } catch (error) {
-      // TODO: use a proper error boundary
-      console.log('error', error);
+    } catch (packageError) {
+      setLoading(false);
+      setError(packageError);
+      console.error(packageError);
     }
   };
 
@@ -69,12 +74,38 @@ export default function Home() {
               <div className="dr-landing-loading-wrapper">
                 {
                 loading
-                  ? <div className="dr-landing-loading">Preparing your recap...</div>
+                  ? (
+                    <div className="dr-landing-loading">
+                      Preparing your recap...
+                      <span className="dr-landing-loading-icon">
+                        <AiOutlineLoading />
+                      </span>
+                    </div>
+                  )
                   : <button type="button" className="dr-landing-button" onClick={fileUpload}>Get your package analyzed!</button>
               }
               </div>
             </Tile>
           </Row>
+          {
+            error && (
+              <Row>
+                <Tile flex={1}>
+                  <div className="dr-landing-error">
+                    <div className="dr-landing-text">Uh-oh, looks like something went wrong.</div>
+                    <div className="dr-landing-text">
+                      Please report this by
+                      <b><a href="https://github.com/davidbmaier/discord-recap/issues"> opening an issue in the Github repository</a></b>
+                      .
+                    </div>
+                    <div className="dr-landing-text">
+                      You can find the error in the browser console (F12 - Console).
+                    </div>
+                  </div>
+                </Tile>
+              </Row>
+            )
+          }
         </div>
       </div>
       <div className="dr-landing-footer">

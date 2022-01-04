@@ -35,11 +35,9 @@ export function ErrorBoundary({ error }) {
           <div className="dr-landing-tile">
             <h1>Uh-oh, looks like something went wrong.</h1>
             <div className="dr-landing-text">
-              Please report this to
-              {' '}
-              <b>@tooInfinite</b>
-              {' '}
-              or open an issue on the Github repository.
+              Please report this by
+              <b><a href="https://github.com/davidbmaier/discord-recap/issues"> opening an issue in the Github repository</a></b>
+              .
             </div>
             <div className="dr-landing-text">
               You can find the error in the browser console (F12 - Console).

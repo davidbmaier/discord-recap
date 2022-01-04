@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'remix';
 
@@ -10,8 +10,24 @@ import Tooltip from './Tooltip';
 
 const TopList = (props) => {
   const {
-    title, items, onToggle, open,
+    title, tooltip, items, onToggle, open,
   } = props;
+
+  const [contentRef, setContentRef] = useState(null);
+
+  useEffect(() => {
+    if (contentRef) {
+      if (open) {
+        contentRef.setAttribute('style', `max-height: ${items.length * 35}px`);
+      } else {
+        contentRef.setAttribute('style', 'max-height: 0px');
+      }
+    }
+  }, [open, contentRef]);
+
+  const onAccordionRefChange = (ref) => {
+    setContentRef(ref);
+  };
 
   return (
     <div className="dr-toplist">
@@ -20,6 +36,13 @@ const TopList = (props) => {
         header={(
           <h2 className="dr-toplist-header">
             {title}
+            {
+              tooltip && (
+                <span className="dr-toplist-header-tooltip">
+                  <Tooltip icon={<GrCircleQuestion />} text={tooltip} />
+                </span>
+              )
+            }
           </h2>
         )}
         content={(
@@ -61,6 +84,7 @@ const TopList = (props) => {
         )}
         onToggle={onToggle}
         open={open}
+        onRefChange={onAccordionRefChange}
       />
     </div>
   );
@@ -75,6 +99,7 @@ TopList.propTypes = {
     unknown: PropTypes.bool,
   })).isRequired,
   title: PropTypes.string.isRequired,
+  tooltip: PropTypes.string,
   onToggle: PropTypes.func,
   open: PropTypes.bool,
 };

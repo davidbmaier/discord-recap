@@ -31,7 +31,8 @@ const TopWordsAndEmotes = (props) => {
       <Tile flex={3}>
         <TopList
           items={getTopWords().slice(0, 3)}
-          title={`Top ${topWords.length} Words (excluding emotes)`}
+          title={`Top ${topWords.length} Words`}
+          tooltip="Excluding emotes and words that are five characters or shorter"
           open
         />
         <TopList
