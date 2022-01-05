@@ -168,7 +168,7 @@ p {
   justify-content: space-between;
 }
 .dr-toplist-item-name {
-  line-height: 1em;
+  line-height: 1.2em;
 }
 .dr-toplist-name-wrapper {
   display: flex;
