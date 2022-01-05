@@ -48,7 +48,7 @@ export default function Home() {
   const getInstructions = () => {
     const messages = [
       '1. Request your data package from Discord!',
-      'User Settings -> Privacy & safety -> Request all of my data',
+      'User Settings / Privacy & safety / Request all of my data',
       '2. It can take a day or two - when it arrives, come back here!',
       '3. Press the button below to get it analyzed!',
       "Very important: Nothing gets uploaded, everything happens in your browser - so you don't have to worry about your data getting stolen or misused.",

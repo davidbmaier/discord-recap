@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key -- all keys are hard-coded anyway */
 import React from 'react';
 import { Link } from 'remix';
 
@@ -7,13 +8,16 @@ import Tile from '../components/Tile';
 const getAboutProject = () => {
   const paragraphs = [
     'Discord Recap was made by ',
-    <b><a href="https://github.com/davidbmaier">David B. Maier/@tooInfinite</a></b>,
+    <b><a href="https://github.com/davidbmaier">David B. Maier (@tooInfinite)</a></b>,
     ' - its code can be found ',
     <b><a href="https://github.com/davidbmaier/discord-recap">here</a></b>,
     '.',
+    <br />,
+    'You can support the creator by becoming ',
+    <b><a href="https://github.com/sponsors/davidbmaier">a sponsor</a></b>,
+    '!',
   ];
   return paragraphs.map((paragraph, index) => (
-    // eslint-disable-next-line react/no-array-index-key -- these are hard-coded anyway
     <span key={`paragraph${index}`}>{paragraph}</span>
   ));
 };
@@ -22,8 +26,8 @@ const getLegal = () => {
   const paragraphs = [
     "This project is not affiliated with Discord - it's just a community-created tool to visualize all the stats in your data package.",
   ];
-  return paragraphs.map((paragraph) => (
-    <span key={paragraph}>{paragraph}</span>
+  return paragraphs.map((paragraph, index) => (
+    <span key={`paragraph${index}`}>{paragraph}</span>
   ));
 };
 
@@ -31,8 +35,8 @@ const getPrivacyPolicy = () => {
   const paragraphs = [
     'This project does not collect any personal data. All the extrapolated stats are stored in your browser\'s local storage. No external requests are made that include any personal information.',
   ];
-  return paragraphs.map((paragraph) => (
-    <span key={paragraph}>{paragraph}</span>
+  return paragraphs.map((paragraph, index) => (
+    <span key={`paragraph${index}`}>{paragraph}</span>
   ));
 };
 
@@ -44,8 +48,8 @@ const getAboutTheData = () => {
     <br />,
     'In the end, this project is just presenting the data as it finds it in your data package - there are no guarantees the data is accurate.',
   ];
-  return paragraphs.map((paragraph) => (
-    <span key={paragraph}>{paragraph}</span>
+  return paragraphs.map((paragraph, index) => (
+    <span key={`paragraph${index}`}>{paragraph}</span>
   ));
 };
 
