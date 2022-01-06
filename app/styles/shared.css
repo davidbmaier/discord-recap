@@ -352,8 +352,27 @@ p {
   text-align: center;
 }
 
+.dr-breadcrumb-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .dr-breadcrumb {
   margin-left: 20px;
+}
+
+#dr-yearselect {
+  margin-right: 20px;
+  margin-left: 5px;
+  background-color: var(--quote);
+  color: var(--white);
+  border: 0;
+  border-radius: 5px;
+  min-width: 70px;
+  min-height: 20px;
+}
+#dr-yearselect:focus-visible {
+  outline: none;
 }
 
 .dr-tooltip {

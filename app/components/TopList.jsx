@@ -23,7 +23,7 @@ const TopList = (props) => {
         contentRef.setAttribute('style', 'max-height: 0px');
       }
     }
-  }, [open, contentRef]);
+  }, [open, contentRef, items]);
 
   const onAccordionRefChange = (ref) => {
     setContentRef(ref);

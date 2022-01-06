@@ -2,7 +2,7 @@ import { readFile } from '../extract';
 import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
 import {
-  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage,
+  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage, initializeYearStats,
 } from '../utils';
 import { storeStats } from '../store';
 import {
@@ -77,6 +77,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       ...getBaseStats(),
       servers: [], // array of guild stats objects
     },
+    yearMessages: initializeYearStats(),
   };
 
   // get global message stats
@@ -97,9 +98,11 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   const getMessageStats = (channelData, message) => {
     const isDM = channelData.type === channelTypes.DM || channelData.type === channelTypes.groupDM;
     const messageTimestamp = new Date(message.timestamp);
+    const year = messageTimestamp.getFullYear();
     const words = message.content.split(/\s/g);
 
     // initialize all levels of stats objects
+    const yearStats = messageStats.yearMessages;
     const dmStats = messageStats.directMessages;
     let dmChannelStats;
     const allServerStats = messageStats.serverMessages;
@@ -163,6 +166,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       incrementTextStats(serverStats, words.length, message.content.length, messageTimestamp);
       incrementTextStats(serverChannelStats, words.length, message.content.length, messageTimestamp);
     }
+    incrementTextStats(yearStats[year], words.length, message.content.length, messageTimestamp);
 
     // collect mentions (only global)
     const mentionMatches = message.content.match(mentionRegex);
@@ -181,6 +185,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         const emoteID = emoteMatch[4];
 
         incrementEmoteMatches(messageStats, emoteName, emoteID);
+        incrementEmoteMatches(yearStats[year], emoteName, emoteID);
         if (isDM) {
           incrementEmoteMatches(dmStats, emoteName, emoteID);
           incrementEmoteMatches(dmChannelStats, emoteName, emoteID);
@@ -203,6 +208,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         && word.length > 5
       ) {
         incrementWordMatches(messageStats, word);
+        incrementWordMatches(yearStats[year], word);
         if (isDM) {
           incrementWordMatches(dmStats, word);
           incrementWordMatches(dmChannelStats, word);
@@ -216,6 +222,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
     // find first messages
     updateFirstAndLastMessage(messageStats, message, channelData, messageTimestamp);
+    updateFirstAndLastMessage(yearStats[year], message, channelData, messageTimestamp);
     if (isDM) {
       updateFirstAndLastMessage(dmStats, message, channelData, messageTimestamp);
       updateFirstAndLastMessage(dmChannelStats, message, channelData, messageTimestamp);
@@ -274,6 +281,12 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       updatedChannel.topEmotes = sortMatches(channel.topEmotes).slice(0, 20);
       updatedChannel.topWords = sortMatches(channel.topWords).slice(0, 20);
     });
+  });
+
+  Object.entries(messageStats.yearMessages).forEach(([, yearStats]) => {
+    const updatedYearStats = yearStats;
+    updatedYearStats.topEmotes = sortMatches(yearStats.topEmotes).slice(0, 20);
+    updatedYearStats.topWords = sortMatches(yearStats.topWords).slice(0, 20);
   });
 
   // go through servers without IDs and pull them together

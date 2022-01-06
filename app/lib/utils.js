@@ -1,4 +1,4 @@
-import { channelTypes } from './constants';
+import { channelTypes, getBaseStats } from './constants';
 
 export const incrementTextStats = (category, wordLength, characterLength, messageTimestamp) => {
   const updatedCategory = category;
@@ -77,3 +77,14 @@ export const usePlural = (word, value, plural) => {
 };
 
 export const formatNumber = (number) => number.toLocaleString('en-US');
+
+export const initializeYearStats = () => {
+  const baseYears = {};
+  // Discord was founded in 2015
+  for (let i = 2015; i < new Date().getFullYear() + 1; i += 1) {
+    baseYears[i] = {
+      ...getBaseStats(),
+    };
+  }
+  return baseYears;
+};

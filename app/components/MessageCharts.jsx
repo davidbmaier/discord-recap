@@ -46,13 +46,17 @@ const MessageCharts = (props) => {
         >
           Daily
         </button>
-        <button
-          className={getButtonClassNames(chartTypes.year)}
-          type="button"
-          onClick={() => setChartType(chartTypes.year)}
-        >
-          Yearly
-        </button>
+        {
+          messageCountPerYear && (
+            <button
+              className={getButtonClassNames(chartTypes.year)}
+              type="button"
+              onClick={() => setChartType(chartTypes.year)}
+            >
+              Yearly
+            </button>
+          )
+        }
       </div>
     </div>
   );
@@ -70,7 +74,7 @@ MessageCharts.propTypes = {
   messageCountPerYear: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
-  })).isRequired,
+  })),
 };
 
 export default MessageCharts;

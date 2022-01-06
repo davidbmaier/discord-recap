@@ -259,6 +259,9 @@ export default function Stats() {
               <Tile flex={1}>
                 <SectionLink title="Check out your top channels!" link="/stats/channels" icon={<BiFoodMenu />} />
               </Tile>
+              <Tile flex={1}>
+                <SectionLink title="Review your yearly stats!" link="/stats/years" icon={<BiFoodMenu />} />
+              </Tile>
             </Row>
             <Row>
               <Tile flex={3}>
