@@ -363,6 +363,11 @@ p {
   margin-left: 20px;
 }
 
+.dr-yearselect-wrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
 #dr-yearselect {
   margin-right: 20px;
   margin-left: 5px;

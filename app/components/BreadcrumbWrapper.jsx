@@ -12,7 +12,7 @@ const BreadcrumbWrapper = (props) => {
       <span>
         <Link className="dr-breadcrumb" to={breadcrumbLink}>{breadcrumbText}</Link>
       </span>
-      <span>
+      <span className="dr-yearselect-wrapper">
         { onFilter && (
           <>
             <span>Filter by year:</span>
