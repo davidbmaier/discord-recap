@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, Link } from 'remix';
+import { useLoaderData } from 'remix';
 
 import { getStats } from '../../../../lib/store';
 import { cleanChartData } from '../../../../lib/utils';
@@ -9,6 +9,7 @@ import MessageCount from '../../../../components/MessageCount';
 import FirstMessage from '../../../../components/FirstMessage';
 import MessageCharts from '../../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../../components/TopWordsAndEmotes';
+import BreadcrumbWrapper from '../../../../components/BreadcrumbWrapper';
 
 export const loader = async ({ params }) => ({ serverID: params.serverID, channelID: params.channelID });
 
@@ -29,7 +30,10 @@ export default function ServerChannel() {
         stats && (
           <>
             <h1>{`${stats.channels[0].unknown ? '' : '#'}${stats.channels[0].name} (${stats.name})`}</h1>
-            <Link className="dr-breadcrumb" to={`/stats/servers/${serverID}`}>Back to server</Link>
+            <BreadcrumbWrapper
+              breadcrumbText="Back to server"
+              breadcrumbLink={`/stats/servers/${serverID}`}
+            />
             <Row>
               <Tile flex={3}>
                 <MessageCount

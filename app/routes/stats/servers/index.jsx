@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'remix';
 
 import { MdGroups } from 'react-icons/md';
 import { BiFoodMenu } from 'react-icons/bi';
@@ -14,6 +13,7 @@ import MessageCount from '../../../components/MessageCount';
 import FirstMessage from '../../../components/FirstMessage';
 import MessageCharts from '../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../components/TopWordsAndEmotes';
+import BreadcrumbWrapper from '../../../components/BreadcrumbWrapper';
 
 export default function Servers() {
   const [stats, setStats] = useState(null);
@@ -35,7 +35,10 @@ export default function Servers() {
   return (
     <div>
       <h1>Your servers</h1>
-      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
+      <BreadcrumbWrapper
+        breadcrumbText="Back to stats"
+        breadcrumbLink="/stats"
+      />
       { stats && (
         <>
           <Row>

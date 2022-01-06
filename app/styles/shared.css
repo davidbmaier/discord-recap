@@ -356,6 +356,8 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 22px;
+  height: 26px;
 }
 .dr-breadcrumb {
   margin-left: 20px;
@@ -369,7 +371,8 @@ p {
   border: 0;
   border-radius: 5px;
   min-width: 70px;
-  min-height: 20px;
+  min-height: 26px;
+  font-size: 15px;
 }
 #dr-yearselect:focus-visible {
   outline: none;

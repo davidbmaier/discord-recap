@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'remix';
 
 import TopList from '../../../components/TopList';
 import Row from '../../../components/Row';
 import Tile from '../../../components/Tile';
+import BreadcrumbWrapper from '../../../components/BreadcrumbWrapper';
 import { getStats } from '../../../lib/store';
 
 export default function Channels() {
@@ -28,7 +28,10 @@ export default function Channels() {
   return (
     <div>
       <h1>Your channels</h1>
-      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
+      <BreadcrumbWrapper
+        breadcrumbText="Back to stats"
+        breadcrumbLink="/stats"
+      />
       { stats && (
         <Row>
           <Tile flex={1}>

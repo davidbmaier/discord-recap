@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'remix';
 
 import { getStats } from '../../lib/store';
 import { cleanChartData } from '../../lib/utils';
@@ -9,6 +8,7 @@ import MessageCount from '../../components/MessageCount';
 import FirstMessage from '../../components/FirstMessage';
 import MessageCharts from '../../components/MessageCharts';
 import TopWordsAndEmotes from '../../components/TopWordsAndEmotes';
+import BreadcrumbWrapper from '../../components/BreadcrumbWrapper';
 
 export default function Years() {
   const [stats, setStats] = useState(null);
@@ -42,17 +42,13 @@ export default function Years() {
   return (
     <div>
       <h1>Your yearly stats</h1>
-      <div className="dr-breadcrumb-wrapper">
-        <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
-        <span>
-          Filter by year:
-          <select id="dr-yearselect" value={year || ''} onChange={(e) => onYearChange(e.target.value)}>
-            {validYears.map((validYear) => (
-              <option key={validYear}>{validYear}</option>
-            ))}
-          </select>
-        </span>
-      </div>
+      <BreadcrumbWrapper
+        breadcrumbText="Back to stats"
+        breadcrumbLink="/stats"
+        onFilter={onYearChange}
+        validOptions={validYears}
+        currentSelection={year}
+      />
       { yearStats && (
         <>
           <Row>

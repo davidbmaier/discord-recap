@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'remix';
 
 import { BsPerson } from 'react-icons/bs';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
@@ -15,6 +14,7 @@ import FirstMessage from '../../../components/FirstMessage';
 import MessageCount from '../../../components/MessageCount';
 import MessageCharts from '../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../components/TopWordsAndEmotes';
+import BreadcrumbWrapper from '../../../components/BreadcrumbWrapper';
 
 export default function DMs() {
   const [stats, setStats] = useState(null);
@@ -36,7 +36,10 @@ export default function DMs() {
   return (
     <div>
       <h1>Your DMs</h1>
-      <Link className="dr-breadcrumb" to="/stats">Back to Stats</Link>
+      <BreadcrumbWrapper
+        breadcrumbText="Back to stats"
+        breadcrumbLink="/stats"
+      />
       {
         stats && (
           <>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, Link } from 'remix';
+import { useLoaderData } from 'remix';
 
 import { GrCircleQuestion } from 'react-icons/gr';
 
@@ -13,6 +13,7 @@ import MessageCharts from '../../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../../components/TopWordsAndEmotes';
 import TopList from '../../../../components/TopList';
 import Tooltip from '../../../../components/Tooltip';
+import BreadcrumbWrapper from '../../../../components/BreadcrumbWrapper';
 
 export const loader = async ({ params }) => params.serverID;
 
@@ -45,7 +46,10 @@ export default function Server() {
                 <Tooltip icon={<GrCircleQuestion />} text="All unknown channels are grouped in this category - Discord's data doesn't allow for more details." />
               )}
             </h1>
-            <Link className="dr-breadcrumb" to="/stats/servers">Back to servers</Link>
+            <BreadcrumbWrapper
+              breadcrumbText="Back to servers"
+              breadcrumbLink="/stats/servers"
+            />
             <Row>
               <Tile flex={3}>
                 <MessageCount

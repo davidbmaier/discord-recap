@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, Link } from 'remix';
+import { useLoaderData } from 'remix';
 
 import { getStats } from '../../../lib/store';
 import { cleanChartData } from '../../../lib/utils';
@@ -9,6 +9,7 @@ import FirstMessage from '../../../components/FirstMessage';
 import MessageCount from '../../../components/MessageCount';
 import MessageCharts from '../../../components/MessageCharts';
 import TopWordsAndEmotes from '../../../components/TopWordsAndEmotes';
+import BreadcrumbWrapper from '../../../components/BreadcrumbWrapper';
 
 export const loader = async ({ params }) => params.dmID;
 
@@ -28,7 +29,10 @@ export default function DM() {
         stats && (
           <>
             <h1>{stats.name}</h1>
-            <Link className="dr-breadcrumb" to="/stats/dms">Back to DMs</Link>
+            <BreadcrumbWrapper
+              breadcrumbText="Back to DMs"
+              breadcrumbLink="/stats/dms"
+            />
             <Row>
               <Tile flex={3}>
                 <MessageCount
