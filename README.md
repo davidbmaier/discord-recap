@@ -1,8 +1,8 @@
 # Discord Recap
 
-A tool to explore your Discord data package.
+A tool to explore your Discord data package - originally inspired by [Androz2091's Discord Data Package Explorer](https://ddpe.androz2091.fr/), but with a lot more details.
 
-Going live: soon 👀
+Live version: https://discord-recap.com
 
 ## What can this do?
 
