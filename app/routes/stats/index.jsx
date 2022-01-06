@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { IoNotificationsOutline, IoWarningOutline, IoGameControllerOutline } from 'react-icons/io5';
-import { AiOutlineEdit, AiOutlineDelete, AiOutlineExport } from 'react-icons/ai';
+import {
+  AiOutlineEdit, AiOutlineDelete, AiOutlineExport, AiTwotoneCalendar,
+} from 'react-icons/ai';
 import {
   BsEmojiSmile, BsDoorOpen, BsWindow, BsSearch, BsMegaphone, BsPerson,
 } from 'react-icons/bs';
@@ -260,7 +262,7 @@ export default function Stats() {
                 <SectionLink title="Check out your top channels!" link="/stats/channels" icon={<BiFoodMenu />} />
               </Tile>
               <Tile flex={1}>
-                <SectionLink title="Review your yearly stats!" link="/stats/years" icon={<BiFoodMenu />} />
+                <SectionLink title="Review your yearly stats!" link="/stats/years" icon={<AiTwotoneCalendar />} />
               </Tile>
             </Row>
             <Row>
