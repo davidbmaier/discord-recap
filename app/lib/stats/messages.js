@@ -12,6 +12,7 @@ export const collectMessages = async (files) => {
   const file = files.find((f) => /messages\/([0-9]{16,32})\/$/.test(f.name));
   if (file) {
     oldPackage = true;
+    console.debug('Old messages package detected');
   }
 
   await Promise.all(Object.entries(messageIndex).map(async ([channelID, description]) => {
@@ -25,7 +26,7 @@ export const collectMessages = async (files) => {
     channelData.type = channelMetadata.type;
 
     // fetch the channel messages
-    const rawMessages = await readFile(files, `messages/c${channelData.id}/messages.csv`);
+    const rawMessages = await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/messages.csv`);
     const messageData = parseCSV(rawMessages, {
       header: true,
       newline: ',\r',
