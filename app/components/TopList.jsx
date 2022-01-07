@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'remix';
+import emojiRegex from 'emoji-regex';
 
 import { GrCircleQuestion } from 'react-icons/gr';
 
@@ -10,7 +11,7 @@ import Tooltip from './Tooltip';
 
 const TopList = (props) => {
   const {
-    title, tooltip, items, onToggle, open,
+    title, tooltip, items, onToggle, open, ignoreEmoji,
   } = props;
 
   const [contentRef, setContentRef] = useState(null);
@@ -27,6 +28,13 @@ const TopList = (props) => {
 
   const onAccordionRefChange = (ref) => {
     setContentRef(ref);
+  };
+
+  const getName = (name) => {
+    if (ignoreEmoji && name.match(emojiRegex())) {
+      return '';
+    }
+    return name;
   };
 
   return (
@@ -61,10 +69,10 @@ const TopList = (props) => {
                     }
                     {
                       item.link
-                        ? <Link className="dr-toplist-item-name" to={item.link}>{item.name}</Link>
+                        ? <Link className="dr-toplist-item-name" to={item.link}>{getName(item.name)}</Link>
                         : (
                           <span className="dr-toplist-item-name">
-                            {item.name}
+                            {getName(item.name)}
                           </span>
                         )
                     }
@@ -102,6 +110,7 @@ TopList.propTypes = {
   tooltip: PropTypes.string,
   onToggle: PropTypes.func,
   open: PropTypes.bool,
+  ignoreEmoji: PropTypes.bool,
 };
 
 export default TopList;

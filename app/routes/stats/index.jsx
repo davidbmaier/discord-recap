@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { IoNotificationsOutline, IoWarningOutline, IoGameControllerOutline } from 'react-icons/io5';
 import {
-  AiOutlineEdit, AiOutlineDelete, AiOutlineExport, AiTwotoneCalendar,
+  AiOutlineEdit, AiOutlineDelete, AiOutlineExport, AiTwotoneCalendar, AiOutlineEye,
 } from 'react-icons/ai';
 import {
   BsEmojiSmile, BsDoorOpen, BsWindow, BsSearch, BsMegaphone, BsPerson,
@@ -70,6 +70,14 @@ export default function Stats() {
         ],
         value: stats.messageStats.emoteCount,
         icon: <BsEmojiSmile />,
+      },
+      {
+        text: [
+          `Or do you prefer default emoji? You used a total of <b>${formatNumber(stats.messageStats.emojiCount)}</b> of those.`,
+          `That's one every <b>${Math.floor((stats.messageStats.messageCount / stats.messageStats.emojiCount) * 100) / 100}</b> messages.`,
+        ],
+        value: stats.messageStats.emojiCount,
+        icon: <AiOutlineEye />,
       },
       {
         text: `Reactions are a different story - you used <b>${formatNumber(stats.eventStats.reactionAdded)}</b> of those.`,

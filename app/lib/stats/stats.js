@@ -1,3 +1,5 @@
+import emojiRegex from 'emoji-regex';
+
 import { readFile } from '../extract';
 import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
@@ -69,6 +71,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   const messageStats = {
     mentionCount: 0,
     emoteCount: 0,
+    emojiCount: 0,
     ...getBaseStats(),
     directMessages: {
       count: dmChannels.length,
@@ -203,6 +206,24 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
           incrementEmoteMatches(serverStats, emoteName, emoteID);
           incrementEmoteMatches(serverChannelStats, emoteName, emoteID);
         }
+      }
+    }
+    // process default emoji
+    const emojiMatches = message.content.matchAll(emojiRegex());
+    // eslint-disable-next-line no-restricted-syntax -- matchAll returns an iterator
+    for (const emojiMatch of emojiMatches) {
+      messageStats.emojiCount += 1;
+      const emoji = emojiMatch[0];
+
+      incrementEmoteMatches(messageStats, emoji);
+      incrementEmoteMatches(yearStats[year], emoji);
+      if (isDM) {
+        incrementEmoteMatches(dmStats, emoji);
+        incrementEmoteMatches(dmChannelStats, emoji);
+      } else {
+        incrementEmoteMatches(allServerStats, emoji);
+        incrementEmoteMatches(serverStats, emoji);
+        incrementEmoteMatches(serverChannelStats, emoji);
       }
     }
 

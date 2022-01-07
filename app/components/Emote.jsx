@@ -1,8 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import emojiRegex from 'emoji-regex';
 
 const Emote = (props) => {
   const { id, name, size = 22 } = props;
+  if (name.match(emojiRegex())) {
+    return (
+      <span className="dr-emote dr-emote-emoji" style={{ height: size }}>
+        {name}
+      </span>
+    );
+  }
   if (!id) {
     return <span style={{ width: size }} />;
   }

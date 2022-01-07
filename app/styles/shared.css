@@ -241,6 +241,9 @@ p {
   margin-left: 5px;
   margin-right: 5px;
 }
+.dr-emote-emoji {
+  font-size: 18px;
+}
 
 .dr-usertile {
   display: flex;

@@ -50,6 +50,7 @@ const TopWordsAndEmotes = (props) => {
           items={getTopEmotes().slice(0, 3)}
           title={`Top ${topEmotes.length} Emotes`}
           open
+          ignoreEmoji
         />
         <TopList
           items={getTopEmotes().slice(3)}
@@ -59,6 +60,7 @@ const TopWordsAndEmotes = (props) => {
             setEmotesOpen(!emotesOpen);
             setWordsOpen(!emotesOpen);
           }}
+          ignoreEmoji
         />
       </Tile>
     </Row>
