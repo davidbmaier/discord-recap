@@ -48,11 +48,20 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     return payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0);
   };
 
+  let darkModeEnabled = false;
+  let darkModeSetting = userData.settings?.settings?.appearance?.theme;
+  if (!darkModeSetting) {
+    darkModeSetting = userData.settings.theme;
+  }
+  if (darkModeSetting.toLowerCase() === 'dark') {
+    darkModeEnabled = true;
+  }
+
   let stats = {
     // account stats
     userID: userData.id,
     userTag: `${userData.username}#${userData.discriminator}`,
-    darkMode: userData.settings.settings.appearance.theme === 'DARK',
+    darkMode: darkModeEnabled,
     connections: getConnections(),
     totalPaymentAmount: getPaymentsTotal(),
   };
