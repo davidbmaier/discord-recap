@@ -51,7 +51,10 @@ export default function Stats() {
         icon: <GoMention />,
       },
       {
-        text: `Message wasn't perfect? You edited your messages <b>${formatNumber(stats.eventStats.messageEdited)}</b> ${usePlural('time', stats.eventStats.messageEdited)}.`,
+        text: [
+          `Message wasn't perfect? You edited your messages <b>${formatNumber(stats.eventStats.messageEdited)}</b> ${usePlural('time', stats.eventStats.messageEdited)}.`,
+          `That's <b>${formatNumber((stats.eventStats.messageEdited / stats.messageStats.messageCount) * 100)}%</b> of your messages.`,
+        ],
         value: stats.eventStats.messageEdited,
         icon: <AiOutlineEdit />,
       },
@@ -129,12 +132,17 @@ export default function Stats() {
   const getMetaDataFields = () => {
     const messages = [
       {
-        text: `You joined a voice channel <b>${formatNumber(stats.eventStats.voiceChannelJoined)}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
+        text: `You joined a voice channel <b>${formatNumber(stats.eventStats.voiceChannelJoined + stats.eventStats.voiceDMJoined)}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
         value: stats.eventStats.voiceChannelJoined,
         icon: <HiOutlinePhone />,
       },
       {
-        text: `Overall, you started talking <b>${formatNumber(stats.eventStats.startedSpeaking)}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
+        text: [
+          `Overall, you started talking <b>${formatNumber(stats.eventStats.startedSpeaking)}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
+          stats.eventStats.voiceChannelJoined
+            ? `On average, that's <b>${Math.floor((stats.eventStats.startedSpeaking / (stats.eventStats.voiceChannelJoined + stats.eventStats.voiceDMJoined)) * 100) / 100}</b> times per call.`
+            : '',
+        ],
         value: stats.eventStats.startedSpeaking,
         icon: <BiUserVoice />,
       },
