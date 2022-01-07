@@ -10,10 +10,13 @@ const Connections = (props) => {
     <div className="dr-connections">
       {
         connections.map((connection) => (
-          <div key={connection.type}>
-            <div>
-              {`${capitalizeFirstLetter(connection.type)}: ${connection.name}` }
-            </div>
+          <div key={connection.type} className="dr-connections-item">
+            <span>
+              {`${capitalizeFirstLetter(connection.type)}:`}
+            </span>
+            <span>
+              {connection.name}
+            </span>
           </div>
         ))
       }

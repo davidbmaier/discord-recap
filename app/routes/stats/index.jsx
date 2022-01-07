@@ -231,7 +231,7 @@ export default function Stats() {
         stats && (
           <div>
             <Row>
-              <Tile flex={1}>
+              <Tile flex={2}>
                 <UserTile
                   userID={stats.userID}
                   userTag={stats.userTag}
@@ -245,7 +245,7 @@ export default function Stats() {
                   showServer
                 />
               </Tile>
-              <Tile flex={2}>
+              <Tile flex={1}>
                 <Connections
                   connections={stats.connections}
                 />

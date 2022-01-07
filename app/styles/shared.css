@@ -424,3 +424,9 @@ p {
 .dr-tooltip .dr-tooltip-left {
   right: 105%;
 }
+
+.dr-connections-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+}
