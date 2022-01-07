@@ -8,6 +8,12 @@ export const collectMessages = async (files) => {
   const dmChannels = [];
   const guildChannels = [];
 
+  let oldPackage = false;
+  const file = files.find((f) => /messages\/([0-9]{16,32})\/$/.test(f.name));
+  if (file) {
+    oldPackage = true;
+  }
+
   await Promise.all(Object.entries(messageIndex).map(async ([channelID, description]) => {
     const channelData = {
       id: channelID,
@@ -15,7 +21,7 @@ export const collectMessages = async (files) => {
     };
 
     // fetch the channel metadata
-    const channelMetadata = JSON.parse(await readFile(files, `messages/c${channelData.id}/channel.json`));
+    const channelMetadata = JSON.parse(await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/channel.json`));
     channelData.type = channelMetadata.type;
 
     // fetch the channel messages
