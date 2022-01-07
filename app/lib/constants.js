@@ -141,5 +141,5 @@ export const dayLabels = [
   'Sunday',
 ];
 
-export const emoteRegex = /(<a?)?:(\w+):((\d{18})>)?/g;
+export const emoteRegex = /(<a?):(\w+):((\d{18})>)/g;
 export const mentionRegex = /<(?:@[!&]?|#)\d+>/g;

@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 const Emote = (props) => {
   const { id, name, size = 22 } = props;
-
+  if (!id) {
+    return <span style={{ width: size }} />;
+  }
   return (
-    <img className="dr-emote" height={size} src={`https://cdn.discordapp.com/emojis/${id}`} alt={`Emote: ${name}`} />
+    <img className="dr-emote" height={size} src={`https://cdn.discordapp.com/emojis/${id}`} title={`Emote: ${name}`} alt="" />
   );
 };
 
 Emote.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   size: PropTypes.number,
 };
