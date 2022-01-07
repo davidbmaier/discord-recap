@@ -357,7 +357,6 @@ p {
   justify-content: space-between;
   align-items: center;
   font-size: 22px;
-  height: 26px;
 }
 .dr-breadcrumb {
   margin-left: 20px;
@@ -383,6 +382,15 @@ p {
   outline: none;
 }
 
+@media only screen and (max-width: 500px) {
+  .dr-breadcrumb-wrapper {
+    font-size: 16px;
+  }
+  .dr-yearselect-wrapper span {
+    display: none;
+  }
+}
+
 .dr-tooltip {
   position: relative;
   display: flex;
@@ -396,7 +404,7 @@ p {
 }
 .dr-tooltip .dr-tooltip-text {
   visibility: hidden;
-  width: 250px;
+  width: 150px;
   font-size: 15px;
   background-color: black;
   color: #fff;
