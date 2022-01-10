@@ -236,6 +236,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         && word !== ''
         && word !== '-'
         && word.length > 5
+        && !word.match(emojiRegex())
       ) {
         incrementWordMatches(messageStats, word);
         incrementWordMatches(yearStats[year], word);
