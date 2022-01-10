@@ -62,7 +62,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   let stats = {
     // account stats
     userID: userData.id,
-    userTag: `${userData.username}#${userData.discriminator}`,
+    userTag: `${userData.username}#${userData.discriminator.toString().padStart(4, '0')}`,
     darkMode: darkModeEnabled,
     connections: getConnections(),
     totalPaymentAmount: getPaymentsTotal(),
