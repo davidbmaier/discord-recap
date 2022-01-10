@@ -31,12 +31,12 @@ export default function Years() {
 
     const initialYear = tempValidYears[tempValidYears.length - 1];
     setYear(initialYear);
-    setYearStats(allYearStats[initialYear]);
+    setYearStats({ ...allYearStats[initialYear] });
   }, []);
 
   const onYearChange = (newYear) => {
     setYear(newYear);
-    setYearStats(stats[newYear]);
+    setYearStats({ ...stats[newYear] });
   };
 
   return (
