@@ -111,7 +111,12 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     const isDM = channelData.type === channelTypes.DM || channelData.type === channelTypes.groupDM;
     const messageTimestamp = new Date(message.timestamp);
     const year = messageTimestamp.getFullYear();
-    const words = message.content.split(/\s/g);
+    let words = message.content.split(/\s/g);
+
+    if (words.length === 1 && words[0] === '') {
+      // don't count empty messages towards words
+      words = [];
+    }
 
     // initialize all levels of stats objects
     const yearStats = messageStats.yearMessages;
