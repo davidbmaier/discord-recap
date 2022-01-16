@@ -32,10 +32,10 @@ export const collectMessages = async (files) => {
       newline: ',\r',
     })
       .data
-      .filter((m) => m.Contents)
+      .filter((m) => m.Timestamp)
       .map((m) => ({
         timestamp: m.Timestamp,
-        content: m.Contents,
+        content: m.Contents || '',
       }));
     channelData.messages = messageData;
 
