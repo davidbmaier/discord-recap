@@ -18,10 +18,12 @@ export default function ServerChannel() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const serverStats = globalStats.messageStats.serverMessages.servers.find((server) => server.id === serverID);
-    serverStats.channels = [serverStats.channels.find((channel) => channel.id === channelID)];
-    setStats(serverStats);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const serverStats = globalStats.messageStats.serverMessages.servers.find((server) => server.id === serverID);
+      serverStats.channels = [serverStats.channels.find((channel) => channel.id === channelID)];
+      setStats(serverStats);
+    });
   }, []);
 
   return (

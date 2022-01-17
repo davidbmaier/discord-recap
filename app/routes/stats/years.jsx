@@ -17,21 +17,23 @@ export default function Years() {
   const [validYears, setValidYears] = useState([]);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const allYearStats = globalStats.messageStats.yearMessages;
-    setStats(allYearStats);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const allYearStats = globalStats.messageStats.yearMessages;
+      setStats(allYearStats);
 
-    const tempValidYears = [];
-    Object.entries(allYearStats).forEach(([specificYear, specificYearStats]) => {
-      if (specificYearStats.messageCount > 0) {
-        tempValidYears.push(specificYear);
-      }
+      const tempValidYears = [];
+      Object.entries(allYearStats).forEach(([specificYear, specificYearStats]) => {
+        if (specificYearStats.messageCount > 0) {
+          tempValidYears.push(specificYear);
+        }
+      });
+      setValidYears(tempValidYears);
+
+      const initialYear = tempValidYears[tempValidYears.length - 1];
+      setYear(initialYear);
+      setYearStats({ ...allYearStats[initialYear] });
     });
-    setValidYears(tempValidYears);
-
-    const initialYear = tempValidYears[tempValidYears.length - 1];
-    setYear(initialYear);
-    setYearStats({ ...allYearStats[initialYear] });
   }, []);
 
   const onYearChange = (newYear) => {

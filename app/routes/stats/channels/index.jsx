@@ -10,19 +10,21 @@ export default function Channels() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const channelData = globalStats.messageStats.serverMessages.servers.map((server) => {
-      const channels = server.channels.map((channel) => ({
-        name: `${channel.name} (${server.name})`,
-        id: channel.id,
-        value: `${channel.messageCount} messages`,
-        count: channel.messageCount,
-        link: `/stats/servers/${server.id}/${channel.id}`,
-        unknown: channel.unknown,
-      }));
-      return channels;
-    }).flat().sort(({ count: value1 }, { count: value2 }) => value2 - value1);
-    setStats(channelData);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const channelData = globalStats.messageStats.serverMessages.servers.map((server) => {
+        const channels = server.channels.map((channel) => ({
+          name: `${channel.name} (${server.name})`,
+          id: channel.id,
+          value: `${channel.messageCount} messages`,
+          count: channel.messageCount,
+          link: `/stats/servers/${server.id}/${channel.id}`,
+          unknown: channel.unknown,
+        }));
+        return channels;
+      }).flat().sort(({ count: value1 }, { count: value2 }) => value2 - value1);
+      setStats(channelData);
+    });
   }, []);
 
   return (

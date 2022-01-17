@@ -19,17 +19,19 @@ export default function Servers() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const serverStats = globalStats.messageStats.serverMessages;
-    serverStats.servers = serverStats.servers.map((server) => ({
-      name: `${server.name}`,
-      id: server.name || 'Unknown',
-      value: `${server.messageCount} messages`,
-      count: server.messageCount,
-      link: `/stats/servers/${server.id}`,
-      unknown: server.unknown,
-    })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
-    setStats(serverStats);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const serverStats = globalStats.messageStats.serverMessages;
+      serverStats.servers = serverStats.servers.map((server) => ({
+        name: `${server.name}`,
+        id: server.name || 'Unknown',
+        value: `${server.messageCount} messages`,
+        count: server.messageCount,
+        link: `/stats/servers/${server.id}`,
+        unknown: server.unknown,
+      })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
+      setStats(serverStats);
+    });
   }, []);
 
   return (

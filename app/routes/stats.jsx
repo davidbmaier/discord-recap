@@ -4,8 +4,8 @@ import { Outlet } from 'remix';
 import { clearStats } from '../lib/store';
 
 export default function StatsWrapper() {
-  const resetData = () => {
-    clearStats();
+  const resetData = async () => {
+    await clearStats();
     window.location.href = '/';
   };
 

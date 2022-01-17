@@ -20,17 +20,19 @@ export default function DMs() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const userStats = globalStats.messageStats.directMessages;
-    userStats.channels = userStats.channels.map((channel) => ({
-      name: `${channel.name}`,
-      id: channel.id,
-      value: `${channel.messageCount} messages`,
-      count: channel.messageCount,
-      link: `/stats/dms/${channel.id}`,
-      unknown: channel.unknown,
-    })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
-    setStats(userStats);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const userStats = globalStats.messageStats.directMessages;
+      userStats.channels = userStats.channels.map((channel) => ({
+        name: `${channel.name}`,
+        id: channel.id,
+        value: `${channel.messageCount} messages`,
+        count: channel.messageCount,
+        link: `/stats/dms/${channel.id}`,
+        unknown: channel.unknown,
+      })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
+      setStats(userStats);
+    });
   }, []);
 
   return (

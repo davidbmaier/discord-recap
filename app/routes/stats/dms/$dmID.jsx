@@ -18,9 +18,11 @@ export default function DM() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const globalStats = JSON.parse(getStats());
-    const dmStats = globalStats.messageStats.directMessages.channels.find((channel) => channel.id === dmID);
-    setStats(dmStats);
+    getStats().then((storedStats) => {
+      const globalStats = JSON.parse(storedStats);
+      const dmStats = globalStats.messageStats.directMessages.channels.find((channel) => channel.id === dmID);
+      setStats(dmStats);
+    });
   }, []);
 
   return (
