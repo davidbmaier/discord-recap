@@ -76,7 +76,7 @@ export const usePlural = (word, value, plural) => {
   return `${plural || `${word}s`}`;
 };
 
-export const formatNumber = (number) => number.toLocaleString('en-US');
+export const formatNumber = (number) => number?.toLocaleString('en-US');
 
 export const initializeYearStats = () => {
   const baseYears = {};

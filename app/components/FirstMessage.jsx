@@ -16,7 +16,6 @@ const FirstMessage = (props) => {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
-
     });
   };
 
