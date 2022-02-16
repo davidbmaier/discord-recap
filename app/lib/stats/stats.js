@@ -6,7 +6,7 @@ import { collectAnalytics } from './analytics';
 import {
   incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage, initializeYearStats,
 } from '../utils';
-import { storeStats } from '../store';
+import { clearStats, storeStats } from '../store';
 import {
   channelTypes, promotionEventTypes, technicalEventTypes, relationshipTypes, getBaseStats, emoteRegex, mentionRegex,
 } from '../constants';
@@ -355,5 +355,6 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
   stats = { messageStats, eventStats, ...stats };
 
+  await clearStats();
   await storeStats(stats);
 };
