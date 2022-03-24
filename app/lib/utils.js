@@ -39,6 +39,11 @@ export const incrementWordMatches = (category, word) => {
 };
 
 export const updateFirstAndLastMessage = (category, message, channelData, messageTimestamp) => {
+  if (message.content === '') {
+    // ignore empty messages (e.g. join messages)
+    return;
+  }
+
   const unknownData = {};
   if (
     (channelData.type !== channelTypes.DM && channelData.type !== channelTypes.groupDM)
