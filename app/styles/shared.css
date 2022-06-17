@@ -107,9 +107,23 @@ p {
 }
 
 .dr-content-wrapper {
+  background-color: var(--background);
   margin: auto;
   width: 90%;
   min-height: calc(100% - 140px);
+}
+
+#dr-share-wrapper {
+  height: 0;
+  overflow: hidden;
+}
+
+#dr-share-content {
+  width: 1100px;
+  background-color: var(--background);
+}
+#dr-share-content button, #dr-share-content .dr-toplist-header-tooltip {
+  display: none;
 }
 
 .dr-row {

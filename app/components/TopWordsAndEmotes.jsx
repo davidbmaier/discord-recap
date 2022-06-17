@@ -7,31 +7,43 @@ import TopList from './TopList';
 
 const TopWordsAndEmotes = (props) => {
   const {
-    topWords, topEmotes,
+    topWords, topEmotes, shareable,
   } = props;
 
-  const [emotesOpen, setEmotesOpen] = useState(false);
-  const [wordsOpen, setWordsOpen] = useState(false);
+  const [emotesOpen, setEmotesOpen] = useState(shareable);
+  const [wordsOpen, setWordsOpen] = useState(shareable);
 
-  const getTopWords = () => topWords.map(
-    ({ name, count }, index) => ({
-      name, value: `${count}`, id: name, index: index + 1,
-    }),
-  );
+  const getTopWords = () => {
+    const words = topWords.map(
+      ({ name, count }, index) => ({
+        name, value: `${count}`, id: name, index: index + 1,
+      }),
+    );
+    if (shareable) {
+      return words.slice(0, 5);
+    }
+    return words;
+  };
 
-  const getTopEmotes = () => topEmotes.map(
-    ({ name, count, id }, index) => ({
+  const getTopEmotes = () => {
+    const emotes = topEmotes.map(
+      ({ name, count, id }, index) => ({
       // default emoji don't have an id - but "id" maps to the key attribute
-      name, value: `${count}`, id: name, emoteID: id, icon: true, index: index + 1,
-    }),
-  );
+        name, value: `${count}`, id: name, emoteID: id, icon: true, index: index + 1,
+      }),
+    );
+    if (shareable) {
+      return emotes.slice(0, 5);
+    }
+    return emotes;
+  };
 
   return (
     <Row>
       <Tile flex={3}>
         <TopList
           items={getTopWords().slice(0, 3)}
-          title={`Top ${topWords.length} Words`}
+          title={`Top ${getTopWords().length} Words`}
           tooltip="Excluding emotes and words that are five characters or shorter"
           open
         />
@@ -48,7 +60,7 @@ const TopWordsAndEmotes = (props) => {
       <Tile flex={3}>
         <TopList
           items={getTopEmotes().slice(0, 3)}
-          title={`Top ${topEmotes.length} Emotes`}
+          title={`Top ${getTopEmotes().length} Emotes`}
           open
           ignoreEmoji
         />
@@ -77,6 +89,7 @@ TopWordsAndEmotes.propTypes = {
     count: PropTypes.number.isRequired,
     id: PropTypes.string,
   })).isRequired,
+  shareable: PropTypes.bool,
 };
 
 export default TopWordsAndEmotes;

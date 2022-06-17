@@ -9,11 +9,12 @@
     "postinstall": "remix setup node"
   },
   "dependencies": {
-    "@netlify/functions": "^0.10.0",
-    "@remix-run/netlify": "^1.1.1",
-    "@remix-run/react": "^1.1.1",
+    "@netlify/functions": "1.0.0",
+    "@remix-run/netlify": "1.6.0",
+    "@remix-run/react": "1.6.0",
     "emoji-regex": "^9.2.2",
     "fflate": "^0.7.2",
+    "html2canvas": "^1.4.1",
     "idb-keyval": "^6.1.0",
     "papaparse": "^5.3.1",
     "prop-types": "^15.8.0",
@@ -21,10 +22,10 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "recharts": "^2.1.8",
-    "remix": "^1.1.1"
+    "remix": "1.6.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.1.1",
+    "@remix-run/dev": "1.6.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.5.0",
     "eslint-config-airbnb": "^19.0.4",

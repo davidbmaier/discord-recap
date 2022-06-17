@@ -1,5 +1,6 @@
 /* eslint-disable max-len -- message fields just need extra length */
 import React, { useEffect, useState } from 'react';
+import { useOutletContext } from 'remix';
 
 import { IoNotificationsOutline, IoWarningOutline, IoGameControllerOutline } from 'react-icons/io5';
 import {
@@ -32,6 +33,7 @@ import MessageCharts from '../../components/MessageCharts';
 import SectionLink from '../../components/SectionLink';
 
 export default function Stats() {
+  const { shareable } = useOutletContext();
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function Stats() {
   }, []);
 
   const getMessageDataFields = () => {
-    const messages = [
+    let messages = [
       {
         text: `Overall, you pinged <b>${formatNumber(stats.messageStats.mentionCount)}</b>
           ${usePlural('person, role or channel', stats.messageStats.mentionCount, 'people, roles and channels')}.`,
@@ -94,30 +96,35 @@ export default function Stats() {
         ],
         icon: <BsDoorOpen />,
       },
-      {
-        text: [
-          `Sometimes everyone runs out of space: You ran into the message length limit <b>${formatNumber(stats.eventStats.messageLengthLimitReached)}</b>
-            ${usePlural('time', stats.eventStats.messageLengthLimitReached)}.`,
-          `There's also a limit for reactions - you reached that one <b>${formatNumber(stats.eventStats.reactionLimitReached)}</b>
-            ${usePlural('time', stats.eventStats.reactionLimitReached)}.`,
-        ],
-        value: stats.eventStats.messageLengthLimitReached,
-        icon: <IoWarningOutline />,
-      },
-      {
-        text: [
-          `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
-          `And you used <b>${formatNumber(stats.eventStats.slashCommandUsed)}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
-        ],
-        value: stats.eventStats.threadJoined,
-        icon: <AiOutlineExport />,
-      },
-      {
-        text: `See something you like? You saved <b>${formatNumber(stats.eventStats.imageSaved)}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
-        value: stats.eventStats.imageSaved,
-        icon: <MdSaveAlt />,
-      },
     ];
+
+    if (!shareable) {
+      messages = messages.concat([
+        {
+          text: [
+            `Sometimes everyone runs out of space: You ran into the message length limit <b>${formatNumber(stats.eventStats.messageLengthLimitReached)}</b>
+            ${usePlural('time', stats.eventStats.messageLengthLimitReached)}.`,
+            `There's also a limit for reactions - you reached that one <b>${formatNumber(stats.eventStats.reactionLimitReached)}</b>
+            ${usePlural('time', stats.eventStats.reactionLimitReached)}.`,
+          ],
+          value: stats.eventStats.messageLengthLimitReached,
+          icon: <IoWarningOutline />,
+        },
+        {
+          text: [
+            `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
+            `And you used <b>${formatNumber(stats.eventStats.slashCommandUsed)}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
+          ],
+          value: stats.eventStats.threadJoined,
+          icon: <AiOutlineExport />,
+        },
+        {
+          text: `See something you like? You saved <b>${formatNumber(stats.eventStats.imageSaved)}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
+          value: stats.eventStats.imageSaved,
+          icon: <MdSaveAlt />,
+        },
+      ]);
+    }
 
     return (
       <>
@@ -140,7 +147,7 @@ export default function Stats() {
   };
 
   const getMetaDataFields = () => {
-    const messages = [
+    let messages = [
       {
         text: `You joined a voice channel <b>${formatNumber(stats.eventStats.voiceChannelJoined + stats.eventStats.voiceDMJoined)}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
         value: stats.eventStats.voiceChannelJoined,
@@ -164,11 +171,6 @@ export default function Stats() {
         icon: <MdOutlineDarkMode />,
       },
       {
-        text: `In total, you spent <b>$${formatNumber(stats.totalPaymentAmount / 100)}</b> on Discord.`,
-        value: 'true', // no value check needed, 0 is worth showing
-        icon: <FaDollarSign />,
-      },
-      {
         text: `You opened Discord <b>${formatNumber(stats.eventStats.appOpened)}</b> ${usePlural('time', stats.eventStats.appOpened)}.`,
         value: stats.eventStats.appOpened,
         icon: <BsWindow />,
@@ -177,24 +179,6 @@ export default function Stats() {
         text: `Who rang? You clicked <b>${formatNumber(stats.eventStats.notificationClicked)}</b> ${usePlural('notification', stats.eventStats.notificationClicked)}.`,
         value: stats.eventStats.notificationClicked,
         icon: <IoNotificationsOutline />,
-      },
-      {
-        text: `Looking for something? You started <b>${formatNumber(stats.eventStats.searchStarted)}</b> ${usePlural('search', stats.eventStats.searchStarted, 'searches')}.`,
-        value: stats.eventStats.searchStarted,
-        icon: <BsSearch />,
-      },
-      {
-        text: `Seems like you know your way around! You used <b>${formatNumber(stats.eventStats.keyboardShortcutUsed)}</b> keyboard
-          ${usePlural('shortcut', stats.eventStats.keyboardShortcutUsed)}.`,
-        value: stats.eventStats.keyboardShortcutUsed,
-        icon: <MdOutlineKeyboard />,
-      },
-      {
-        text: `Thanks for keeping an eye out and reporting <b>${formatNumber(stats.eventStats.messageReported)}</b>
-          ${usePlural('message', stats.eventStats.messageReported)} and <b>${formatNumber(stats.eventStats.userReported)}</b>
-          ${usePlural('user', stats.eventStats.userReported)}.`,
-        value: stats.eventStats.messageReported,
-        icon: <VscReport />,
       },
       {
         text: `Any chance you're a famous streamer? You toggled streamer mode <b>${formatNumber(stats.eventStats.streamerModeToggled)}</b>
@@ -224,12 +208,40 @@ export default function Stats() {
         icon: <VscError />,
       },
       {
-        text: `And overall, Discord tried to sell you something <b>${formatNumber(stats.eventStats.promotionShown)}</b>
+        text: `Overall, Discord tried to sell you something <b>${formatNumber(stats.eventStats.promotionShown)}</b>
           ${usePlural('time', stats.eventStats.promotionShown)}.`,
         value: stats.eventStats.promotionShown,
         icon: <BsMegaphone />,
       },
     ];
+
+    if (!shareable) {
+      messages = messages.concat([
+        {
+          text: `Looking for something? You started <b>${formatNumber(stats.eventStats.searchStarted)}</b> ${usePlural('search', stats.eventStats.searchStarted, 'searches')}.`,
+          value: stats.eventStats.searchStarted,
+          icon: <BsSearch />,
+        },
+        {
+          text: `Seems like you know your way around! You used <b>${formatNumber(stats.eventStats.keyboardShortcutUsed)}</b> keyboard
+          ${usePlural('shortcut', stats.eventStats.keyboardShortcutUsed)}.`,
+          value: stats.eventStats.keyboardShortcutUsed,
+          icon: <MdOutlineKeyboard />,
+        },
+        {
+          text: `Thanks for keeping an eye out and reporting <b>${formatNumber(stats.eventStats.messageReported)}</b>
+          ${usePlural('message', stats.eventStats.messageReported)} and <b>${formatNumber(stats.eventStats.userReported)}</b>
+          ${usePlural('user', stats.eventStats.userReported)}.`,
+          value: stats.eventStats.messageReported,
+          icon: <VscReport />,
+        },
+        {
+          text: `In total, you spent <b>$${formatNumber(stats.totalPaymentAmount / 100)}</b> on Discord.`,
+          value: 'true', // no value check needed, 0 is worth showing
+          icon: <FaDollarSign />,
+        },
+      ]);
+    }
 
     return (
       <>
@@ -269,20 +281,25 @@ export default function Stats() {
                 />
               </Tile>
             </Row>
-            <Row>
-              <Tile flex={1}>
-                <SectionLink title="Explore your DMs!" link="/stats/dms" icon={<BsPerson />} />
-              </Tile>
-              <Tile flex={1}>
-                <SectionLink title="Dig through your servers!" link="/stats/servers" icon={<MdGroups />} />
-              </Tile>
-              <Tile flex={1}>
-                <SectionLink title="Check out your top channels!" link="/stats/channels" icon={<BiFoodMenu />} />
-              </Tile>
-              <Tile flex={1}>
-                <SectionLink title="Review your yearly stats!" link="/stats/years" icon={<AiTwotoneCalendar />} />
-              </Tile>
-            </Row>
+            {
+              // don't show links in screenshot
+              !shareable && (
+                <Row>
+                  <Tile flex={1}>
+                    <SectionLink title="Explore your DMs!" link="/stats/dms" icon={<BsPerson />} />
+                  </Tile>
+                  <Tile flex={1}>
+                    <SectionLink title="Dig through your servers!" link="/stats/servers" icon={<MdGroups />} />
+                  </Tile>
+                  <Tile flex={1}>
+                    <SectionLink title="Check out your top channels!" link="/stats/channels" icon={<BiFoodMenu />} />
+                  </Tile>
+                  <Tile flex={1}>
+                    <SectionLink title="Review your yearly stats!" link="/stats/years" icon={<AiTwotoneCalendar />} />
+                  </Tile>
+                </Row>
+              )
+            }
             <Row>
               <Tile flex={3}>
                 {getMessageDataFields()}
@@ -300,7 +317,22 @@ export default function Stats() {
                 />
               </Tile>
             </Row>
-            <TopWordsAndEmotes topWords={stats.messageStats.topWords} topEmotes={stats.messageStats.topEmotes} />
+            <TopWordsAndEmotes topWords={stats.messageStats.topWords} topEmotes={stats.messageStats.topEmotes} shareable={shareable} />
+            {
+              shareable && (
+                <div className="dr-footer">
+                  <span>
+                    {'Get your own detailed Discord stats at '}
+                    <b>discord-recap.com</b>
+                    !
+                  </span>
+                  <span>
+                    {'Made by '}
+                    <b>David B. Maier</b>
+                  </span>
+                </div>
+              )
+            }
           </div>
         )
       }
