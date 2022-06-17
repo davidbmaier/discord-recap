@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'remix';
 import html2canvas from 'html2canvas';
 
@@ -6,6 +6,11 @@ import { clearStats } from '../lib/store';
 
 export default function StatsWrapper() {
   const location = useLocation();
+  const [isMobileDevice, setIsMobileDevice] = useState(true);
+
+  useEffect(() => {
+    setIsMobileDevice(/Mobi/i.test(window.navigator.userAgent));
+  }, []);
 
   const resetData = async () => {
     await clearStats();
@@ -43,14 +48,13 @@ export default function StatsWrapper() {
           <button type="button" onClick={() => resetData()}>Reset data</button>
         </span>
         {
-          // only show screenshot button if we're on the stats page
-          location.pathname === '/stats' && (
+          // only show screenshot button if we're on the stats page and not on mobile
+          location.pathname === '/stats' && !isMobileDevice && (
             <span>
               <button type="button" onClick={() => takeScreenshot()}>Share</button>
             </span>
           )
         }
-
       </div>
       <div id="dr-share-wrapper">
         <div id="dr-share-content">
