@@ -3,13 +3,14 @@ import { Outlet, useLocation } from 'remix';
 import html2canvas from 'html2canvas';
 
 import { clearStats } from '../lib/store';
+import { checkForMobile } from '../lib/utils';
 
 export default function StatsWrapper() {
   const location = useLocation();
   const [isMobileDevice, setIsMobileDevice] = useState(true);
 
   useEffect(() => {
-    setIsMobileDevice(/Mobi/i.test(window.navigator.userAgent));
+    setIsMobileDevice(checkForMobile(window.navigator.userAgent));
   }, []);
 
   const resetData = async () => {

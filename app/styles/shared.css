@@ -47,8 +47,9 @@ button:focus {
 }
 
 a {
-  color: var(--blurple);
-  text-decoration: none;
+  color: var(--white);
+  text-decoration: underline;
+  text-decoration-color: var(--blurple);
 }
 
 b {
@@ -181,6 +182,9 @@ p {
   display: flex;
   justify-content: space-between;
 }
+.dr-toplist-item:nth-child(even) {
+  background-color: var(--background);
+}
 .dr-toplist-item-name {
   line-height: 1.2em;
 }
@@ -189,7 +193,7 @@ p {
   flex: 5;
 }
 .dr-toplist-number {
-  flex: 0 0 40px;
+  flex: 0 0 60px;
 }
 .dr-toplist-header {
   display: flex;
@@ -279,9 +283,6 @@ p {
   justify-content: center;
   align-items: center;
   margin-right: 15px;
-}
-.dr-sectionlink a {
-  text-decoration: underline;
 }
 
 .dr-landing-wrapper {

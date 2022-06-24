@@ -93,3 +93,5 @@ export const initializeYearStats = () => {
   }
   return baseYears;
 };
+
+export const checkForMobile = (userAgent) => /Mobi/i.test(userAgent);

@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'remix';
 
 import { AiOutlineLoading } from 'react-icons/ai';
 
 import { extractPackage } from '../lib/extract';
 import { collectStats } from '../lib/stats/stats';
+import { checkForMobile } from '../lib/utils';
 import Row from '../components/Row';
 import Tile from '../components/Tile';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    setIsMobileDevice(checkForMobile(window.navigator.userAgent));
+  }, []);
 
   const handlePackage = async (file) => {
     try {
@@ -50,8 +56,19 @@ export default function Home() {
       '1. Request your data package from Discord!',
       'User Settings / Privacy & safety / Request all of my data',
       '2. It can take a day or two - when it arrives, come back here!',
-      '3. Press the button below to get it analyzed!',
+      '3. Get your data package analyzed!',
       "Very important: Nothing gets uploaded, everything happens in your browser - so you don't have to worry about your data getting stolen or misused.",
+    ];
+    return messages.map((message) => (
+      <p className="dr-landing-instruction" key={message}>{message}</p>
+    ));
+  };
+
+  const getMobileDisclaimer = () => {
+    const messages = [
+      'It looks like you\'re using a mobile device.',
+      'Due to the size of Discord data packages, the performance cost of analyzing them is quite high.',
+      'If you want to use this site, please switch to a desktop browser.',
     ];
     return messages.map((message) => (
       <p className="dr-landing-instruction" key={message}>{message}</p>
@@ -71,22 +88,36 @@ export default function Home() {
           <Row>
             <Tile flex={1}>
               {getInstructions()}
-              <div className="dr-landing-loading-wrapper">
-                {
-                loading
-                  ? (
-                    <div className="dr-landing-loading">
-                      Preparing your recap...
-                      <span className="dr-landing-loading-icon">
-                        <AiOutlineLoading />
-                      </span>
-                    </div>
-                  )
-                  : <button type="button" className="dr-landing-button" onClick={fileUpload}>Get your package analyzed!</button>
+              {
+                !isMobileDevice && (
+                  <div className="dr-landing-loading-wrapper">
+                    {
+                      loading
+                        ? (
+                          <div className="dr-landing-loading">
+                            Preparing your recap...
+                            <span className="dr-landing-loading-icon">
+                              <AiOutlineLoading />
+                            </span>
+                          </div>
+                        )
+                        : <button type="button" className="dr-landing-button" onClick={fileUpload}>Get your data package analyzed!</button>
+                    }
+                  </div>
+                )
               }
-              </div>
+
             </Tile>
           </Row>
+          {
+            isMobileDevice && (
+              <Row>
+                <Tile flex={1}>
+                  {getMobileDisclaimer()}
+                </Tile>
+              </Row>
+            )
+          }
           {
             error && (
               <Row>
