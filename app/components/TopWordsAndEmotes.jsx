@@ -48,6 +48,7 @@ const TopWordsAndEmotes = (props) => {
           open
         />
         <TopList
+          expandable
           items={getTopWords().slice(3)}
           title=""
           open={wordsOpen}
@@ -65,6 +66,7 @@ const TopWordsAndEmotes = (props) => {
           ignoreEmoji
         />
         <TopList
+          expandable
           items={getTopEmotes().slice(3)}
           title=""
           open={emotesOpen}

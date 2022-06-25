@@ -11,7 +11,7 @@ import Tooltip from './Tooltip';
 
 const TopList = (props) => {
   const {
-    title, tooltip, items, onToggle, open, ignoreEmoji,
+    title, tooltip, items, onToggle, open, ignoreEmoji, expandable,
   } = props;
 
   const [contentRef, setContentRef] = useState(null);
@@ -38,7 +38,7 @@ const TopList = (props) => {
   };
 
   return (
-    <div className="dr-toplist">
+    <div className={expandable ? 'dr-toplist dr-toplist-expandable' : 'dr-toplist'}>
       <Accordion
         headerKey={title}
         header={(
@@ -111,6 +111,7 @@ TopList.propTypes = {
   onToggle: PropTypes.func,
   open: PropTypes.bool,
   ignoreEmoji: PropTypes.bool,
+  expandable: PropTypes.bool,
 };
 
 export default TopList;

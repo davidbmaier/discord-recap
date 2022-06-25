@@ -185,6 +185,12 @@ p {
 .dr-toplist-item:nth-child(even) {
   background-color: var(--background);
 }
+.dr-toplist-expandable .dr-toplist-item:nth-child(even) {
+  background-color: var(--dark-background);
+}
+.dr-toplist-expandable .dr-toplist-item:nth-child(odd) {
+  background-color: var(--background);
+}
 .dr-toplist-item-name {
   line-height: 1.2em;
 }
