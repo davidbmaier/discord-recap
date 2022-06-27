@@ -40,6 +40,25 @@ export default function Home() {
     input.click();
   };
 
+  const handleFileDrop = (event) => {
+    event.preventDefault();
+    let file;
+    if (event.dataTransfer.items) {
+      if (event.dataTransfer.items[0].kind === 'file') {
+        file = event.dataTransfer.items[0].getAsFile();
+      }
+    } else {
+      [file] = event.dataTransfer.files;
+    }
+
+    handlePackage(file);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   const getParagraphs = () => {
     const messages = [
       'Ever wondered what kind of data Discord knows about you?',
@@ -77,7 +96,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="dr-landing-wrapper">
+      <div className="dr-landing-wrapper" onDrop={handleFileDrop} onDragOver={handleDragOver}>
         <div className="dr-landing-tile">
           <h1>Discord Recap</h1>
           <Row>
