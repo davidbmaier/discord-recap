@@ -36,6 +36,7 @@ export const collectMessages = async (files) => {
       .map((m) => ({
         timestamp: m.Timestamp,
         content: m.Contents || '',
+        attachments: m['Attachments\r'] || null, // header ends here, so the header field contains the newline char
       }));
     channelData.messages = messageData;
 

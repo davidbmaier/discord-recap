@@ -65,6 +65,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     userTag: `${userData.username}#${userData.discriminator.toString().padStart(4, '0')}`,
     darkMode: darkModeEnabled,
     connections: getConnections(),
+    filesUploaded: 0,
     totalPaymentAmount: getPaymentsTotal(),
   };
 
@@ -116,6 +117,11 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     if (words.length === 1 && words[0] === '') {
       // don't count empty messages towards words
       words = [];
+    }
+
+    // count attachments
+    if (message.attachments) {
+      stats.filesUploaded += message.attachments.split(' ').length;
     }
 
     // initialize all levels of stats objects

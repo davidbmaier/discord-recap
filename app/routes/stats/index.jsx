@@ -7,7 +7,7 @@ import {
   AiOutlineEdit, AiOutlineDelete, AiOutlineExport, AiTwotoneCalendar, AiOutlineEye,
 } from 'react-icons/ai';
 import {
-  BsEmojiSmile, BsDoorOpen, BsWindow, BsSearch, BsMegaphone, BsPerson,
+  BsEmojiSmile, BsDoorOpen, BsWindow, BsSearch, BsMegaphone, BsPerson, BsUpload,
 } from 'react-icons/bs';
 import {
   MdPlusOne, MdSaveAlt, MdOutlineDarkMode, MdOutlineKeyboard, MdOutlineUpdate, MdGroups,
@@ -169,6 +169,11 @@ export default function Stats() {
           : 'A <b>light mode</b> user - that\'s pretty rare!',
         value: 'true', // no value check needed
         icon: <MdOutlineDarkMode />,
+      },
+      {
+        text: `You uploaded a total of <b>${stats.filesUploaded}</b> files to Discord. That's a lot of memes!`,
+        value: stats.filesUploaded,
+        icon: <BsUpload />,
       },
       {
         text: `You opened Discord <b>${formatNumber(stats.eventStats.appOpened)}</b> ${usePlural('time', stats.eventStats.appOpened)}.`,
