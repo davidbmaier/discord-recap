@@ -171,7 +171,7 @@ export default function Stats() {
         icon: <MdOutlineDarkMode />,
       },
       {
-        text: `You uploaded a total of <b>${stats.filesUploaded}</b> files to Discord. That's a lot of memes!`,
+        text: `You uploaded a total of <b>${formatNumber(stats.filesUploaded)}</b> files to Discord. That's a lot of memes!`,
         value: stats.filesUploaded,
         icon: <BsUpload />,
       },
