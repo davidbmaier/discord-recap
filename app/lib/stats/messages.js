@@ -27,6 +27,10 @@ export const collectMessages = async (files) => {
 
     // fetch the channel messages
     const rawMessages = await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/messages.csv`);
+    if (!rawMessages) {
+      // ignore empty channels
+      return;
+    }
     const messageData = parseCSV(rawMessages, {
       header: true,
       newline: ',\r',
