@@ -111,10 +111,7 @@ export default function Stats() {
           icon: <IoWarningOutline />,
         },
         {
-          text: [
-            `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
-            `And you used <b>${formatNumber(stats.eventStats.slashCommandUsed)}</b> slash ${usePlural('command', stats.eventStats.slashCommandUsed)}.`,
-          ],
+          text: `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
           value: stats.eventStats.threadJoined,
           icon: <AiOutlineExport />,
         },
@@ -148,21 +145,6 @@ export default function Stats() {
 
   const getMetaDataFields = () => {
     let messages = [
-      {
-        text: `You joined a voice channel <b>${formatNumber(stats.eventStats.voiceChannelJoined + stats.eventStats.voiceDMJoined)}</b> ${usePlural('time', stats.eventStats.voiceChannelJoined)}.`,
-        value: stats.eventStats.voiceChannelJoined,
-        icon: <HiOutlinePhone />,
-      },
-      {
-        text: [
-          `Overall, you started talking <b>${formatNumber(stats.eventStats.startedSpeaking)}</b> ${usePlural('time', stats.eventStats.startedSpeaking)}.`,
-          stats.eventStats.voiceChannelJoined
-            ? `On average, that's <b>${Math.floor((stats.eventStats.startedSpeaking / (stats.eventStats.voiceChannelJoined + stats.eventStats.voiceDMJoined)) * 100) / 100}</b> times per call.`
-            : '',
-        ],
-        value: stats.eventStats.startedSpeaking,
-        icon: <BiUserVoice />,
-      },
       {
         text: stats.darkMode
           ? 'A <b>dark mode</b> connoisseur - unofficial stats say you\'re in the vast majority!'
