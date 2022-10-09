@@ -1,4 +1,5 @@
 import { channelTypes, getBaseStats } from './constants';
+import { testIDB } from './store';
 
 export const incrementTextStats = (category, wordLength, characterLength, messageTimestamp) => {
   const updatedCategory = category;
@@ -95,3 +96,12 @@ export const initializeYearStats = () => {
 };
 
 export const checkForMobile = (userAgent) => /Mobi/i.test(userAgent);
+
+export const checkForFFPrivate = async () => {
+  try {
+    await testIDB();
+    return false;
+  } catch (error) {
+    return true;
+  }
+};

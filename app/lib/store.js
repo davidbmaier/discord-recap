@@ -16,3 +16,8 @@ export const clearStats = async () => {
   localStorage.removeItem(statsID);
   await del(statsID);
 };
+
+export const testIDB = async () => {
+  await set('test', 'value');
+  await del('test');
+};

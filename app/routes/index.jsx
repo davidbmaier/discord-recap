@@ -5,7 +5,7 @@ import { AiOutlineLoading } from 'react-icons/ai';
 
 import { extractPackage } from '../lib/extract';
 import { collectStats } from '../lib/stats/stats';
-import { checkForMobile } from '../lib/utils';
+import { checkForFFPrivate, checkForMobile } from '../lib/utils';
 import Row from '../components/Row';
 import Tile from '../components/Tile';
 
@@ -13,9 +13,15 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [isFFPrivate, setIsFFPrivate] = useState(false);
 
   useEffect(() => {
-    setIsMobileDevice(checkForMobile(window.navigator.userAgent));
+    const checkSpecialCases = async () => {
+      setIsMobileDevice(checkForMobile(window.navigator.userAgent));
+      setIsFFPrivate(await checkForFFPrivate());
+    };
+
+    checkSpecialCases();
   }, []);
 
   const handlePackage = async (file) => {
@@ -94,6 +100,17 @@ export default function Home() {
     ));
   };
 
+  const getFFPrivateDisclaimer = () => {
+    const messages = [
+      'It looks like you\'re using a Firefox Private Window.',
+      'Due to browser restrictions, this site is unable to store its data locally in this setup.',
+      'If you want to use this site, please switch to a different browser or out of the Private Window.',
+    ];
+    return messages.map((message) => (
+      <p className="dr-landing-instruction" key={message}>{message}</p>
+    ));
+  };
+
   return (
     <>
       <div className="dr-landing-wrapper" onDrop={handleFileDrop} onDragOver={handleDragOver}>
@@ -108,7 +125,7 @@ export default function Home() {
             <Tile flex={1}>
               {getInstructions()}
               {
-                !isMobileDevice && (
+                !isMobileDevice && !isFFPrivate && (
                   <div className="dr-landing-loading-wrapper">
                     {
                       loading
@@ -133,6 +150,15 @@ export default function Home() {
               <Row>
                 <Tile flex={1}>
                   {getMobileDisclaimer()}
+                </Tile>
+              </Row>
+            )
+          }
+          {
+            isFFPrivate && (
+              <Row>
+                <Tile flex={1}>
+                  {getFFPrivateDisclaimer()}
                 </Tile>
               </Row>
             )

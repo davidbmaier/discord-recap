@@ -13,8 +13,7 @@ import {
   MdPlusOne, MdSaveAlt, MdOutlineDarkMode, MdOutlineKeyboard, MdOutlineUpdate, MdGroups,
 } from 'react-icons/md';
 import { GoMention } from 'react-icons/go';
-import { HiOutlinePhone } from 'react-icons/hi';
-import { BiUserVoice, BiFoodMenu } from 'react-icons/bi';
+import { BiFoodMenu } from 'react-icons/bi';
 import { FaDollarSign } from 'react-icons/fa';
 import { VscReport, VscError } from 'react-icons/vsc';
 import { FiMonitor } from 'react-icons/fi';
