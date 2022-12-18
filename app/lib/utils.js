@@ -18,13 +18,15 @@ export const incrementTextStats = (category, wordLength, characterLength, messag
 
 export const incrementEmoteMatches = (category, emoteName, emoteID) => {
   const updatedCategory = category;
-  if (!updatedCategory.topEmotes[emoteName]) {
-    updatedCategory.topEmotes[emoteName] = {
+  const lowerCaseName = emoteName.toLowerCase();
+  if (!updatedCategory.topEmotes[lowerCaseName]) {
+    updatedCategory.topEmotes[lowerCaseName] = {
+      originalName: emoteName,
       count: 1,
       id: emoteID,
     };
   } else {
-    updatedCategory.topEmotes[emoteName].count += 1;
+    updatedCategory.topEmotes[lowerCaseName].count += 1;
   }
 };
 
