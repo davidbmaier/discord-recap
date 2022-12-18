@@ -9,7 +9,12 @@ import { chartTypes, dayLabels } from '../lib/constants';
 const Chart = (props) => {
   const { data, type } = props;
 
-  const formatTooltipValue = (value) => [`${value} Messages`, ''];
+  const formatTooltipValue = (value) => [`${formatNumber(value)} Messages`, ''];
+
+  const formatNumber = (value) => {
+    const numberFormat = new Intl.NumberFormat('en-US');
+    return numberFormat.format(value);
+  };
 
   const formatLabel = (label) => {
     if (type === chartTypes.hour) {
@@ -30,7 +35,7 @@ const Chart = (props) => {
         data={data}
       >
         <XAxis dataKey="category" tickFormatter={formatLabel} />
-        <YAxis />
+        <YAxis tickFormatter={formatNumber} />
         <Tooltip
           formatter={formatTooltipValue}
           labelFormatter={formatLabel}
