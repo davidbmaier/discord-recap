@@ -287,13 +287,16 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
       ([, aValue], [, bValue]) => bValue.count - aValue.count,
     );
     const cleanMatches = [];
-    sortedMatches.forEach(([name, { count, id }]) => {
+    sortedMatches.forEach(([name, { count, id, originalName }]) => {
       const cleanedMatch = {
         name,
         count,
       };
       if (id) {
         cleanedMatch.id = id;
+      }
+      if (originalName) {
+        cleanedMatch.name = originalName;
       }
       cleanMatches.push(cleanedMatch);
     });
