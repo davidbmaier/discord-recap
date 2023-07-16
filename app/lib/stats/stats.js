@@ -4,7 +4,7 @@ import { readFile } from '../extract';
 import { collectMessages } from './messages';
 import { collectAnalytics } from './analytics';
 import {
-  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage, initializeYearStats,
+  incrementTextStats, incrementEmoteMatches, incrementWordMatches, updateFirstAndLastMessage, initializeYearStats, resolveUserTag,
 } from '../utils';
 import { clearStats, storeStats } from '../store';
 import {
@@ -62,7 +62,7 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
   let stats = {
     // account stats
     userID: userData.id,
-    userTag: `${userData.username}#${userData.discriminator.toString().padStart(4, '0')}`,
+    userTag: resolveUserTag(userData.username, userData.discriminator),
     darkMode: darkModeEnabled,
     connections: getConnections(),
     filesUploaded: 0,

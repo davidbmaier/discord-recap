@@ -107,3 +107,10 @@ export const checkForFFPrivate = async () => {
     return true;
   }
 };
+
+export const resolveUserTag = (name, discriminator) => {
+  if (discriminator.toString() === '0') {
+    return name;
+  }
+  return `${name}#${discriminator.toString().padStart(4, '0')}`;
+};

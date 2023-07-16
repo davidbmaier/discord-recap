@@ -16,9 +16,20 @@ export const collectMessages = async (files) => {
   }
 
   await Promise.all(Object.entries(messageIndex).map(async ([channelID, description]) => {
+    const cleanUpDescription = (desc) => {
+      if (!desc) {
+        return 'Unknown conversation';
+      }
+      // remove fake discriminators
+      if (desc.endsWith('#0000')) {
+        return desc.substring(0, desc.length - 5);
+      }
+      return desc;
+    };
+
     const channelData = {
       id: channelID,
-      description: description || 'Unknown conversation',
+      description: cleanUpDescription(description),
     };
 
     // fetch the channel metadata
@@ -50,7 +61,7 @@ export const collectMessages = async (files) => {
       || channelData.type === channelTypes.groupDM
     ) {
       // dms
-      channelData.name = channelMetadata.name || description || 'Unknown conversation';
+      channelData.name = channelMetadata.name || channelData.description || 'Unknown conversation';
       if (channelData.name === 'Unknown conversation') {
         channelData.unknown = true;
       }
