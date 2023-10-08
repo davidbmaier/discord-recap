@@ -133,6 +133,10 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     let serverChannelStats;
 
     if (isDM) {
+      // overwrite DM channel name to avoid #0 for new usernames
+      // eslint-disable-next-line no-param-reassign
+      channelData.name = channelData.name.endsWith('#0') ? channelData.name.substring(0, channelData.name.length - 2) : channelData.name;
+
       dmChannelStats = messageStats.directMessages.channels.find((dm) => dm.id === channelData.id);
       if (!dmChannelStats) {
         dmChannelStats = {
