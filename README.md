@@ -24,10 +24,6 @@ and a bunch more!
 
 Everything happens in the browser, and no external requests are made (apart from fetching some Discord emoji).
 
-### Feature requests
-
-The web app tries to capture as many stats as possible - if you have any ideas for new features, please open an issue.
-
 ## Setup
 
 The web app uses [Remix](https://remix.run) and [React](https://reactjs.org).

@@ -14,6 +14,12 @@ export const collectMessages = async (files) => {
     oldPackage = true;
     console.debug('Old messages package detected');
   }
+  let jsonMessages = false;
+  const jsonFile = files.find((f) => /messages\/c([0-9]{16,32})\/messages\.json$/.test(f.name));
+  if (jsonFile) {
+    jsonMessages = true;
+    console.debug('JSON messages package detected');
+  }
 
   await Promise.all(Object.entries(messageIndex).map(async ([channelID, description]) => {
     const cleanUpDescription = (desc) => {
@@ -37,23 +43,39 @@ export const collectMessages = async (files) => {
     channelData.type = channelMetadata.type;
 
     // fetch the channel messages
-    const rawMessages = await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/messages.csv`);
-    if (!rawMessages) {
-      // ignore empty channels
-      return;
-    }
-    const messageData = parseCSV(rawMessages, {
-      header: true,
-      newline: ',\r',
-    })
-      .data
-      .filter((m) => m.Timestamp)
-      .map((m) => ({
-        timestamp: m.Timestamp,
-        content: m.Contents || '',
-        attachments: m['Attachments\r'] || null, // header ends here, so the header field contains the newline char
+    if (jsonMessages) {
+      // new JSON format for messages
+      const rawMessages = await readFile(files, `messages/c${channelData.id}/messages.json`);
+      if (!rawMessages) {
+        // ignore empty channels
+        return;
+      }
+      const messageData = JSON.parse(rawMessages);
+      channelData.messages = messageData.map((message) => ({
+        timestamp: message.Timestamp,
+        content: message.Contents || '',
+        attachments: message.Attachments || null,
       }));
-    channelData.messages = messageData;
+    } else {
+      // old CSV format for messages
+      const rawMessages = await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/messages.csv`);
+      if (!rawMessages) {
+      // ignore empty channels
+        return;
+      }
+      const messageData = parseCSV(rawMessages, {
+        header: true,
+        newline: ',\r',
+      })
+        .data
+        .filter((m) => m.Timestamp)
+        .map((m) => ({
+          timestamp: m.Timestamp,
+          content: m.Contents || '',
+          attachments: m['Attachments\r'] || null, // header ends here, so the header field contains the newline char
+        }));
+      channelData.messages = messageData;
+    }
 
     // fetch additional metadata and store the channels
     if (
