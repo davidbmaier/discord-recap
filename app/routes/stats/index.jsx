@@ -14,7 +14,7 @@ import {
 } from 'react-icons/md';
 import { GoMention } from 'react-icons/go';
 import { BiFoodMenu } from 'react-icons/bi';
-import { FaDollarSign } from 'react-icons/fa';
+import { FaDollarSign, FaRegUser } from 'react-icons/fa';
 import { VscReport, VscError } from 'react-icons/vsc';
 import { FiMonitor } from 'react-icons/fi';
 
@@ -226,6 +226,11 @@ export default function Stats() {
           value: 'true', // no value check needed, 0 is worth showing
           icon: <FaDollarSign />,
         },
+        {
+          text: `Based on their analytics, Discord thinks you're <b>${stats.eventStats.predictedAge.predicted_age}</b> years old and <b>${stats.eventStats.predictedGender.predicted_gender}</b>.`,
+          value: stats.eventStats.predictedAge && stats.eventStats.predictedGender,
+          icon: <FaRegUser />
+        }
       ]);
     }
 

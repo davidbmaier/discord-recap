@@ -125,6 +125,11 @@ export const eventTypes = {
   ...technicalEventTypes,
 };
 
+export const dataEventTypes = {
+  predictedGender: 'predicted_gender',
+  predictedAge: 'predicted_age'
+}
+
 export const chartTypes = {
   day: 'day',
   hour: 'hour',

@@ -1,6 +1,6 @@
 import { DecodeUTF8 } from 'fflate';
 
-import { eventTypes } from '../constants';
+import { dataEventTypes, eventTypes } from '../constants';
 
 const updateEvents = (events, event) => {
   const updatedEvents = { ...events };
@@ -8,8 +8,19 @@ const updateEvents = (events, event) => {
 
   const eventTypeKey = Object.keys(eventTypes).find((k) => eventTypes[k] === type);
   if (!eventTypeKey) {
-    // only process events we care about
-    return events;
+    // check for data event types (that are not handled as counters)
+    for (const [key, field] of Object.entries(dataEventTypes)) {
+      if (
+        event[field]
+        && (!updatedEvents[key] || new Date(event.day_pt) > new Date(updatedEvents[key].day_pt))
+      ) {
+        // update this data event type if the field exists and day_pt is later than the currently stored one
+        updatedEvents[key] = event;
+        break;
+      }
+    }
+
+    return updatedEvents;
   }
 
   updatedEvents[eventTypeKey] += 1;
