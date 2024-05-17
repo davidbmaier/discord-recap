@@ -227,7 +227,7 @@ export default function Stats() {
           icon: <FaDollarSign />,
         },
         {
-          text: `Based on their analytics, Discord thinks you're <b>${stats.eventStats.predictedAge.predicted_age}</b> years old and <b>${stats.eventStats.predictedGender.predicted_gender}</b>.`,
+          text: `Based on their analytics, Discord thinks you're <b>${stats.eventStats.predictedAge?.predicted_age}</b> years old and <b>${stats.eventStats.predictedGender?.predicted_gender}</b>.`,
           value: stats.eventStats.predictedAge && stats.eventStats.predictedGender,
           icon: <FaRegUser />
         }
