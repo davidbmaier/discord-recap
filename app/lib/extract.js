@@ -25,15 +25,15 @@ export const extractPackage = async (file) => {
   }
 
   // check for required files
-  let requiredFileMissing = false;
+  let requiredFilesMissing = [];
   requiredFiles.forEach((requiredFile) => {
-    if (!files.some((f) => f.name === requiredFile)) {
-      requiredFileMissing = true;
+    if (!files.some((f) => f.name.match(requiredFile.value))) {
+      requiredFilesMissing.push(requiredFile.name);
     }
   });
 
-  if (requiredFileMissing) {
-    throw new Error('Package is missing required files.');
+  if (requiredFilesMissing.length > 0) {
+    throw new Error(`Package is missing required file(s): ${requiredFilesMissing.join(`, `)}`);
   }
 
   return files;

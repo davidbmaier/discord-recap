@@ -80,6 +80,7 @@ export default function Home() {
     const messages = [
       '1. Request your data package from Discord!',
       'User Settings / Privacy & Safety / Request all of my data',
+      'Make sure to select Account, Activity, Messages and Servers.',
       '2. It can take a day or two - when it arrives, come back here!',
       '3. Get your data package analyzed!',
       "Very important: Nothing gets uploaded, everything happens in your browser - so you don't have to worry about your data getting stolen or misused.",
@@ -169,14 +170,28 @@ export default function Home() {
                 <Tile flex={1}>
                   <div className="dr-landing-error">
                     <div className="dr-landing-text">Uh-oh, looks like something went wrong.</div>
-                    <div className="dr-landing-text">
-                      Please report this by
-                      <b><a href="https://github.com/davidbmaier/discord-recap/issues"> opening an issue in the Github repository</a></b>
-                      .
-                    </div>
-                    <div className="dr-landing-text">
-                      You can find the error in the browser console (F12 - Console).
-                    </div>
+                    {
+                      error?.message?.includes("missing required file")
+                        ? <>
+                          <div className="dr-landing-text">
+                            {error.message}
+                          </div>
+                          <br />
+                          <div className="dr-landing-text">
+                            If you're sure you picked the correct file, you likely didn't select all the required collections (see above) when you requested your data package from Discord.
+                          </div>
+                        </>
+                        : <>
+                          <div className="dr-landing-text">
+                            Please report this by
+                            <b><a href="https://github.com/davidbmaier/discord-recap/issues"> opening an issue in the Github repository</a></b>
+                            .
+                          </div>
+                          <div className="dr-landing-text">
+                            You can find the error in the browser console (F12 - Console).
+                          </div>
+                        </>
+                    }
                   </div>
                 </Tile>
               </Row>

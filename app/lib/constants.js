@@ -1,8 +1,24 @@
 export const requiredFiles = [
-  'README.txt',
-  'account/user.json',
-  'messages/index.json',
-  'servers/index.json',
+  {
+    name: `README.txt`,
+    value: /README\.txt/
+  },
+  {
+    name: `user.json in /account`,
+    value: /account\/user\.json/
+  },
+  {
+    name: `index.json in /messages`,
+    value: /messages\/index\.json/
+  },
+  {
+    name: `index.json in /servers`,
+    value: /servers\/index\.json/
+  },
+  {
+    name: `events.json in /activity/reporting`,
+    value: /activity\/reporting\/events-[0-9-of]+\.json/
+  }
 ];
 
 export const channelTypes = {
