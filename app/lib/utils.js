@@ -42,11 +42,6 @@ export const incrementWordMatches = (category, word) => {
 };
 
 export const updateFirstAndLastMessage = (category, message, channelData, messageTimestamp) => {
-  if (message.content === '') {
-    // ignore empty messages (e.g. join messages)
-    return;
-  }
-
   const unknownData = {};
   if (
     (channelData.type !== channelTypes.DM && channelData.type !== channelTypes.groupDM)
@@ -59,14 +54,14 @@ export const updateFirstAndLastMessage = (category, message, channelData, messag
   }
 
   const updatedCategory = category;
-  if (!updatedCategory.firstMessage || messageTimestamp < updatedCategory.firstMessage.date) {
+  if (!updatedCategory.firstMessage || messageTimestamp < updatedCategory.firstMessage.date || updatedCategory.firstMessage?.content === ``) {
     updatedCategory.firstMessage = {
       date: messageTimestamp,
       content: message.content,
       channel: { ...channelData, messages: null, ...unknownData },
     };
   }
-  if (!updatedCategory.lastMessage || messageTimestamp > updatedCategory.lastMessage.date) {
+  if (!updatedCategory.lastMessage || messageTimestamp > updatedCategory.lastMessage.date || updatedCategory.lastMessage?.content === ``) {
     updatedCategory.lastMessage = {
       date: messageTimestamp,
       content: message.content,
