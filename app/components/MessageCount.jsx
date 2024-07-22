@@ -26,8 +26,12 @@ const MessageCount = (props) => {
       <DataField
         valueText={`You have sent <b>${formatNumber(messageCount)}</b>
           ${usePlural('message', messageCount)}${context ? ` ${context}` : ''}.`}
-        subtitle={`That's about <b>${getAverageMessageCountPerDay()}</b>
-          ${usePlural('message', getAverageMessageCountPerDay())} per day between your first and your latest one.`}
+        subtitle={
+          messageCount > 1
+            ? `That's about <b>${getAverageMessageCountPerDay()}</b>
+            ${usePlural('message', getAverageMessageCountPerDay())} per day between your first and your latest one.`
+            : ``
+        }
         value={messageCount}
         icon={<TiMessages />}
       />
