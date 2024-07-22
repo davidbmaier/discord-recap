@@ -27,10 +27,10 @@ const DataField = (props) => {
               <div className="dr-datafield-value">
                 <h2 dangerouslySetInnerHTML={{ __html: valueText }} />
               </div>
-              { subtitle && (
-              <div className="dr-datafield-subtitle">
-                <h3 dangerouslySetInnerHTML={{ __html: subtitle }} />
-              </div>
+              {subtitle && (
+                <div className="dr-datafield-subtitle">
+                  <h3 dangerouslySetInnerHTML={{ __html: subtitle }} />
+                </div>
               )}
             </span>
 
@@ -51,6 +51,7 @@ DataField.propTypes = {
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.number,
       PropTypes.arrayOf(PropTypes.number),
+      PropTypes.bool
     ],
   ),
   icon: PropTypes.node,
