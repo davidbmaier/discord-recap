@@ -29,6 +29,8 @@ export default function Servers() {
         count: server.messageCount,
         link: `/stats/servers/${server.id}`,
         unknown: server.unknown,
+        firstMessage: server.firstMessage,
+        lastMessage: server.lastMessage
       })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
       setStats(serverStats);
     });
@@ -41,7 +43,7 @@ export default function Servers() {
         breadcrumbText="Back to stats"
         breadcrumbLink="/stats"
       />
-      { stats && (
+      {stats && (
         <>
           <Row>
             <Tile flex={3}>
@@ -93,6 +95,7 @@ export default function Servers() {
                 title="Top Servers"
                 items={stats.servers}
                 open
+                sortable
               />
             </Tile>
           </Row>

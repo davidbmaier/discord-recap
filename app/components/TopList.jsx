@@ -9,12 +9,23 @@ import Accordion from './Accordion';
 import Emote from './Emote';
 import Tooltip from './Tooltip';
 
+const sortOptions = [
+  { key: `countDesc`, label: `Message count (descending)` },
+  { key: `countAsc`, label: `Message count (ascending)` },
+  { key: `latestDesc`, label: `Latest message sent (newest first)` },
+  { key: `latestAsc`, label: `Latest message sent (oldest first)` },
+  { key: `firstDesc`, label: `First message sent (newest first)` },
+  { key: `firstAsc`, label: `First message sent (oldest first)` },
+];
+
 const TopList = (props) => {
   const {
-    title, tooltip, items, onToggle, open, ignoreEmoji, expandable,
+    title, tooltip, items, onToggle, open, ignoreEmoji, expandable, sortable
   } = props;
 
   const [contentRef, setContentRef] = useState(null);
+  const [sortMode, setSortMode] = useState(`countDesc`);
+  const [sortedItems, setSortedItems] = useState([]);
 
   useEffect(() => {
     if (contentRef) {
@@ -26,6 +37,10 @@ const TopList = (props) => {
     }
   }, [open, contentRef, items]);
 
+  useEffect(() => {
+    setSortedItems(items);
+  }, [])
+
   const onAccordionRefChange = (ref) => {
     setContentRef(ref);
   };
@@ -36,6 +51,50 @@ const TopList = (props) => {
     }
     return name;
   };
+
+  const onSort = (newSortMode) => {
+    if (newSortMode === sortMode) {
+      return;
+    }
+
+    const itemsToBeSorted = [...items];
+    setSortMode(newSortMode);
+
+    switch (newSortMode) {
+      case `countDesc`:
+        setSortedItems(itemsToBeSorted);
+        break;
+      case `countAsc`:
+        setSortedItems(itemsToBeSorted.reverse());
+        break;
+      case `latestDesc`:
+        itemsToBeSorted.sort((channelA, channelB) => {
+          return new Date(channelB.lastMessage?.date || 0) - new Date(channelA.lastMessage?.date || 0)
+        })
+        setSortedItems(itemsToBeSorted);
+        break;
+      case `latestAsc`:
+        itemsToBeSorted.sort((channelA, channelB) => {
+          return new Date(channelA.lastMessage?.date || 0) - new Date(channelB.lastMessage?.date || 0)
+        })
+        setSortedItems(itemsToBeSorted);
+        break;
+      case `firstDesc`:
+        itemsToBeSorted.sort((channelA, channelB) => {
+          return new Date(channelB.firstMessage?.date || 0) - new Date(channelA.firstMessage?.date || 0)
+        })
+        setSortedItems(itemsToBeSorted);
+        break;
+      case `firstAsc`:
+        itemsToBeSorted.sort((channelA, channelB) => {
+          return new Date(channelA.firstMessage?.date || 0) - new Date(channelB.firstMessage?.date || 0)
+        })
+        setSortedItems(itemsToBeSorted);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className={expandable ? 'dr-toplist dr-toplist-expandable' : 'dr-toplist'}>
@@ -56,7 +115,7 @@ const TopList = (props) => {
         content={(
           <div className="dr-toplist-content">
             {
-              items.map((item, index) => (
+              sortedItems.map((item, index) => (
                 <div className="dr-toplist-item" key={item.id}>
                   <span className="dr-toplist-name-wrapper">
                     <span className="dr-toplist-number">
@@ -93,6 +152,9 @@ const TopList = (props) => {
         onToggle={onToggle}
         open={open}
         onRefChange={onAccordionRefChange}
+        sortable={sortable}
+        sortOptions={sortOptions}
+        onSort={onSort}
       />
     </div>
   );
@@ -112,6 +174,7 @@ TopList.propTypes = {
   open: PropTypes.bool,
   ignoreEmoji: PropTypes.bool,
   expandable: PropTypes.bool,
+  sortable: PropTypes.bool,
 };
 
 export default TopList;

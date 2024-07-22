@@ -20,6 +20,8 @@ export default function Channels() {
           count: channel.messageCount,
           link: `/stats/servers/${server.id}/${channel.id}`,
           unknown: channel.unknown,
+          firstMessage: channel.firstMessage,
+          lastMessage: channel.lastMessage
         }));
         return channels;
       }).flat().sort(({ count: value1 }, { count: value2 }) => value2 - value1);
@@ -34,13 +36,14 @@ export default function Channels() {
         breadcrumbText="Back to stats"
         breadcrumbLink="/stats"
       />
-      { stats && (
+      {stats && (
         <Row>
           <Tile flex={1}>
             <TopList
               title="Top Channels"
               items={stats}
               open
+              sortable
             />
           </Tile>
         </Row>

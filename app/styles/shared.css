@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'Whitney';
-  src: url('/Whitney.woff2') format('woff2');
+  font-family: "Whitney";
+  src: url("/Whitney.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Whitney';
-  src: url('/Whitney-Bold.woff2') format('woff2');
+  font-family: "Whitney";
+  src: url("/Whitney-Bold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
 }
@@ -16,26 +16,27 @@
   --header: #3b3d42;
   --background: #2c2f33;
   --dark-background: #23272a;
-  --blurple: #5865F2;
+  --blurple: #5865f2;
   --white: #ffffff;
   --quote: #4f545c;
 
   height: 100%;
 }
 
-body, html {
+body,
+html {
   height: 100%;
 }
 
 body {
   background-color: var(--background);
-  font-family: 'Whitney', 'Segoe UI', sans-serif;
+  font-family: "Whitney", "Segoe UI", sans-serif;
   margin: 0;
   color: var(--white);
 }
 
 button {
-  font-family: 'Whitney', 'Segoe UI', sans-serif;
+  font-family: "Whitney", "Segoe UI", sans-serif;
   font-size: 1em;
 }
 button:hover {
@@ -73,10 +74,10 @@ h3 {
 }
 
 p {
-  margin: 0
+  margin: 0;
 }
 
-.dr-header{
+.dr-header {
   height: 50px;
   background-color: var(--header);
   display: flex;
@@ -85,7 +86,7 @@ p {
   margin-bottom: 15px;
 }
 
-.dr-footer{
+.dr-footer {
   height: 50px;
   background-color: var(--header);
   margin-top: 15px;
@@ -123,7 +124,8 @@ p {
   width: 1100px;
   background-color: var(--background);
 }
-#dr-share-content button, #dr-share-content .dr-toplist-header-tooltip {
+#dr-share-content button,
+#dr-share-content .dr-toplist-header-tooltip {
   display: none;
 }
 
@@ -231,6 +233,23 @@ p {
   background-color: var(--blurple);
 }
 
+.dr-accordion-header {
+  display: flex;
+  justify-content: space-between;
+}
+.dr-accordion-select {
+  margin-left: 5px;
+  background-color: var(--quote);
+  color: var(--white);
+  border: 0;
+  border-radius: 5px;
+  min-width: 70px;
+  min-height: 26px;
+  font-size: 15px;
+}
+.dr-accordion-select:focus-visible {
+  outline: none;
+}
 .dr-accordion-content {
   /* default max height that's unlikely to be reached */
   max-height: 2000px;
@@ -350,7 +369,7 @@ p {
 }
 .dr-landing-loading-icon svg {
   animation: dr-loading-icon 1.2s linear infinite;
-  font-size: 30px
+  font-size: 30px;
 }
 @keyframes dr-loading-icon {
   0% {

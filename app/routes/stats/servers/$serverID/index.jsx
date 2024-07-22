@@ -32,6 +32,8 @@ export default function Server() {
         count: channel.messageCount,
         link: `/stats/servers/${serverID}/${channel.id}`,
         unknown: channel.unknown,
+        firstMessage: channel.firstMessage,
+        lastMessage: channel.lastMessage
       })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
       setStats(serverStats);
     });
@@ -44,7 +46,7 @@ export default function Server() {
           <>
             <h1>
               {stats.name}
-              { stats.unknown && (
+              {stats.unknown && (
                 <Tooltip icon={<GrCircleQuestion />} text="All unknown channels are grouped in this category - Discord's data doesn't allow for more details." />
               )}
             </h1>
@@ -87,6 +89,7 @@ export default function Server() {
                   title="Top Channels"
                   items={stats.channels}
                   open
+                  sortable
                 />
               </Tile>
             </Row>

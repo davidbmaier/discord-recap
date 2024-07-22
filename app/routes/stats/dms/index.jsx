@@ -30,6 +30,8 @@ export default function DMs() {
         count: channel.messageCount,
         link: `/stats/dms/${channel.id}`,
         unknown: channel.unknown,
+        firstMessage: channel.firstMessage,
+        lastMessage: channel.lastMessage
       })).sort(({ count: value1 }, { count: value2 }) => value2 - value1);
       setStats(userStats);
     });
@@ -98,6 +100,7 @@ export default function DMs() {
                   title="Top DMs"
                   items={stats.channels}
                   open
+                  sortable
                 />
               </Tile>
             </Row>
