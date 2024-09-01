@@ -228,7 +228,7 @@ export default function Stats() {
         },
         {
           text: `Based on their analytics, Discord thinks you're <b>${stats.eventStats.predictedAge?.predicted_age}</b> years old and <b>${stats.eventStats.predictedGender?.predicted_gender}</b>.`,
-          value: !!stats.eventStats.predictedAge && !!stats.eventStats.predictedGender,
+          value: Object.prototype.hasOwnProperty.call(stats.eventStats, 'predictedAge') && Object.prototype.hasOwnProperty.call(stats.eventStats, 'predictedGender'),
           icon: <FaRegUser />
         }
       ]);

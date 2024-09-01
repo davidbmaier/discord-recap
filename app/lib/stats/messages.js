@@ -3,6 +3,28 @@ import { parse as parseCSV } from 'papaparse';
 import { readFile } from '../extract';
 import { channelTypes } from '../constants';
 
+const translateChannelType = (type) => {
+  if (Number.isInteger(type)) {
+    return type;
+  }
+
+  switch (type) {
+    case 'DM':
+      return channelTypes.DM;
+    case 'GROUP_DM':
+      return channelTypes.groupDM;
+    case 'PUBLIC_THREAD':
+      return channelTypes.publicThread;
+    case 'PRIVATE_THREAD':
+      return channelTypes.privateThread;
+    case 'GUILD_ANNOUNCEMENT':
+      return channelTypes.newsChannel;
+    case 'GUILD_TEXT':
+    default:
+      return 0;
+  }
+}
+
 export const collectMessages = async (files) => {
   const messageIndex = JSON.parse(await readFile(files, 'messages/index.json'));
   const dmChannels = [];
@@ -40,7 +62,8 @@ export const collectMessages = async (files) => {
 
     // fetch the channel metadata
     const channelMetadata = JSON.parse(await readFile(files, `messages/${oldPackage ? '' : 'c'}${channelData.id}/channel.json`));
-    channelData.type = channelMetadata.type;
+    // old channel types were just integers, they've changed into strings in August 2024 - translate them back for internal consistency
+    channelData.type = translateChannelType(channelMetadata.type);
 
     // fetch the channel messages
     if (jsonMessages) {

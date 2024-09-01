@@ -16,8 +16,8 @@ export const requiredFiles = [
     value: /servers\/index\.json/
   },
   {
-    name: `events.json in /activity/reporting`,
-    value: /activity\/reporting\/events-[0-9-of]+\.json/
+    name: `events.json in /activity`,
+    value: /activity\/modeling\/events-[0-9-of]+\.json/
   }
 ];
 

@@ -10,9 +10,9 @@ const DataField = (props) => {
   const isValid = () => {
     let invalid = false;
     if (Array.isArray(value)) {
-      invalid = value.some((v) => v === '' || v === 0 || v === null || v === undefined || Number.isNaN(v));
+      invalid = value.some((v) => v === '' || v === 0 || v === null || v === undefined || Number.isNaN(v) || v === false);
     } else {
-      invalid = value === '' || value === 0 || value === null || value === undefined || Number.isNaN(value);
+      invalid = value === '' || value === 0 || value === null || value === undefined || Number.isNaN(value) || value === false;
     }
     return !invalid;
   };

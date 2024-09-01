@@ -30,8 +30,8 @@ const updateEvents = (events, event) => {
 export const collectAnalytics = (files) => new Promise((resolve) => {
   let file = files.find((f) => /activity\/analytics\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
   if (!file) {
-    // backup is /reporting - /activity only exists with the right privacy settings
-    file = files.find((f) => /activity\/reporting\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
+    // backup is /modeling - /activity only exists with the right privacy settings
+    file = files.find((f) => /activity\/modeling\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
     if (!file) {
       resolve({});
       return;
