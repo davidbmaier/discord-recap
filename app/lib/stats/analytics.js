@@ -33,8 +33,12 @@ export const collectAnalytics = (files) => new Promise((resolve) => {
     // backup is /modeling - /activity only exists with the right privacy settings
     file = files.find((f) => /activity\/modeling\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
     if (!file) {
-      resolve({});
-      return;
+      // last backup is /tns
+      file = files.find((f) => /activity\/tns\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
+      if (!file) {
+        resolve({});
+        return;
+      }
     }
   }
 
