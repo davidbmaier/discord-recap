@@ -15,8 +15,9 @@ import {
 import { GoMention } from 'react-icons/go';
 import { BiFoodMenu } from 'react-icons/bi';
 import { FaDollarSign, FaRegUser } from 'react-icons/fa';
-import { VscReport, VscError } from 'react-icons/vsc';
+import { VscReport, VscError, VscGlobe } from 'react-icons/vsc';
 import { FiMonitor } from 'react-icons/fi';
+import { CgFormatSlash } from "react-icons/cg";
 
 import { getStats } from '../../lib/store';
 import { cleanChartData, usePlural, formatNumber } from '../../lib/utils';
@@ -110,9 +111,14 @@ export default function Stats() {
           icon: <IoWarningOutline />,
         },
         {
-          text: `Threads are still fairly new - you joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> of those.`,
+          text: `You joined <b>${formatNumber(stats.eventStats.threadJoined)}</b> threads.`,
           value: stats.eventStats.threadJoined,
           icon: <AiOutlineExport />,
+        },
+        {
+          text: `App commands can be quite useful - you've used <b>${formatNumber(stats.eventStats.slashCommandUsed)}</b> of those.`,
+          value: stats.eventStats.slashCommandUsed,
+          icon: <CgFormatSlash />,
         },
         {
           text: `See something you like? You saved <b>${formatNumber(stats.eventStats.imageSaved)}</b> ${usePlural('image', stats.eventStats.imageSaved)} in Discord.`,
@@ -230,6 +236,11 @@ export default function Stats() {
           text: `Based on their analytics, Discord thinks you're <b>${stats.eventStats.predictedAge?.predicted_age}</b> years old and <b>${stats.eventStats.predictedGender?.predicted_gender}</b>.`,
           value: Object.prototype.hasOwnProperty.call(stats.eventStats, 'predictedAge') && Object.prototype.hasOwnProperty.call(stats.eventStats, 'predictedGender'),
           icon: <FaRegUser />
+        },
+        {
+          text: `According to Discord, you've been to <b>${stats.eventStats.countries?.length}</b> different countries while using the platform.`,
+          value: stats.eventStats.countries && stats.eventStats.countries.length > 0,
+          icon: <VscGlobe />
         }
       ]);
     }

@@ -27,6 +27,25 @@ const updateEvents = (events, event) => {
   return updatedEvents;
 };
 
+const updateCountries = (events, event) => {
+  const updatedEvents = { ...events };
+  const country = event.country_code;
+  if (!country || country === `null`) {
+    return updatedEvents;
+  }
+
+  if (!updatedEvents.countries) {
+    updatedEvents.countries = [];
+  }
+
+  const countryAlreadyExists = updatedEvents.countries.find((countryInStats) => countryInStats === country);
+  if (!countryAlreadyExists) {
+    debugger;
+    updatedEvents.countries.push(country);
+  }
+  return updatedEvents;
+}
+
 export const collectAnalytics = (files) => new Promise((resolve) => {
   let file = files.find((f) => /activity\/analytics\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
   if (!file) {
@@ -70,6 +89,7 @@ export const collectAnalytics = (files) => new Promise((resolve) => {
       try {
         const lineData = JSON.parse(line);
         events = updateEvents(events, lineData);
+        events = updateCountries(events, lineData);
       } catch (error) {
         console.debug('Unable to parse line, chunk probably ended');
         // save this partial line for next pass

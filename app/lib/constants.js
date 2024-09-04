@@ -103,7 +103,7 @@ export const messageEventTypes = {
   messageDeleted: 'message_deleted',
   messageLengthLimitReached: 'message_length_limit_reached',
   threadJoined: 'join_thread',
-  slashCommandUsed: 'slash_command_used',
+  slashCommandUsed: 'application_command_used',
 };
 export const voiceEventTypes = {
   voiceChannelJoined: 'join_voice_channel',
