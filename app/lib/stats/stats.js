@@ -50,13 +50,13 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
     return payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0);
   };
 
-  let darkModeEnabled = false;
+  let darkModeEnabled = true; // assume dark mode is on
   let darkModeSetting = userData.settings?.settings?.appearance?.theme;
   if (!darkModeSetting) {
     darkModeSetting = userData.settings.theme;
   }
-  if (darkModeSetting.toLowerCase() === 'dark') {
-    darkModeEnabled = true;
+  if (darkModeSetting?.toLowerCase() === 'light') {
+    darkModeEnabled = false;
   }
 
   let stats = {
