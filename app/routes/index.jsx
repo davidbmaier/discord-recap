@@ -79,7 +79,7 @@ export default function Home() {
   const getInstructions = () => {
     const messages = [
       '1. Request your data package from Discord!',
-      'User Settings / Privacy & Safety / Request all of my data',
+      'User Settings / Data & Privacy / Request all of my data',
       'Make sure to select Account, Activity, Messages and Servers.',
       '2. It can take a day or two - when it arrives, come back here!',
       '3. Get your data package analyzed!',
