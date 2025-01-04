@@ -39,7 +39,7 @@ const TopList = (props) => {
 
   useEffect(() => {
     setSortedItems(items);
-  }, [])
+  }, [items])
 
   const onAccordionRefChange = (ref) => {
     setContentRef(ref);
