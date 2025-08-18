@@ -5,7 +5,11 @@ export const extractPackage = async (file) => {
   const uz = new Unzip();
   uz.register(AsyncUnzipInflate);
   const files = [];
-  uz.onfile = (f) => files.push(f);
+  uz.onfile = (f) => {
+    // uncapitalize folder names in new package versions
+    f.name = f.name.charAt(0).toLowerCase() + f.name.slice(1);
+    files.push(f);
+  };
   if (!file.stream) {
     // not supported
     return false;
