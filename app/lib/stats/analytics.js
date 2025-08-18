@@ -40,7 +40,6 @@ const updateCountries = (events, event) => {
 
   const countryAlreadyExists = updatedEvents.countries.find((countryInStats) => countryInStats === country);
   if (!countryAlreadyExists) {
-    debugger;
     updatedEvents.countries.push(country);
   }
   return updatedEvents;

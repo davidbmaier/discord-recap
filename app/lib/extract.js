@@ -7,7 +7,9 @@ export const extractPackage = async (file) => {
   const files = [];
   uz.onfile = (f) => {
     // uncapitalize folder names in new package versions
-    f.name = f.name.charAt(0).toLowerCase() + f.name.slice(1);
+    if (f.name.includes(`/`)) {
+      f.name = f.name.charAt(0).toLowerCase() + f.name.slice(1);
+    }
     files.push(f);
   };
   if (!file.stream) {
