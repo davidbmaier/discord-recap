@@ -46,18 +46,24 @@ const updateCountries = (events, event) => {
 }
 
 export const collectAnalytics = (files) => new Promise((resolve) => {
-  let file = files.find((f) => /activity\/analytics\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
-  if (!file) {
-    // backup is /modeling - /activity only exists with the right privacy settings
-    file = files.find((f) => /activity\/modeling\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
-    if (!file) {
-      // last backup is /tns
-      file = files.find((f) => /activity\/tns\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(f.name));
-      if (!file) {
-        resolve({});
-        return;
-      }
+  const possiblePaths = [
+    /activity\/analytics\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/,
+    /activity\/modeling\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/,
+    /activity\/reporting\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/,
+    /activity\/tns\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/
+  ]
+
+  let file;
+  for (const path of possiblePaths) {
+    file = files.find((f) => path.test(f.name));
+    if (file) {
+      break;
     }
+  }
+
+  if (!file) {
+    resolve({});
+    return;
   }
 
   let events = {};
