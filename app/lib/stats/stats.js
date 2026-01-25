@@ -38,14 +38,16 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
 
   const getPaymentsTotal = () => {
     const payments = [];
-    userData.payments.forEach((payment) => {
-      const paymentObject = ({
-        amount: payment.amount,
-        description: payment.description,
-        date: new Date(payment.created_at),
+    if (userData.payments) {
+      userData.payments.forEach((payment) => {
+        const paymentObject = ({
+          amount: payment.amount,
+          description: payment.description,
+          date: new Date(payment.created_at),
+        });
+        payments.push(paymentObject);
       });
-      payments.push(paymentObject);
-    });
+    }
 
     return payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0);
   };
