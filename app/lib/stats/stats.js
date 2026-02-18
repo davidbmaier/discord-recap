@@ -23,6 +23,12 @@ export default collectStats;
 const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytics) => {
   const userData = JSON.parse(await readFile(files, 'account/user.json'));
   const serverData = JSON.parse(await readFile(files, 'servers/index.json'));
+  let paymentData;
+  try {
+    paymentData = JSON.parse(await readFile(files, 'account/user_data_exports/discord_billing/payments.json'))
+  } catch (error) {
+    console.debug('New payments file not found')
+  }
 
   const getConnections = () => {
     const connections = [];
@@ -47,6 +53,19 @@ const collectGlobalStats = async (files, { dmChannels, guildChannels }, analytic
         });
         payments.push(paymentObject);
       });
+    } else if (paymentData) {
+      if (paymentData?.records?.length > 0) {
+        paymentData.records.forEach((payment) => {
+          if (payment.currency !== 'discord_orb') {
+            const paymentObject = ({
+              amount: payment.amount,
+              description: payment.description,
+              date: new Date(payment.created_at),
+            });
+            payments.push(paymentObject);
+          }
+        });
+      }
     }
 
     return payments.map((p) => p.amount).reduce((sum, amount) => sum + amount, 0);
